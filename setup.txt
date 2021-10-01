@@ -1,0 +1,6 @@
+Project->options->directories and conditional Выбираем Release
+далее переходим во вкладку С++ linker и ставим Dynamic RTL = false
+далее идем во вкладку Packages и снимаем галку с Build with runtime packages
+Жмем Ok.
+Во панельке(справа) во ветке Build configurations выбираем Release. Компилим. В папке с прожектом появилась папка Release
+Это способ из RAD Studio

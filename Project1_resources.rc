@@ -1,0 +1,8 @@
+_CONFIG BITMAP "Resurs\\BMP_32\\_Config.bmp"
+_EXIT BITMAP "Resurs\\BMP_32\\_Exit.bmp"
+_HELP BITMAP "Resurs\\BMP_32\\_Help.bmp"
+_OPEN BITMAP "Resurs\\BMP_32\\_Open.bmp"
+_POWER_OFF BITMAP "Resurs\\BMP_32\\_Power_off.bmp"
+_POWER_ON BITMAP "Resurs\\BMP_32\\_Power_on.bmp"
+_PRINT BITMAP "Resurs\\BMP_32\\_Print.bmp"
+_SAVE BITMAP "Resurs\\BMP_32\\_Save.bmp"
