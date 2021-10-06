@@ -28,8 +28,12 @@ void TGeneral_F::initialisation()
   apple_general_config();
   }
 
-  check_connect(default_host, Internet_status_BT->Tag);
-  check_connect(Url_CB->Text,Site_status_BT->Tag);
+  check_connect(default_host, Internet_status_O->Tag);
+  check_connect(Url_CB->Text,Site_status_O->Tag);
+
+  ImageList->GetBitmap(1,Save_BB->Glyph);
+  ImageList->GetBitmap(1,Choose_printer_BB->Glyph);
+  update_printer();
 };
 
 //------------------------------------------------------------------------------
@@ -54,12 +58,6 @@ void __fastcall TGeneral_F::TimerTimer(TObject *Sender)
 {
 this->StatusBar->Panels->Items[0]->Text = this->_Statusbar_Item_0 + (this->run_program_Time->get_time()).c_str();
 
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TGeneral_F::FormCreate(TObject *Sender)
-{
-this->initialisation();
 }
 
 //---------------------------------------------------------------------------
@@ -180,11 +178,6 @@ this->flag_program_run        = true;
 //------------------------------------------------------------------------------
 
 
-void __fastcall TGeneral_F::Help_TOPClick(TObject *Sender)
-{
-General_F->Print();
-}
-//---------------------------------------------------------------------------
 
  void TGeneral_F::check_connect(const AnsiString& hostname, const int& Tag)
  {
@@ -193,12 +186,14 @@ General_F->Print();
 	  IdHTTP1->Get(hostname);
 	  if (Tag == 1)
 	  {
-	   Internet_status_BT->ImageIndex = 9;
+
+	   check_label(Internet_status_O, true);
 	  };
 
 	   if (Tag == 2)
 	   {
-		Site_status_BT->ImageIndex = 9;
+
+		check_label(Site_status_O, true);
 	   }
 
 	 }
@@ -214,12 +209,15 @@ General_F->Print();
 		 default: {
 					  if (Tag == 1)
 					{
-					Internet_status_BT->ImageIndex = 10;
+
+					  check_label(Internet_status_O, false);
 					};
 
 					if (Tag == 2)
 					{
-					Site_status_BT->ImageIndex = 10;
+
+					  check_label(Site_status_O, false);
+
 					}
 				   break;
 				  }
@@ -231,66 +229,103 @@ General_F->Print();
 	   {
 			  if (Tag == 1)
 			{
-			Internet_status_BT->ImageIndex = 10;
+
+				check_label(Internet_status_O, false);
 			};
 
 			if (Tag == 2)
 			{
-			Site_status_BT->ImageIndex = 10;
+
+				check_label(Site_status_O, false);
+
 			}
 
 	   }
 
 
 	  };
+
+
  };
 
-void __fastcall TGeneral_F::Internet_status_BTClick(TObject *Sender)
-{
-check_connect(default_host, Internet_status_BT->Tag);
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TGeneral_F::Site_status_BTClick(TObject *Sender)
-{
-check_connect(default_host, Internet_status_BT->Tag);
-check_connect(Url_CB->Text,Site_status_BT->Tag);
-}
-//---------------------------------------------------------------------------
 
 
-void __fastcall TGeneral_F::Power_off_TOPClick(TObject *Sender)
-{
-int a = 0;
-a = Web_browser->CppWebBrowser1->ReadyState;
-ShowMessage(IntToStr(a));
-}
-//---------------------------------------------------------------------------
 
-void __fastcall TGeneral_F::Button1Click(TObject *Sender)
-{
-PRINTER_INFO_2 *Pr;
-DWORD byteNeed = 0,prCount=0;
-EnumPrinters(PRINTER_ENUM_CONNECTIONS|PRINTER_ENUM_LOCAL,NULL,2,NULL,0,&byteNeed,&prCount);
-Pr = new PRINTER_INFO_2 [byteNeed];
-if(EnumPrinters(PRINTER_ENUM_CONNECTIONS|PRINTER_ENUM_LOCAL,NULL,2,(LPBYTE)Pr,byteNeed,&byteNeed,&prCount))
-{
-for(int i = 0; i < prCount; ++i)
-{
-Memo1->Lines->Add("Printer*************");
-Memo1->Lines->Add("Имя: " + AnsiString(Pr[i].pPrinterName));
-Memo1->Lines->Add("Порт: " + AnsiString(Pr[i].pPortName));
-Memo1->Lines->Add("Драйвер: " + AnsiString(Pr[i].pDriverName));
-Memo1->Lines->Add("");
-}
-}
-delete Pr;
-}
-//---------------------------------------------------------------------------
+
 
 void __fastcall TGeneral_F::ToolButton1Click(TObject *Sender)
+{
+Web_browser_F->Show();
+Web_browser_F->set_flag_preview(true);
+Web_browser_F->set_flag_print(false);
+Web_browser_F->screen_photo();
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGeneral_F::FormCreate(TObject *Sender)
+{
+   this->initialisation();
+}
+//---------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------
+void TGeneral_F::check_label(TLabel* object, const bool& value)
+{
+   if (value == true)
+   {
+	object->Caption = "Есть!";
+	object->Font->Color = clGreen;
+   }
+   else
+   {
+	object->Caption = "Нет!";
+	object->Font->Color = clRed;
+   }
+
+};
+
+void __fastcall TGeneral_F::Check_BClick(TObject *Sender)
+{
+
+  check_connect(default_host, Internet_status_O->Tag);
+
+  check_connect(Url_CB->Text,Site_status_O->Tag);
+
+
+}
+//---------------------------------------------------------------------------
+ void TGeneral_F::update_printer()
+ {
+	PRINTER_INFO_2 *Pr;
+	DWORD byteNeed = 0,prCount=0;
+	EnumPrinters(PRINTER_ENUM_CONNECTIONS|PRINTER_ENUM_LOCAL,NULL,2,NULL,0,&byteNeed,&prCount);
+	Pr = new PRINTER_INFO_2 [byteNeed];
+	if(EnumPrinters(PRINTER_ENUM_CONNECTIONS|PRINTER_ENUM_LOCAL,NULL,2,(LPBYTE)Pr,byteNeed,&byteNeed,&prCount))
+	{
+		for(int i = 0; i < prCount; ++i)
+		{
+		Choose_printer_CB->Items->Add(AnsiString(Pr[i].pPrinterName));
+		}
+	}
+	delete Pr;
+ };
+void __fastcall TGeneral_F::Preview_NClick(TObject *Sender)
 {
 Preview_F->ShowModal();
 }
 //---------------------------------------------------------------------------
 
+
+
+void TGeneral_F::preview_void()
+{
+Preview_F->frxReport1->ShowReport();
+Preview_F->ShowModal();
+};
+
+void TGeneral_F::print_void()
+{
+
+};

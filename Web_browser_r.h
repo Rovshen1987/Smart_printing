@@ -10,19 +10,45 @@
 #include "SHDocVw_OCX.h"
 #include <Vcl.OleCtrls.hpp>
 #include <Vcl.Dialogs.hpp>
+#include <SHDocVw.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include "direct_r.h"
 //---------------------------------------------------------------------------
-class TWeb_browser : public TForm
+class TWeb_browser_F : public TForm
 {
 __published:	// IDE-managed Components
-	TCppWebBrowser *CppWebBrowser1;
-	TEdit *Edit1;
-	TPrintDialog *PrintDialog1;
+	TWebBrowser *WebBrowser;
+	TImage *Image;
+	TTimer *Timer;
 	void __fastcall FormCreate(TObject *Sender);
+	void __fastcall TimerTimer(TObject *Sender);
 private:	// User declarations
+
+	const int A4_width  = 620;
+	const int A4_height = 877;
+    int timer_count     = 0;
+    AnsiString path_r;
+	void initilisation();
+
+
+	bool  flag_refresh;
+
+	bool  flag_print;
+	bool  flag_preview;
+
+	void refresh_site();
+
 public:		// User declarations
-	__fastcall TWeb_browser(TComponent* Owner);
+	__fastcall TWeb_browser_F(TComponent* Owner);
+	void screen_photo();
+
+	void set_flag_preview(const bool& value);
+	bool get_flag_preview();
+	void set_flag_print(const bool& value);
+	bool get_flag_print();
+
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TWeb_browser *Web_browser;
+extern PACKAGE TWeb_browser_F *Web_browser_F;
 //---------------------------------------------------------------------------
 #endif

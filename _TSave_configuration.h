@@ -70,12 +70,13 @@ private:
 	   bool            Check_registry_incorrect();
 	   bool            Check_Ini();
 	   bool            Check_Ini_file();
-	   bool            Check_program();
+	   bool            Check_url();
 
 	   void            default_init();
 	   void            Clear_dates();
 	   bool            Delete_file_(const std::string& FileName);
 
 	   bool            step_one(); //Find the source of the save
+	   AnsiString&      Create_inifile_path(AnsiString& path);
 
 };

@@ -1,9 +1,9 @@
 object Preview_F: TPreview_F
   Left = 0
   Top = 0
-  Caption = 'Preview_F'
-  ClientHeight = 623
-  ClientWidth = 964
+  Caption = #1055#1088#1077#1076#1074#1072#1088#1080#1090#1077#1083#1100#1085#1099#1081' '#1087#1088#1086#1089#1084#1086#1090#1088
+  ClientHeight = 600
+  ClientWidth = 879
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,38 +17,36 @@ object Preview_F: TPreview_F
   object frxPreview1: TfrxPreview
     Left = 0
     Top = 0
-    Width = 964
-    Height = 623
+    Width = 879
+    Height = 600
     Align = alClient
-    OutlineVisible = True
-    OutlineWidth = 185
-    ThumbnailVisible = False
+    EachReportInTab = True
+    OutlineVisible = False
+    OutlineWidth = 120
+    ThumbnailVisible = True
     FindFmVisible = False
     UseReportHints = True
     OutlineTreeSortType = dtsUnsorted
-    HideScrolls = False
-    ExplicitLeft = 536
-    ExplicitTop = 152
-    ExplicitWidth = 97
-    ExplicitHeight = 121
+    HideScrolls = True
   end
   object frxReport1: TfrxReport
     Version = '6.9.3'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
+    Preview = frxPreview1
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick, pbCopy, pbSelection]
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 44470.466212372690000000
-    ReportOptions.LastChange = 44470.466212372690000000
+    ReportOptions.CreateDate = 44475.964805590280000000
+    ReportOptions.LastChange = 44476.143083009260000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
       ''
       'end.')
-    Left = 120
-    Top = 152
+    Left = 408
+    Top = 224
     Datasets = <>
     Variables = <>
     Style = <>
@@ -66,23 +64,20 @@ object Preview_F: TPreview_F
       BottomMargin = 10.000000000000000000
       Frame.Typ = []
       MirrorMode = []
-      object Memo1: TfrxMemoView
+      object Picture1: TfrxPictureView
         AllowVectorExport = True
-        Left = 68.031540000000000000
-        Top = 79.370130000000000000
-        Width = 355.275820000000000000
-        Height = 45.354360000000000000
+        Left = 26.456710000000000000
+        Top = 7.559060000000000000
+        Width = 559.370440000000000000
+        Height = 1579.843540000000000000
+        AutoSize = True
         Frame.Typ = []
-        Memo.UTF8W = (
-          #1055#1088#1080#1085#1090)
-      end
-      object Memo2: TfrxMemoView
-        AllowVectorExport = True
-        Left = 230.551330000000000000
-        Top = 177.637910000000000000
-        Width = 3.779530000000000000
-        Height = 15.118120000000000000
-        Frame.Typ = []
+        FileLink = 
+          'D:\0internet_shoping\Kwork\Stanislaw\Order\Shohotim\Win32\Debug\' +
+          'date\temp.bmp'
+        HightQuality = False
+        Transparent = True
+        TransparentColor = clWhite
       end
     end
   end

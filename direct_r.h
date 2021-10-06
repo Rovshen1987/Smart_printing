@@ -21,6 +21,7 @@ class direct_r
 		 ~direct_r();
 
    string get_path();
+   string get_inifile_path(const char* value);
    string get_path(string folder_name);
    char get_drive();
 

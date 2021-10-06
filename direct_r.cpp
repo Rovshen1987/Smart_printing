@@ -161,3 +161,18 @@ bool direct_r::delete_this_file(const std::string& FileName)
    return false;
   }
 };
+
+std::string direct_r::get_inifile_path(const char* value)
+{
+  std::string temp = this->get_path()+std::string(value);
+  for (int i = 0; i < (temp.size()-1); i++)
+  {
+	if (temp[i] == char(92))
+	{
+	 temp[i] = char(47);
+	};
+  };
+
+  return temp;
+
+};

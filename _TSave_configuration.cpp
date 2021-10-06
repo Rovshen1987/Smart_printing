@@ -152,7 +152,7 @@ bool _TSave_configuration::step_to_run_program()
 		}
   }
 
-  this->Check_program();
+  this->Check_url();
 
   return result;
 };
@@ -289,7 +289,17 @@ void _TSave_configuration::Save_registry()
 //------------------------------------------------------------------------------
 void _TSave_configuration::Save_inifile()
 {
- TIniFile* I_nf = new TIniFile(ExtractFilePath(Application->ExeName)+"date\\config.ini");
+ direct_r r;
+
+	if (r.check_file(r.get_path()+"date\\") == false)
+	{
+	std::string temp = "date\\";
+	 r.create_folder_in_prog(temp,true);
+	}
+//AnsiString path = (r.get_path()).c_str();
+//path = path +"date\\config.ini";
+TIniFile* I_nf = new TIniFile(ExtractFilePath(Application->ExeName)+"date\\config.ini");
+//TIniFile* I_nf = new TIniFile("D:/0internet_shoping/Kwork/Stanislaw/Order/Shohotim/Win32/Release/date/config.ini");
  I_nf->WriteString("General","Url",this->Url);
  I_nf->WriteString("General","Choose_printer",this->Choose_printer);
  I_nf->WriteString("General","Regularity_of_printing_by_time",this->Regularity_of_printing_by_time);
@@ -451,33 +461,27 @@ bool _TSave_configuration::Check_Ini_file()
 };
 
 //------------------------------------------------------------------------------
-bool _TSave_configuration::Check_program()
+bool _TSave_configuration::Check_url()
 {
 bool result = false;
 
    direct_r p;
-   std::vector<std::string> files;
+   std::string files = "date\\url.txt";
 
 //   files.push_back(std::string("date\\config.ini"));
-   files.push_back(std::string("date\\printer.txt"));
-   files.push_back(std::string("date\\url.txt"));
+//   files.push_back(std::string("date\\printer.txt"));
 
-   for (auto& i: files)
-   {
-		if (p.check_file(i))
+		if (p.check_file(files) == true)
 		{
-		 result = true;
+		 return result = true;
 		}
 		else
 		{
-		 ofstream f(i);
-		 f.close();
-		 continue;
+
 		 return result = false;
 		};
-   };
 
-   return result;
+
 
 };
 
@@ -503,7 +507,7 @@ void _TSave_configuration::Clear_dates()
 
 			{
 			  this->Delete_file_(std::string("date\\config.ini"));
-			  this->Delete_file_(std::string("date\\printer.txt"));
+//			  this->Delete_file_(std::string("date\\printer.txt"));
 			  this->Delete_file_(std::string("date\\url.txt"));
 
 			  TRegistry* reg = new TRegistry;
@@ -602,14 +606,30 @@ bool _TSave_configuration::step_one()// Find the source of the save
 		}
 		else
 		{
+		 if (r.check_file(std::string("date\\config.ini")) == true)
+		 {
 		 this->Read_shell(false);
 		 reg->CloseKey();
 		 delete reg;
 		 return true;
+		 }
 		}
 
    }
 
 
    return result;
+};
+
+AnsiString& _TSave_configuration::Create_inifile_path(AnsiString& path)
+{
+   for (int i = 0; i < path.Length(); i++)
+   {
+	 if (path[i] == char(92))
+	 {
+	  path[i] = char(47);
+	 }
+   }
+
+   return path;
 };

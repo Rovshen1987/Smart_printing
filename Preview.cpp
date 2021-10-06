@@ -8,6 +8,7 @@
 #pragma package(smart_init)
 #pragma link "frxClass"
 #pragma link "frxPreview"
+#pragma link "frxHTTPClient"
 #pragma resource "*.dfm"
 TPreview_F *Preview_F;
 //---------------------------------------------------------------------------

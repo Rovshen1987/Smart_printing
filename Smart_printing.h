@@ -31,6 +31,7 @@
 #include <IdIOHandler.hpp>
 #include <IdIOHandlerSocket.hpp>
 #include <IdIOHandlerStack.hpp>
+#include <Vcl.Dialogs.hpp>
 #include <memory>
 #include <fstream>
 #include <IdSSLOpenSSL.hpp>
@@ -89,27 +90,24 @@ __published:	// IDE-managed Components
 	TIdHTTP *IdHTTP1;
 	TLabel *Internet_status_L;
 	TLabel *Site_status_L;
-	TBitBtn *Internet_status_BT;
-	TBitBtn *Site_status_BT;
 	TIdSSLIOHandlerSocketOpenSSL *IdSSLIOHandlerSocketOpenSSL1;
-	TMemo *Memo1;
-	TButton *Button1;
 	TMenuItem *Preview_N;
 	TToolButton *ToolButton1;
+	TLabel *Internet_status_O;
+	TLabel *Site_status_O;
+	TButton *Check_B;
+	TPrintDialog *PrintDialog1;
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall TimerTimer(TObject *Sender);
-	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Config_NClick(TObject *Sender);
 	void __fastcall Exit_NClick(TObject *Sender);
 	void __fastcall Choose_printer_BBClick(TObject *Sender);
 	void __fastcall Config_TOPClick(TObject *Sender);
 	void __fastcall Save_BBClick(TObject *Sender);
-	void __fastcall Help_TOPClick(TObject *Sender);
-	void __fastcall Internet_status_BTClick(TObject *Sender);
-	void __fastcall Site_status_BTClick(TObject *Sender);
-	void __fastcall Power_off_TOPClick(TObject *Sender);
-	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall ToolButton1Click(TObject *Sender);
+	void __fastcall FormCreate(TObject *Sender);
+	void __fastcall Check_BClick(TObject *Sender);
+	void __fastcall Preview_NClick(TObject *Sender);
 private:	// User declarations
 	const AnsiString default_host = AnsiString("http://www.google.com");
 
@@ -134,7 +132,10 @@ private:	// User declarations
 	bool flag_program_run;
 
 	void initialisation_to_flag();
-    void check_connect(const AnsiString& hostname, const int& Tag);
+	void check_connect(const AnsiString& hostname, const int& Tag);
+
+	void check_label(TLabel* object, const bool& value);
+    void update_printer();
 
 
 const AnsiString _Statusbar_Item_0 = "Âנולÿ נאבמעû ןנמדנאללû ";
@@ -151,6 +152,9 @@ public:		// User declarations
 
 	void apple_general_config();
 	void apple_general_program();
+
+	void preview_void();
+	void print_void();
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGeneral_F *General_F;

@@ -149,6 +149,7 @@ this->Starting_program_CH->Checked = General_F->_Robik_config->get_Starting_prog
 this->Starting_windows_CH->Checked = General_F->_Robik_config->get_Starting_windows();
 
 this->flag_unchecking();
+update_printer();
 };
 
 void TConfiguration_F::flag_unchecking()
@@ -399,4 +400,18 @@ General_F->_Robik_config->set_Starting_windows(this->Starting_windows_CH->Checke
 
 }
 //---------------------------------------------------------------------------
-
+  void TConfiguration_F::update_printer()
+ {
+	PRINTER_INFO_2 *Pr;
+	DWORD byteNeed = 0,prCount=0;
+	EnumPrinters(PRINTER_ENUM_CONNECTIONS|PRINTER_ENUM_LOCAL,NULL,2,NULL,0,&byteNeed,&prCount);
+	Pr = new PRINTER_INFO_2 [byteNeed];
+	if(EnumPrinters(PRINTER_ENUM_CONNECTIONS|PRINTER_ENUM_LOCAL,NULL,2,(LPBYTE)Pr,byteNeed,&byteNeed,&prCount))
+	{
+		for(int i = 0; i < prCount; ++i)
+		{
+		Choose_printer_CB_Config->Items->Add(AnsiString(Pr[i].pPrinterName));
+		}
+	}
+	delete Pr;
+ };

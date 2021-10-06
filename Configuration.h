@@ -76,6 +76,7 @@ private:	// User declarations
 	void flag_unchecking();
 	bool what_flag_checked();
 	void Button_enabled();
+    void update_printer();
 public:		// User declarations
 	__fastcall TConfiguration_F(TComponent* Owner);
 };
