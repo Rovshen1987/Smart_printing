@@ -22,6 +22,8 @@ __published:	// IDE-managed Components
 	TTimer *Timer;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall TimerTimer(TObject *Sender);
+	void __fastcall WebBrowserDownloadComplete(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
 
 	const int A4_width  = 620;

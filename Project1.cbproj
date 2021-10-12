@@ -143,6 +143,12 @@
         <None Include="direct_r.h">
             <BuildOrder>9</BuildOrder>
         </None>
+        <CppCompile Include="general_visable.cpp">
+            <BuildOrder>13</BuildOrder>
+        </CppCompile>
+        <None Include="general_visable.h">
+            <BuildOrder>12</BuildOrder>
+        </None>
         <CppCompile Include="Preview.cpp">
             <Form>Preview_F</Form>
             <FormType>dfm</FormType>

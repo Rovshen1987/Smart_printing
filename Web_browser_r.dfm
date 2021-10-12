@@ -16,6 +16,7 @@ object Web_browser_F: TWeb_browser_F
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Image: TImage
@@ -36,6 +37,8 @@ object Web_browser_F: TWeb_browser_F
     Height = 440
     Align = alClient
     TabOrder = 0
+    SelectedEngine = EdgeIfAvailable
+    OnDownloadComplete = WebBrowserDownloadComplete
     ExplicitLeft = 200
     ExplicitTop = 144
     ExplicitWidth = 300
@@ -43,7 +46,7 @@ object Web_browser_F: TWeb_browser_F
     ControlData = {
       4C000000555700007A2D00000000000000000000000000000000000000000000
       000000004C000000000000000000000001000000E0D057007335CF11AE690800
-      2B2E126208000000000000004C0000000114020000000000C000000000000046
+      2B2E12620E000000000000004C0000000114020000000000C000000000000046
       8000000000000000000000000000000000000000000000000000000000000000
       00000000000000000100000000000000000000000000000000000000}
   end

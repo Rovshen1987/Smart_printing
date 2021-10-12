@@ -14,7 +14,7 @@ object Preview_F: TPreview_F
   WindowState = wsMaximized
   PixelsPerInch = 96
   TextHeight = 13
-  object frxPreview1: TfrxPreview
+  object frxPreview: TfrxPreview
     Left = 0
     Top = 0
     Width = 879
@@ -27,19 +27,21 @@ object Preview_F: TPreview_F
     FindFmVisible = False
     UseReportHints = True
     OutlineTreeSortType = dtsUnsorted
-    HideScrolls = True
+    HideScrolls = False
   end
-  object frxReport1: TfrxReport
+  object frxReport: TfrxReport
     Version = '6.9.3'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
-    Preview = frxPreview1
+    Preview = frxPreview
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick, pbCopy, pbSelection]
     PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.PageNumbers = '1'
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 44475.964805590280000000
-    ReportOptions.LastChange = 44476.143083009260000000
+    PrintOptions.ShowDialog = False
+    ReportOptions.CreateDate = 44475.964805590300000000
+    ReportOptions.LastChange = 44476.775879351900000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
@@ -66,15 +68,13 @@ object Preview_F: TPreview_F
       MirrorMode = []
       object Picture1: TfrxPictureView
         AllowVectorExport = True
-        Left = 26.456710000000000000
-        Top = 7.559060000000000000
-        Width = 559.370440000000000000
-        Height = 1579.843540000000000000
+        Left = 30.236240000000000000
+        Top = 64.252010000000000000
+        Width = 570.709030000000000000
+        Height = 1802.835810000000000000
         AutoSize = True
         Frame.Typ = []
-        FileLink = 
-          'D:\0internet_shoping\Kwork\Stanislaw\Order\Shohotim\Win32\Debug\' +
-          'date\temp.bmp'
+        FileLink = '[ExtractFilePath(Application.Exename)]date\temp.bmp'
         HightQuality = False
         Transparent = True
         TransparentColor = clWhite

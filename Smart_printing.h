@@ -20,6 +20,7 @@
 #include "_TSave_configuration.h"
 #include "direct_r.h"
 #include "Web_browser_r.h"
+#include "general_visable.h"
 #include <IdBaseComponent.hpp>
 #include <IdComponent.hpp>
 #include <IdHTTP.hpp>
@@ -32,10 +33,87 @@
 #include <IdIOHandlerSocket.hpp>
 #include <IdIOHandlerStack.hpp>
 #include <Vcl.Dialogs.hpp>
+#include <Vcl.Imaging.jpeg.hpp>
+#include <Vcl.Graphics.hpp>
 #include <memory>
 #include <fstream>
 #include <IdSSLOpenSSL.hpp>
 #include "Preview.h"
+
+struct remaining
+{
+   std::string remaining_time;
+   int  pause;
+   const int pause_int     = 15;
+   const std::string print = "Печать";
+   const int dot_begin     = -1;
+   const int dot_end       = 6;
+   int dot_run;
+   bool pause_bool;
+   bool printing;
+   bool active;
+   bool first;
+
+   remaining()
+   {
+	this->remaining_time = "";
+	this->pause          = 0;
+	this->dot_run        = 0;
+	this->pause_bool     = false;
+	this->printing       = false;
+	this->active         = false;
+    this->first          = true;
+   };
+
+   void run()
+   {
+
+
+
+	 if (pause != 0)
+	 {
+
+	   this->pause--;
+
+	   if (dot_run < this->dot_end)
+	   {
+		this->dot_run++;
+	   }
+	   else
+	   {
+		this->dot_run = this->dot_begin;
+	   }
+
+	 }
+	 else
+	 {
+	  this->pause_bool = false;
+	  this->pause      = this->pause_int;
+	  this->dot_run    = this->dot_begin;
+      this->active     = false;
+	 };
+   }
+
+   std::string get_time_text()
+   {
+	  this->run();
+	  if (this->pause_bool == false)
+	  {
+	   return std::string("Печать завершена...");
+	  }
+
+
+	  std::string temp = this->print;
+
+	  for (int i = this->dot_begin; i < this->dot_run; i++)
+	  {
+	   temp = temp +std::string(".");
+	  }
+
+     return temp;
+   }
+};
+
 
 //---------------------------------------------------------------------------
 class TGeneral_F : public TForm
@@ -43,7 +121,7 @@ class TGeneral_F : public TForm
 __published:	// IDE-managed Components
 	TMainMenu *Menu;
 	TMenuItem *Fail_N;
-	TMenuItem *Open_config_N;
+	TMenuItem *Open_N;
 	TMenuItem *N3;
 	TMenuItem *Configuring_printer_N;
 	TMenuItem *N5;
@@ -73,8 +151,8 @@ __published:	// IDE-managed Components
 	TStatusBar *StatusBar;
 	TToolBar *ToolBar;
 	TToolButton *Open_TOP;
-	TToolButton *Print_TOP;
-	TMenuItem *Save_config_N;
+	TToolButton *Fast_printing_TOP;
+	TMenuItem *Save_as_N;
 	TMenuItem *N17;
 	TToolButton *Save_TOP;
 	TToolButton *ToolButton2;
@@ -84,34 +162,46 @@ __published:	// IDE-managed Components
 	TToolButton *Config_TOP;
 	TToolButton *ToolButton7;
 	TToolButton *Help_TOP;
-	TTimer *Timer;
-	TImageList *ImageList;
+	TTimer *Run_program_timer;
+	TImageList *ImageList_g;
 	TMenuItem *Fast_printing_N;
 	TIdHTTP *IdHTTP1;
 	TLabel *Internet_status_L;
 	TLabel *Site_status_L;
 	TIdSSLIOHandlerSocketOpenSSL *IdSSLIOHandlerSocketOpenSSL1;
 	TMenuItem *Preview_N;
-	TToolButton *ToolButton1;
+	TToolButton *Preview_TOP;
 	TLabel *Internet_status_O;
 	TLabel *Site_status_O;
 	TButton *Check_B;
 	TPrintDialog *PrintDialog1;
+	TMenuItem *Save_N;
+	TImageList *ImageList_TOP;
+	TImageList *ImageList_BB;
+	TTimer *Timer_back_T;
 	void __fastcall FormDestroy(TObject *Sender);
-	void __fastcall TimerTimer(TObject *Sender);
+	void __fastcall Run_program_timerTimer(TObject *Sender);
 	void __fastcall Config_NClick(TObject *Sender);
 	void __fastcall Exit_NClick(TObject *Sender);
 	void __fastcall Choose_printer_BBClick(TObject *Sender);
 	void __fastcall Config_TOPClick(TObject *Sender);
 	void __fastcall Save_BBClick(TObject *Sender);
-	void __fastcall ToolButton1Click(TObject *Sender);
+	void __fastcall Preview_TOPClick(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Check_BClick(TObject *Sender);
 	void __fastcall Preview_NClick(TObject *Sender);
+	void __fastcall Power_on_TOPClick(TObject *Sender);
+	void __fastcall Fast_printing_TOPClick(TObject *Sender);
+	void __fastcall Url_CBExit(TObject *Sender);
+	void __fastcall Url_CBChange(TObject *Sender);
+	void __fastcall Help_TOPClick(TObject *Sender);
+	void __fastcall Timer_back_TTimer(TObject *Sender);
 private:	// User declarations
 	const AnsiString default_host = AnsiString("http://www.google.com");
 
-	time_r*  run_program_Time;
+	std::unique_ptr<time_r>  run_program_Time;
+	std::unique_ptr<time_r>  Timer_back;
+
 
 	int loop_print_time;
 
@@ -131,16 +221,28 @@ private:	// User declarations
 	bool flag_Host;
 	bool flag_program_run;
 
+	bool falg_automatics_printing; //этот флаг для автоматически печатать нужен, когда сдесь true печать начнет автоматический
+
+
+	std::unique_ptr<general_visable> general_visable_general;
+
+const AnsiString _Statusbar_Item_0 = "Время работы программы ";
+const AnsiString _Statusbar_Item_1 = "Напечатано ";
+const AnsiString _Statusbar_Item_2 = "До отправки в печать осталось ";
+
+	remaining remaining_orginal;
+
 	void initialisation_to_flag();
 	void check_connect(const AnsiString& hostname, const int& Tag);
 
 	void check_label(TLabel* object, const bool& value);
-    void update_printer();
+	void update_printer();
 
+	void print_r();
+	void run_enabled();
 
-const AnsiString _Statusbar_Item_0 = "Время работы программы ";
-const AnsiString _Statusbar_Item_1 = "Напечатано ";
-const AnsiString _Statusbar_Item_2 = "Состояние соединения ";
+	bool get_remaining_time_bool();
+    void Timer_back_Trun();
 
 public:		// User declarations
 	std::unique_ptr<_TSave_configuration> _Robik_config;
@@ -155,6 +257,9 @@ public:		// User declarations
 
 	void preview_void();
 	void print_void();
+
+	std::string get_remaining_time();
+	void set_remaining_time(const std::string& value);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGeneral_F *General_F;

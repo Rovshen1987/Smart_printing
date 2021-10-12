@@ -14,8 +14,8 @@
 class TPreview_F : public TForm
 {
 __published:	// IDE-managed Components
-	TfrxPreview *frxPreview1;
-	TfrxReport *frxReport1;
+	TfrxPreview *frxPreview;
+	TfrxReport *frxReport;
 private:	// User declarations
 public:		// User declarations
 	__fastcall TPreview_F(TComponent* Owner);

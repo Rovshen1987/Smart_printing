@@ -5,6 +5,7 @@
 
 #include "Web_browser_r.h"
 #include "Smart_printing.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "SHDocVw_OCX"
@@ -45,7 +46,7 @@ flag_refresh = false;
 void TWeb_browser_F::screen_photo()
 {
  refresh_site();
- flag_refresh   = true;
+// flag_refresh   = true;
  Timer->Enabled = true;
  timer_count    = 0;
 };
@@ -55,7 +56,7 @@ void __fastcall TWeb_browser_F::TimerTimer(TObject *Sender)
 {
   if ((flag_refresh == true) and (timer_count >= 1))
   {
-	Image->Picture->Bitmap->SetSize(Image->ClientRect.Width()-15,
+	Image->Picture->Bitmap->SetSize(Image->ClientRect.Width()-17,
 									 Image->ClientRect.Height());
 	Image->Picture->Bitmap->Canvas->Brush->Color= clBlack;
 	Image->Picture->Bitmap->Canvas->FillRect(Image->ClientRect);
@@ -89,7 +90,9 @@ void __fastcall TWeb_browser_F::TimerTimer(TObject *Sender)
 
 	if (flag_preview == true)
 	{
+
 	 General_F->preview_void();
+
 	 flag_preview = false;
 	}
 
@@ -98,7 +101,7 @@ void __fastcall TWeb_browser_F::TimerTimer(TObject *Sender)
 	 General_F->print_void();
      flag_print = false;
 	}
-    Web_browser_F->Close();
+	Web_browser_F->Close();
   }
   timer_count++;
 }
@@ -127,4 +130,20 @@ bool TWeb_browser_F::get_flag_print()
   return this->flag_print;
 };
 
+
+
+void __fastcall TWeb_browser_F::WebBrowserDownloadComplete(TObject *Sender)
+{
+flag_refresh = true;
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TWeb_browser_F::FormShow(TObject *Sender)
+{
+Web_browser_F->Left = 0;
+Web_browser_F->Top  = 0;
+}
+//---------------------------------------------------------------------------
 

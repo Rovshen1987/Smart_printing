@@ -10,9 +10,6 @@ Coordinates=258,306,40,36
 [N5]
 Coordinates=209,306,40,36
 
-[Print_TOP]
-Coordinates=10,304,74,36
-
 [Bevel_Report]
 Coordinates=510,258,92,36
 
@@ -59,9 +56,6 @@ Coordinates=526,10,82,58
 Coordinates=376,212,79,36
 Visible=True
 
-[Timer]
-Coordinates=684,111,47,36
-
 [Report_E]
 Coordinates=69,144,69,58
 
@@ -107,12 +101,6 @@ Coordinates=331,258,67,36
 [Fail_N]
 Coordinates=206,380,40,36
 
-[Open_config_N]
-Coordinates=684,441,40,36
-
-[Save_config_N]
-Coordinates=684,166,40,36
-
 [Tools_N]
 Coordinates=684,386,40,36
 
@@ -136,4 +124,16 @@ Coordinates=540,276,40,36
 
 [Configuring_printer_N]
 Coordinates=635,454,40,36
+
+[Save_as_N]
+Coordinates=684,166,40,36
+
+[Open_N]
+Coordinates=684,441,40,36
+
+[Fast_printing_TOP]
+Coordinates=10,304,74,36
+
+[Run_program_timer]
+Coordinates=684,111,47,36
 

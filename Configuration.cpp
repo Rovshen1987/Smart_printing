@@ -19,8 +19,8 @@ AnsiString TConfiguration_F::correct_time(const AnsiString& value)
 {
 AnsiString temp;
 time_r* p = new time_r();
-p->set_flag_Activity(false);
-p->set<std::string>(value.c_str());
+p->set_Paralysis(true);
+p->set(std::string(value.c_str()));
 temp = (p->get_time()).c_str();
 
 delete p;
