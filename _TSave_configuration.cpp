@@ -23,6 +23,11 @@ void _TSave_configuration::set_Url(const AnsiString& value)
 };
 
 //------------------------------------------------------------------------------
+void _TSave_configuration::set_Automatics_run(const bool& value)
+{
+   this->Automatics_run = value;
+};
+//------------------------------------------------------------------------------
 void _TSave_configuration::set_Choose_printer(const AnsiString& value)
 {
    this->Choose_printer = value;
@@ -76,43 +81,49 @@ void _TSave_configuration::set_Starting_windows(const bool& value)
 AnsiString _TSave_configuration::get_Url()
 {
   return this->Url;
-}
+};
 
 //------------------------------------------------------------------------------
 AnsiString _TSave_configuration::get_Choose_printer()
 {
   return this->Choose_printer;
-}
+};
 
 //------------------------------------------------------------------------------
-bool _TSave_configuration::get_Program_run_time()
+bool _TSave_configuration::get_Automatics_run()
 {
-  return this->Program_run_time;
-}
-
-//------------------------------------------------------------------------------
-bool _TSave_configuration::get_Timer()
-{
-  return this->Timer;
-}
+   return	this->Automatics_run;
+};
 
 //------------------------------------------------------------------------------
 AnsiString _TSave_configuration::get_Regularity_of_printing_by_time()
 {
   return this->Regularity_of_printing_by_time;
-}
+};
+
+//------------------------------------------------------------------------------
+bool _TSave_configuration::get_Program_run_time()
+{
+  return this->Program_run_time;
+};
+
+//------------------------------------------------------------------------------
+bool _TSave_configuration::get_Timer()
+{
+  return this->Timer;
+};
 
 //------------------------------------------------------------------------------
 bool _TSave_configuration::get_Registry()
 {
   return this->Registry;
-}
+};
 
 //------------------------------------------------------------------------------
 bool _TSave_configuration::get_Inifile()
 {
   return this->Inifile;
-}
+};
 
 //------------------------------------------------------------------------------
 bool _TSave_configuration::get_Starting_program()
@@ -155,6 +166,50 @@ bool _TSave_configuration::step_to_run_program()
   this->Check_url();
 
   return result;
+};
+
+//------------------------------------------------------------------------------
+void _TSave_configuration::Open_IniFile(const AnsiString& FileName)
+{
+try
+ {
+  TIniFile* I_nf                        = new TIniFile(FileName);
+  this->Url                              = I_nf->ReadString("General","Url","");
+  this->Choose_printer                   = I_nf->ReadString("General","Choose_printer","");
+  this->Automatics_run                   = I_nf->ReadBool("General","Automatics_run","");
+  this->Regularity_of_printing_by_time   = I_nf->ReadString("General","Regularity_of_printing_by_time","");
+  this->Program_run_time                 = I_nf->ReadBool("General","Program_run_time","");
+  this->Timer                            = I_nf->ReadBool("General","Timer","");
+  this->Registry                         = I_nf->ReadBool("General","Registry","");
+  this->Inifile                          = I_nf->ReadBool("General","Inifile","");
+  this->Starting_program                 = I_nf->ReadBool("General","Starting_program","");
+  this->Starting_windows                 = I_nf->ReadBool("General","Starting_windows","");
+  I_nf->Free();
+  this->Save_inifile();
+ }
+ catch(...)
+ {
+
+ }
+
+
+};
+
+//------------------------------------------------------------------------------
+void _TSave_configuration::Save_AS_IniFile(const AnsiString& FileName)
+{
+ TIniFile* I_nf = new TIniFile(FileName);
+ I_nf->WriteString("General","Url",this->Url);
+ I_nf->WriteString("General","Choose_printer",this->Choose_printer);
+ I_nf->WriteBool("General","Automatics_run",this->Automatics_run);
+ I_nf->WriteString("General","Regularity_of_printing_by_time",this->Regularity_of_printing_by_time);
+ I_nf->WriteBool("General","Program_run_time",this->Program_run_time);
+ I_nf->WriteBool("General","Timer",this->Timer);
+ I_nf->WriteBool("General","Registry",this->Registry);
+ I_nf->WriteBool("General","Inifile",this->Inifile);
+ I_nf->WriteBool("General","Starting_program",this->Starting_program);
+ I_nf->WriteBool("General","Starting_windows",this->Starting_windows);
+ I_nf->Free();
 };
 
 //--------------------PRIVATE_SECTION-------------------------------------------
@@ -200,6 +255,7 @@ void _TSave_configuration::Read_resgistry()
   reg->OpenKey("\\Software\\Robik\\Smart_printing\\",0);
   this->Url                            = reg->ReadString("Url");
   this->Choose_printer                 = reg->ReadString("Choose_printer");
+  this->Automatics_run                 = reg->ReadBool("Automatics_run");
   this->Regularity_of_printing_by_time = reg->ReadString("Regularity_of_printing_by_time");
   this->Program_run_time               = reg->ReadBool("Program_run_time");
   this->Timer                          = reg->ReadBool("Timer");
@@ -225,6 +281,7 @@ void _TSave_configuration::Read_inifile()
    TIniFile* I_nf                        = new TIniFile(ExtractFilePath(Application->ExeName)+"date\\config.ini");
   this->Url                              = I_nf->ReadString("General","Url","");
   this->Choose_printer                   = I_nf->ReadString("General","Choose_printer","");
+  this->Automatics_run                   = I_nf->ReadBool("General","Automatics_run","");
   this->Regularity_of_printing_by_time   = I_nf->ReadString("General","Regularity_of_printing_by_time","");
   this->Program_run_time                 = I_nf->ReadBool("General","Program_run_time","");
   this->Timer                            = I_nf->ReadBool("General","Timer","");
@@ -274,6 +331,7 @@ void _TSave_configuration::Save_registry()
   reg->OpenKey("\\Software\\Robik\\Smart_printing\\",true);
   reg->WriteString("Url", this->Url);
   reg->WriteString("Choose_printer", this->Choose_printer);
+  reg->WriteBool("Automatics_run",this->Automatics_run);
   reg->WriteString("Regularity_of_printing_by_time", this->Regularity_of_printing_by_time);
   reg->WriteBool("Program_run_time", this->Program_run_time);
   reg->WriteBool("Timer", this->Timer);
@@ -296,22 +354,19 @@ void _TSave_configuration::Save_inifile()
 	std::string temp = "date\\";
 	 r.create_folder_in_prog(temp,true);
 	}
-//AnsiString path = (r.get_path()).c_str();
-//path = path +"date\\config.ini";
+
 TIniFile* I_nf = new TIniFile(ExtractFilePath(Application->ExeName)+"date\\config.ini");
-//TIniFile* I_nf = new TIniFile("D:/0internet_shoping/Kwork/Stanislaw/Order/Shohotim/Win32/Release/date/config.ini");
  I_nf->WriteString("General","Url",this->Url);
  I_nf->WriteString("General","Choose_printer",this->Choose_printer);
+ I_nf->WriteBool("General","Automatics_run",this->Automatics_run);
  I_nf->WriteString("General","Regularity_of_printing_by_time",this->Regularity_of_printing_by_time);
  I_nf->WriteBool("General","Program_run_time",this->Program_run_time);
  I_nf->WriteBool("General","Timer",this->Timer);
  I_nf->WriteBool("General","Registry",this->Registry);
  I_nf->WriteBool("General","Inifile",this->Inifile);
- I_nf->WriteBool("General","Starting_program",this->Inifile);
- I_nf->WriteBool("General","Starting_windows",this->Inifile);
-
+ I_nf->WriteBool("General","Starting_program",this->Starting_program);
+ I_nf->WriteBool("General","Starting_windows",this->Starting_windows);
  I_nf->Free();
-// delete I_nf;
 };
 
 //------------------------------------------------------------------------------
@@ -327,7 +382,7 @@ bool _TSave_configuration::Check_registry_incorrect()
 	reg->OpenKey("\\Software\\Robik\\Smart_printing\\",0);
 
 
-		if ((reg->ValueExists("Url") == false) or (reg->ValueExists("Choose_printer") == false)
+		if ((reg->ValueExists("Url") == false) or (reg->ValueExists("Choose_printer") == false) or (reg->ValueExists("Automatics_run") == false)
 		   or (reg->ValueExists("Regularity_of_printing_by_time") == false) or (reg->ValueExists("Program_run_time") == false)
 		   or (reg->ValueExists("Timer")== false) or (reg->ValueExists("Registry") == false)
 		   or (reg->ValueExists("Inifile") == false) or (reg->ValueExists("Starting_program") == false)
@@ -368,6 +423,7 @@ bool _TSave_configuration::Check_registry()
 
 	 s_t            = reg->ReadString("Url");
 	 s_t            = reg->ReadString("Choose_printer");
+	 b_t            = reg->ReadBool("Automatics_run");
 	 s_t            = reg->ReadString("Regularity_of_printing_by_time");
 	 b_t            = reg->ReadBool("Program_run_time");
 	 b_t            = reg->ReadBool("Timer");
@@ -416,6 +472,7 @@ bool _TSave_configuration::Check_Ini()
 
 	 s_t            = I_nf->ReadString("General","Url","");
 	 s_t            = I_nf->ReadString("General","Choose_printer","");
+	 b_t            = I_nf->ReadBool("General","Automatics_run","");
 	 s_t            = I_nf->ReadString("General","Regularity_of_printing_by_time","");
 	 b_t            = I_nf->ReadBool("General","Program_run_time","");
 	 b_t            = I_nf->ReadBool("General","Timer","");
@@ -468,8 +525,6 @@ bool result = false;
    direct_r p;
    std::string files = "date\\url.txt";
 
-//   files.push_back(std::string("date\\config.ini"));
-//   files.push_back(std::string("date\\printer.txt"));
 
 		if (p.check_file(files) == true)
 		{
@@ -490,6 +545,7 @@ void _TSave_configuration::default_init()
 {
 	this->Url                              = "https://moda.captain.business/p.php?api=123456789";
 	this->Choose_printer                   = "Не выбран";
+	this->Automatics_run                   = false;
 	this->Regularity_of_printing_by_time   = "00:10:00";
 	this->Program_run_time                 = true;
 	this->Timer                            = true;
@@ -516,6 +572,7 @@ void _TSave_configuration::Clear_dates()
 
 				reg->DeleteValue("Url");
 				reg->DeleteValue("Choose_printer");
+                reg->DeleteValue("automatics_run");
 				reg->DeleteValue("Regularity_of_printing_by_time");
 				reg->DeleteValue("Program_run_time");
 				reg->DeleteValue("Timer");
@@ -621,6 +678,7 @@ bool _TSave_configuration::step_one()// Find the source of the save
    return result;
 };
 
+//------------------------------------------------------------------------------
 AnsiString& _TSave_configuration::Create_inifile_path(AnsiString& path)
 {
    for (int i = 0; i < path.Length(); i++)
@@ -633,3 +691,5 @@ AnsiString& _TSave_configuration::Create_inifile_path(AnsiString& path)
 
    return path;
 };
+
+//-------------------------------END-----------------------------------------------

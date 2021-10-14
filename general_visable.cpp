@@ -3,7 +3,7 @@
 //--------------------CONSTRUCTOR-----------------------------------------------
 general_visable::general_visable()
 {
-   this->standart_ok();
+   this->Accept_default();
   // this->Power_on();
 };
 
@@ -301,13 +301,14 @@ bool general_visable::get_Choose_printer_CB()
 };
 
 //------------------------------------------------------------------------------
-void general_visable::Power_on()
+//---------Configuration_LIST_begin()-------------------------------------------
+void general_visable::Accept_power_on()
 {
 	this->Open_TOP               = false;
 	this->Save_TOP               = false;
 	this->Fast_printing_TOP      = true;
 	this->Preview_TOP            = false;
-	this->Power_on_TOP          = false;
+	this->Power_on_TOP           = false;
 	this->Power_off_TOP          = true;
 	this->Config_TOP             = false;
 
@@ -317,7 +318,7 @@ void general_visable::Power_on()
 	this->Fast_printing_N        = false;
 	this->Preview_N              = false;
 	this->Configuring_printer_N  = false;
-	this->Power_on_N            = false;
+	this->Power_on_N             = false;
 	this->Power_off_N            = true;
 	this->Config_N               = false;
 
@@ -327,8 +328,7 @@ void general_visable::Power_on()
 	this->Choose_printer_BB      = false;
 };
 
-//---------------------PRIVATE_SECTION------------------------------------------
-void general_visable::standart_ok()
+void general_visable::Accept_default()
 {
 	this->Open_TOP               = true;
 	this->Save_TOP               = true;
@@ -354,6 +354,11 @@ void general_visable::standart_ok()
 	this->Choose_printer_BB      = false;
 
 };
+
+//---------Configuration_LIST_end()-------------------------------------------
+
+//---------------------PRIVATE_SECTION------------------------------------------
+
 //------------------------------------------------------------------------------
 bool general_visable::swap_bool(bool value)
 {

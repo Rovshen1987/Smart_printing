@@ -39,6 +39,7 @@ __published:	// IDE-managed Components
 	TLabel *Starting_program_L;
 	TLabel *Starting_Windows_L;
 	TBevel *Bevel1;
+	TCheckBox *Automatics_run_CH;
 	void __fastcall Regularity_of_printing_by_time_Config_MEExit(TObject *Sender);
 	void __fastcall Close_BClick(TObject *Sender);
 	void __fastcall Url_CB_ConfigChange(TObject *Sender);
@@ -52,6 +53,8 @@ __published:	// IDE-managed Components
 	void __fastcall Starting_program_CHClick(TObject *Sender);
 	void __fastcall Starting_windows_CHClick(TObject *Sender);
 	void __fastcall Save_BClick(TObject *Sender);
+	void __fastcall Automatics_run_CHClick(TObject *Sender);
+	void __fastcall General_setup_GBClick(TObject *Sender);
 
 
 
@@ -66,6 +69,7 @@ private:	// User declarations
 	bool flag_Url;
 	bool flag_Choose_printer;
 	bool flag_Regularity_of_printing_by_time;
+	bool flag_Automatics_run;
 	bool flag_Program_run_time;
 	bool flag_Timer;
 	bool flag_Registry;

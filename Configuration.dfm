@@ -33,6 +33,7 @@
       Height = 673
       Caption = #1054#1089#1085#1086#1074#1085#1099#1077' '#1085#1072#1089#1090#1088#1086#1081#1082#1080
       TabOrder = 0
+      OnClick = General_setup_GBClick
       object Bevel1: TBevel
         Left = 16
         Top = 431
@@ -69,7 +70,7 @@
       end
       object Bevel_CH: TBevel
         Left = 16
-        Top = 190
+        Top = 195
         Width = 436
         Height = 139
         Shape = bsFrame
@@ -96,8 +97,8 @@
         Shape = bsTopLine
       end
       object Regularity_of_printing_by_time_L: TLabel
-        Left = 24
-        Top = 200
+        Left = 38
+        Top = 227
         Width = 265
         Height = 21
         Caption = #1056#1077#1075#1091#1083#1103#1088#1085#1086#1089#1090#1100' '#1087#1077#1095#1072#1090#1080' '#1087#1086' '#1074#1088#1077#1084#1077#1085#1080
@@ -147,8 +148,8 @@
         OnChange = Choose_printer_CB_ConfigChange
       end
       object Program_run_time_CH: TCheckBox
-        Tag = 3
-        Left = 24
+        Tag = 4
+        Left = 25
         Top = 254
         Width = 321
         Height = 25
@@ -158,7 +159,7 @@
         OnClick = Program_run_time_CHClick
       end
       object Timer_СH: TCheckBox
-        Tag = 4
+        Tag = 5
         Left = 24
         Top = 285
         Width = 241
@@ -169,7 +170,7 @@
         OnClick = Timer_СHClick
       end
       object Registry_RB: TRadioButton
-        Tag = 5
+        Tag = 6
         Left = 43
         Top = 380
         Width = 177
@@ -182,7 +183,7 @@
         OnClick = Registry_RBClick
       end
       object Inifile_RB: TRadioButton
-        Tag = 6
+        Tag = 7
         Left = 307
         Top = 380
         Width = 137
@@ -199,7 +200,7 @@
         Height = 49
         Cursor = crHandPoint
         Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
-        TabOrder = 9
+        TabOrder = 8
         OnClick = Save_BClick
       end
       object Close_B: TButton
@@ -213,9 +214,9 @@
         OnClick = Close_BClick
       end
       object Regularity_of_printing_by_time_Config_ME: TMaskEdit
-        Tag = 2
-        Left = 120
-        Top = 227
+        Tag = 3
+        Left = 309
+        Top = 225
         Width = 135
         Height = 29
         Cursor = crHandPoint
@@ -227,7 +228,7 @@
         OnExit = Regularity_of_printing_by_time_Config_MEExit
       end
       object Starting_program_CH: TCheckBox
-        Tag = 7
+        Tag = 8
         Left = 24
         Top = 473
         Width = 425
@@ -245,8 +246,19 @@
         Height = 33
         Cursor = crHandPoint
         Caption = #1047#1072#1087#1091#1089#1090#1080#1090#1100' '#1087#1088#1086#1075#1088#1072#1084#1084#1091' '#1072#1074#1090#1086#1084#1072#1090#1080#1095#1077#1089#1082#1080#1081' '#1087#1088#1080
-        TabOrder = 8
+        TabOrder = 9
         OnClick = Starting_windows_CHClick
+      end
+      object Automatics_run_CH: TCheckBox
+        Tag = 2
+        Left = 25
+        Top = 196
+        Width = 278
+        Height = 25
+        Cursor = crHandPoint
+        Caption = #1040#1074#1090#1086#1084#1072#1090#1080#1095#1077#1089#1082#1080#1081' '#1088#1077#1078#1080#1084' '#1087#1077#1095#1072#1090#1080
+        TabOrder = 11
+        OnClick = Automatics_run_CHClick
       end
     end
   end

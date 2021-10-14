@@ -12,6 +12,7 @@ public:
 
 	   void set_Url(const AnsiString& value);
 	   void set_Choose_printer(const AnsiString& value);
+	   void set_Automatics_run(const bool& value);
 	   void set_Regularity_of_printing_by_time(const AnsiString& value);
 	   void set_Program_run_time(const bool& value);
 	   void set_Timer(const bool& value);
@@ -24,16 +25,17 @@ public:
 	   bool step_to_run_program();
 
 
-	   AnsiString get_Url();
-	   AnsiString get_Choose_printer();
-	   AnsiString get_Regularity_of_printing_by_time();
-	   bool       get_Program_run_time();
-	   bool       get_Timer();
+	   AnsiString      get_Url();
+	   AnsiString      get_Choose_printer();
+	   bool            get_Automatics_run();
+	   AnsiString      get_Regularity_of_printing_by_time();
+	   bool            get_Program_run_time();
+	   bool            get_Timer();
 
-	   bool       get_Registry();
-	   bool       get_Inifile();
-	   bool       get_Starting_program();
-	   bool       get_Starting_windows();
+	   bool            get_Registry();
+	   bool            get_Inifile();
+	   bool            get_Starting_program();
+	   bool            get_Starting_windows();
 
 	   void            Save_shell(const bool& value);
 	   void            Save_shell();
@@ -41,16 +43,20 @@ public:
 	   void            Read_shell();
 	   void            Save_registry();
 	   void            Save_inifile();
+
+	   void            Open_IniFile(const AnsiString& FileName);
+       void            Save_AS_IniFile(const AnsiString& FileName);
 private:
 	   AnsiString      Url;  //Tag 0
 	   AnsiString      Choose_printer; //Tag 1
-	   AnsiString      Regularity_of_printing_by_time;//Tag 2
-	   bool            Program_run_time; //Tag3
-	   bool            Timer; //Tag 4
-	   bool            Registry; //Tag 5
-	   bool            Inifile; //Tag 6
-	   bool            Starting_program; //Tag 7
-	   bool            Starting_windows; //Tag 8
+	   bool            Automatics_run; //Tag 2
+	   AnsiString      Regularity_of_printing_by_time;//Tag 3
+	   bool            Program_run_time; //Tag4
+	   bool            Timer; //Tag 5
+	   bool            Registry; //Tag 6
+	   bool            Inifile; //Tag 7
+	   bool            Starting_program; //Tag 8
+	   bool            Starting_windows; //Tag 9
 
 	   bool            flag_Registry;
 	   bool            flag_program_files;
@@ -77,6 +83,6 @@ private:
 	   bool            Delete_file_(const std::string& FileName);
 
 	   bool            step_one(); //Find the source of the save
-	   AnsiString&      Create_inifile_path(AnsiString& path);
+	   AnsiString&     Create_inifile_path(AnsiString& path);
 
 };

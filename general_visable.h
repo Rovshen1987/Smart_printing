@@ -55,9 +55,10 @@ public:
 	bool  get_Choose_printer_BB();
 	bool  get_Url_CB();
 	bool  get_Choose_printer_CB();
-
-	void  Power_on();
-
+//---------Configuration_LIST---------------------------------------------------
+	void  Accept_power_on();
+	void  Accept_default();
+//------------------------------------------------------------------------------
 	void run_e(TBitBtn* object,const bool& value);
 	void run_e(TToolButton* object,const bool& value);
 	void run_e(TMenuItem* object,const bool& value);
@@ -86,11 +87,11 @@ private:
 	bool  Save_BB;
 	bool  Choose_printer_BB;
 
-	bool Url_CB;
-	bool Choose_printer_CB;
+	bool  Url_CB;
+	bool  Choose_printer_CB;
 
-	void standart_ok();
-    bool swap_bool(bool value);
+
+	bool  swap_bool(bool value);
 
 
 

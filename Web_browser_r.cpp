@@ -19,7 +19,7 @@ __fastcall TWeb_browser_F::TWeb_browser_F(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TWeb_browser_F::FormCreate(TObject *Sender)
 {
- WebBrowser->Navigate(L"https://moda.captain.business/p.php?api=123456789");
+// WebBrowser->Navigate(L"https://moda.captain.business/p.php?api=123456789");
 //  CppWebBrowser1->Navigate(L"http://gtol");
 
 initilisation();

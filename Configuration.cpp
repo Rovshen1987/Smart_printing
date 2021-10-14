@@ -43,6 +43,23 @@ void __fastcall TConfiguration_F::Close_BClick(TObject *Sender)
 	 }
 	 else
 	 {
+		  if (General_F->get_remaining_time_bool()== true)
+		  {
+		   if (General_F->Power_off_TOP->Enabled == true)
+		   {
+			General_F->Timer_back_T->Enabled = true;
+		   }
+		   else
+		   {
+			General_F->Timer_back_T->Enabled = false;
+		   }
+
+		  }
+		  else
+		  {
+		   General_F->StatusBar->Panels->Items[2]->Text = "Автоматическая работа выключена";
+		   General_F->Timer_back_T->Enabled = false;
+		  }
 	  Configuration_F->Close();
 	 }
 
@@ -55,32 +72,36 @@ bool result  = false;
 
 	switch (Tag)
 	{
-	case 3: {
+	case 2: {
+			 result = General_F->_Robik_config->get_Automatics_run();
+			 break;
+			};
+	case 4: {
 			 result = General_F->_Robik_config->get_Program_run_time();
 			 break;
 			};
 
-	case 4: {
+	case 5: {
 			 result = General_F->_Robik_config->get_Timer();
 			break;
 			};
 
-	case 5: {
+	case 6: {
 			 result = General_F->_Robik_config->get_Registry();
 			break;
 			};
 
-	case 6: {
+	case 7: {
 			 result = General_F->_Robik_config->get_Inifile();
 			break;
 			};
 
-	case 7: {
+	case 8: {
 			 result = General_F->_Robik_config->get_Starting_program();
 			break;
 			};
 
-	case 8: {
+	case 9: {
 			 result = General_F->_Robik_config->get_Starting_windows();
 			break;
 			};
@@ -119,7 +140,7 @@ AnsiString result = false;
 			 break;
 			};
 
-	case 2: {
+	case 3: {
 			 result = General_F->_Robik_config->get_Regularity_of_printing_by_time();
 			 break;
 			};
@@ -138,15 +159,16 @@ AnsiString result = false;
 
 void TConfiguration_F::initialisation()
 {
-this->Url_CB_Config->Text = General_F->_Robik_config->get_Url();
-this->Choose_printer_CB_Config->Text = General_F->_Robik_config->get_Choose_printer();
-this->Regularity_of_printing_by_time_Config_ME->Text = General_F->_Robik_config->get_Regularity_of_printing_by_time();
-this->Program_run_time_CH->Checked = General_F->_Robik_config->get_Program_run_time();
-this->Timer_СH->Checked = General_F->_Robik_config->get_Timer();
-this->Registry_RB->Checked = General_F->_Robik_config->get_Registry();
-this->Inifile_RB->Checked = General_F->_Robik_config->get_Inifile();
-this->Starting_program_CH->Checked = General_F->_Robik_config->get_Starting_program();
-this->Starting_windows_CH->Checked = General_F->_Robik_config->get_Starting_windows();
+this->Url_CB_Config->Text                               = General_F->_Robik_config->get_Url();
+this->Choose_printer_CB_Config->Text                    = General_F->_Robik_config->get_Choose_printer();
+this->Automatics_run_CH->Checked                        = General_F->_Robik_config->get_Automatics_run();
+this->Regularity_of_printing_by_time_Config_ME->Text    = General_F->_Robik_config->get_Regularity_of_printing_by_time();
+this->Program_run_time_CH->Checked                      = General_F->_Robik_config->get_Program_run_time();
+this->Timer_СH->Checked                                 = General_F->_Robik_config->get_Timer();
+this->Registry_RB->Checked                              = General_F->_Robik_config->get_Registry();
+this->Inifile_RB->Checked                               = General_F->_Robik_config->get_Inifile();
+this->Starting_program_CH->Checked                      = General_F->_Robik_config->get_Starting_program();
+this->Starting_windows_CH->Checked                      = General_F->_Robik_config->get_Starting_windows();
 
 this->flag_unchecking();
 update_printer();
@@ -156,6 +178,7 @@ void TConfiguration_F::flag_unchecking()
 {
 this->flag_Url                            = false;
 this->flag_Choose_printer                 = false;
+this->flag_Automatics_run                 = false;
 this->flag_Regularity_of_printing_by_time = false;
 this->flag_Program_run_time               = false;
 this->flag_Timer                          = false;
@@ -170,12 +193,12 @@ this->Button_enabled();
 bool TConfiguration_F::what_flag_checked()
 {
 bool result = false;
-//bool b = false;
+
 
 std::vector<bool> v;
-//v.push_back(true);
 v.push_back(this->flag_Url);
 v.push_back(this->flag_Choose_printer);
+v.push_back(this->flag_Automatics_run);
 v.push_back(this->flag_Regularity_of_printing_by_time);
 v.push_back(this->flag_Program_run_time);
 v.push_back(this->flag_Timer);
@@ -212,6 +235,7 @@ void TConfiguration_F::Button_enabled()
 	   this->Save_B->Enabled = false;
 	   this->Close_B->Caption = "Закрыть";
 	  };
+
 };
 void __fastcall TConfiguration_F::Url_CB_ConfigChange(TObject *Sender)
 {
@@ -249,8 +273,32 @@ void __fastcall TConfiguration_F::Choose_printer_CB_ConfigChange(TObject *Sender
   this->Button_enabled();
   };
 }
-//---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
+void __fastcall TConfiguration_F::Automatics_run_CHClick(TObject *Sender)
+{
+  if(this->check_saving(this->Automatics_run_CH->Tag, this->Automatics_run_CH->Checked) == true)
+  {
+  this->flag_Automatics_run = false;
+  this->Button_enabled();
+  }
+  else
+  {
+  this->flag_Automatics_run = true;
+  this->Button_enabled();
+  };
+
+	  if (this->Automatics_run_CH->Checked == true)
+	  {
+	  this->Regularity_of_printing_by_time_Config_ME->Enabled = true;
+	  }
+	  else
+	  {
+	  this->Regularity_of_printing_by_time_Config_ME->Enabled = false;
+	  }
+}
+
+//---------------------------------------------------------------------------
 void __fastcall TConfiguration_F::Regularity_of_printing_by_time_Config_MEChange(TObject *Sender)
 
 {
@@ -377,7 +425,9 @@ void __fastcall TConfiguration_F::Save_BClick(TObject *Sender)
 //Save to Modul
 General_F->_Robik_config->set_Url(this->Url_CB_Config->Text);
 General_F->_Robik_config->set_Choose_printer(this->Choose_printer_CB_Config->Text);
+General_F->_Robik_config->set_Automatics_run(this->Automatics_run_CH->Checked);
 General_F->_Robik_config->set_Regularity_of_printing_by_time(this->Regularity_of_printing_by_time_Config_ME->Text);
+General_F->_Robik_config->set_Program_run_time(this->Program_run_time_CH->Checked);
 General_F->_Robik_config->set_Timer(this->Timer_СH->Checked);
 General_F->_Robik_config->set_Registry(this->Registry_RB->Checked);
 General_F->_Robik_config->set_Inifile(this->Inifile_RB->Checked);
@@ -415,3 +465,21 @@ General_F->_Robik_config->set_Starting_windows(this->Starting_windows_CH->Checke
 	}
 	delete Pr;
  };
+
+
+//---------------------------------------------------------------------------
+
+
+void __fastcall TConfiguration_F::General_setup_GBClick(TObject *Sender)
+{
+if (General_F->_Robik_config->get_Automatics_run() == true)
+ {
+  ShowMessage("true");
+ }
+ else
+ {
+  ShowMessage("false");
+ }
+}
+//---------------------------------------------------------------------------
+

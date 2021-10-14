@@ -174,11 +174,12 @@ __published:	// IDE-managed Components
 	TLabel *Internet_status_O;
 	TLabel *Site_status_O;
 	TButton *Check_B;
-	TPrintDialog *PrintDialog1;
 	TMenuItem *Save_N;
 	TImageList *ImageList_TOP;
 	TImageList *ImageList_BB;
 	TTimer *Timer_back_T;
+	TOpenDialog *Open_IniFile;
+	TSaveDialog *Save_AS_IniFile;
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall Run_program_timerTimer(TObject *Sender);
 	void __fastcall Config_NClick(TObject *Sender);
@@ -196,14 +197,24 @@ __published:	// IDE-managed Components
 	void __fastcall Url_CBChange(TObject *Sender);
 	void __fastcall Help_TOPClick(TObject *Sender);
 	void __fastcall Timer_back_TTimer(TObject *Sender);
+	void __fastcall Power_off_TOPClick(TObject *Sender);
+	void __fastcall Open_TOPClick(TObject *Sender);
+	void __fastcall Open_NClick(TObject *Sender);
+	void __fastcall Power_on_NClick(TObject *Sender);
+	void __fastcall Power_off_NClick(TObject *Sender);
+	void __fastcall Fast_printing_NClick(TObject *Sender);
+	void __fastcall Save_as_NClick(TObject *Sender);
+	void __fastcall Choose_printer_CBChange(TObject *Sender);
+
 private:	// User declarations
 	const AnsiString default_host = AnsiString("http://www.google.com");
 
 	std::unique_ptr<time_r>  run_program_Time;
 	std::unique_ptr<time_r>  Timer_back;
 
-
-	int loop_print_time;
+	int good_print_informatin;
+	int error_print_information;
+//	int loop_print_time;
 
 	bool flag_Url_CB;
 	bool flag_Choose_printer_CB;
@@ -227,12 +238,12 @@ private:	// User declarations
 	std::unique_ptr<general_visable> general_visable_general;
 
 const AnsiString _Statusbar_Item_0 = "Время работы программы ";
-const AnsiString _Statusbar_Item_1 = "Напечатано ";
+const AnsiString _Statusbar_Item_1 = "Напечатано   ";
 const AnsiString _Statusbar_Item_2 = "До отправки в печать осталось ";
 
 	remaining remaining_orginal;
 
-	void initialisation_to_flag();
+//	void initialisation_to_flag();
 	void check_connect(const AnsiString& hostname, const int& Tag);
 
 	void check_label(TLabel* object, const bool& value);
@@ -241,16 +252,22 @@ const AnsiString _Statusbar_Item_2 = "До отправки в печать осталось ";
 	void print_r();
 	void run_enabled();
 
-	bool get_remaining_time_bool();
-    void Timer_back_Trun();
+	void show_good_print_inforamtion();
+
+
+	void Timer_back_Trun();
+
+    AnsiString get_time();
 
 public:		// User declarations
+	bool get_remaining_time_bool();
 	std::unique_ptr<_TSave_configuration> _Robik_config;
 	void initialisation();
     void destroy_();
 	__fastcall TGeneral_F(TComponent* Owner);
 
-    void update();
+	void update();
+	void update(const bool& value);
 
 	void apple_general_config();
 	void apple_general_program();

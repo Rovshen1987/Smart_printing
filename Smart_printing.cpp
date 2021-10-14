@@ -1,3 +1,4 @@
+
 //---------------------------------------------------------------------------
 
 #include <vcl.h>
@@ -18,17 +19,17 @@ __fastcall TGeneral_F::TGeneral_F(TComponent* Owner)
 //---------------------------------------------------------------------------
 void TGeneral_F::initialisation()
 {
-  this->Run_program_timer->Enabled = true;
+  ImageList_BB->GetBitmap(0,Save_BB->Glyph);
+  ImageList_BB->GetBitmap(0,Choose_printer_BB->Glyph);
+  update_printer();
 
   this->run_program_Time = std::make_unique<time_r>();
   this->run_program_Time->set(std::string("0:0:0"));
-
+  this->Run_program_timer->Enabled = true;
 
 
   this->_Robik_config = std::make_unique<_TSave_configuration>();
 
-//  check_connect(default_host, Internet_status_BT->Tag);
-//  check_connect(Url_CB->Text,Site_status_BT->Tag);
   if (this->_Robik_config->step_to_run_program() == true)
   {
   apple_general_config();
@@ -36,24 +37,40 @@ void TGeneral_F::initialisation()
 
    this->set_remaining_time(std::string((_Robik_config->get_Regularity_of_printing_by_time()).c_str()));
 
-
-
   check_connect(default_host, Internet_status_O->Tag);
   check_connect(Url_CB->Text,Site_status_O->Tag);
 
-  ImageList_BB->GetBitmap(0,Save_BB->Glyph);
-  ImageList_BB->GetBitmap(0,Choose_printer_BB->Glyph);
-  update_printer();
 
-  this->general_visable_general = std::make_unique<general_visable>();
-  this->run_enabled();
-  this->falg_automatics_printing = false;
 
   this->Timer_back = std::make_unique<time_r>();
   this->Timer_back->set(this->remaining_orginal.remaining_time);
   this->Timer_back->set_forward(false);
 
-  this->Timer_back_Trun();
+  this->general_visable_general = std::make_unique<general_visable>();
+  if (this->_Robik_config->get_Automatics_run() == true)
+  {
+   this->general_visable_general->Accept_power_on();
+   this->StatusBar->Panels->Items[2]->Text = "Автоматическая работа остановлено...";
+  };
+
+
+  this->falg_automatics_printing = false;
+
+  if ((this->_Robik_config->get_Automatics_run() == true) || (this->_Robik_config->get_Starting_program() == true))
+  {
+   this->general_visable_general->Accept_power_on();
+   this->Timer_back_Trun();
+  }
+  else
+  {
+	this->general_visable_general->Accept_default();
+    this->Timer_back_T->Enabled = false;
+  };
+
+   this->run_enabled();
+   this->good_print_informatin       = 0;
+   this->error_print_information     = 0;
+   this->Report_E->Text = "Нет данных.";
 };
 
 //------------------------------------------------------------------------------
@@ -62,6 +79,39 @@ void TGeneral_F::update()
   this->Url_CB->Text                           = this->_Robik_config->get_Url();
   this->Choose_printer_CB->Text                = this->_Robik_config->get_Choose_printer();
   Preview_F->frxReport->PrintOptions->Printer  = this->_Robik_config->get_Choose_printer();
+	if (this->_Robik_config->get_Automatics_run() == true)
+  {
+   this->general_visable_general->Accept_power_on();
+
+  }
+  else
+  {
+   this->general_visable_general->Accept_default();
+  }
+
+  this->run_enabled();
+  this->set_remaining_time(std::string((_Robik_config->get_Regularity_of_printing_by_time()).c_str()));
+  this->Timer_back->set(this->remaining_orginal.remaining_time);
+  this->Timer_back_Trun();
+};
+
+//------------------------------------------------------------------------------
+void TGeneral_F::update(const bool& value)
+{
+  this->Url_CB->Text                           = this->_Robik_config->get_Url();
+  this->Choose_printer_CB->Text                = this->_Robik_config->get_Choose_printer();
+  Preview_F->frxReport->PrintOptions->Printer  = this->_Robik_config->get_Choose_printer();
+	if (value == true)
+  {
+   this->general_visable_general->Accept_power_on();
+
+  }
+  else
+  {
+   this->general_visable_general->Accept_default();
+  }
+
+  this->run_enabled();
   this->set_remaining_time(std::string((_Robik_config->get_Regularity_of_printing_by_time()).c_str()));
   this->Timer_back->set(this->remaining_orginal.remaining_time);
   this->Timer_back_Trun();
@@ -91,9 +141,10 @@ this->StatusBar->Panels->Items[0]->Text = this->_Statusbar_Item_0 + (this->run_p
 //---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Config_NClick(TObject *Sender)
 {
+Timer_back_T->Enabled = false;
 Configuration_F->ShowModal();
-initialisation_to_flag();
-loop_print_time = 0;
+//initialisation_to_flag();
+//loop_print_time = 0;
 }
 
 //---------------------------------------------------------------------------
@@ -114,6 +165,7 @@ void __fastcall TGeneral_F::Choose_printer_BBClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Config_TOPClick(TObject *Sender)
 {
+Timer_back_T->Enabled = false;
 Configuration_F->ShowModal();
 }
 
@@ -161,25 +213,25 @@ void TGeneral_F::apple_general_program()
  _Robik_config->set_Starting_windows(Configuration_F->Starting_windows_CH->Checked);
 };
 
-//------------------------------------------------------------------------------
-void TGeneral_F::initialisation_to_flag()
-{
-this->flag_Url_CB             = true;
-this->flag_Choose_printer_CB  = true;
-this->flag_Choose_printer_BB  = true;
-this->flag_Save_BB            = true;
-this->flag_Power_off_TOP      = true;
-this->flag_Power_on_TOP       = true;
-this->flag_Print_TOP          = true;
-this->flag_Fast_printing_N    = true;
-this->flag_Exit_N             = true;
-this->flag_Power_on_N         = true;
-this->flag_Power_off_N        = true;
-
-this->flag_Internet           = true;
-this->flag_Host               = true;
-this->flag_program_run        = true;
-};
+////------------------------------------------------------------------------------
+//void TGeneral_F::initialisation_to_flag()
+//{
+//this->flag_Url_CB             = true;
+//this->flag_Choose_printer_CB  = true;
+//this->flag_Choose_printer_BB  = true;
+//this->flag_Save_BB            = true;
+//this->flag_Power_off_TOP      = true;
+//this->flag_Power_on_TOP       = true;
+//this->flag_Print_TOP          = true;
+//this->flag_Fast_printing_N    = true;
+//this->flag_Exit_N             = true;
+//this->flag_Power_on_N         = true;
+//this->flag_Power_off_N        = true;
+//
+//this->flag_Internet           = true;
+//this->flag_Host               = true;
+//this->flag_program_run        = true;
+//};
 //------------------------------------------------------------------------------
 
 
@@ -268,6 +320,7 @@ if (Site_status_O->Caption != AnsiString("Есть!"))
   return;
  }
 
+Web_browser_F->WebBrowser->Navigate(this->_Robik_config->get_Url());
 Web_browser_F->Show();
 Web_browser_F->set_flag_preview(true);
 Web_browser_F->set_flag_print(false);
@@ -326,7 +379,18 @@ void __fastcall TGeneral_F::Check_BClick(TObject *Sender)
  };
 void __fastcall TGeneral_F::Preview_NClick(TObject *Sender)
 {
-Preview_F->ShowModal();
+check_connect(Url_CB->Text,Site_status_O->Tag);
+if (Site_status_O->Caption != AnsiString("Есть!"))
+ {
+  MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
+			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
+  return;
+ }
+
+Web_browser_F->Show();
+Web_browser_F->set_flag_preview(true);
+Web_browser_F->set_flag_print(false);
+Web_browser_F->screen_photo();
 }
 
 //---------------------------------------------------------------------------
@@ -349,30 +413,39 @@ Preview_F->frxReport->Print();
 //---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Power_on_TOPClick(TObject *Sender)
 {
-Preview_F->Show();
-Preview_F->frxReport->ShowReport();
-
+ this->general_visable_general->Accept_power_on();
+ this->run_enabled();
+ this->update(true);
+ this->Timer_back_Trun();
+ Timer_back_T->Enabled = true;
 }
 
 //---------------------------------------------------------------------------
 void TGeneral_F::print_r()
 {
+check_connect(Url_CB->Text,Site_status_O->Tag);
+if (Site_status_O->Caption != AnsiString("Есть!"))
+ {
+  this->error_print_information++;
+
+  this->Report_E->Text = this->get_time()+" Состояние печати связи нету подключение сайту.";
+  MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
+			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
+  return;
+ }
+
 Web_browser_F->Show();
 Web_browser_F->set_flag_preview(false);
 Web_browser_F->set_flag_print(true);
 Web_browser_F->screen_photo();
+this->good_print_informatin++;
+show_good_print_inforamtion();
+this->Report_E->Text = this->get_time()+" Состояние печати Good.";
 };
 
 //---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Fast_printing_TOPClick(TObject *Sender)
 {
-check_connect(Url_CB->Text,Site_status_O->Tag);
-if (Site_status_O->Caption != AnsiString("Есть!"))
- {
-  MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
-			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
-  return;
- }
 
 print_r();
 }
@@ -417,12 +490,21 @@ void __fastcall TGeneral_F::Url_CBChange(TObject *Sender)
 {
 	if (_Robik_config->get_Url() != Url_CB->Text)
 	{
-	  Save_BB->Enabled = true;
+	  this->general_visable_general->set_Save_BB(true);
+	  this->general_visable_general->set_Save_N(true);
 	}
 	else
 	{
-	  Save_BB->Enabled = false;
+	  this->general_visable_general->set_Save_BB(false);
+
+	  if ((this->general_visable_general->get_Save_BB() == false ) &&
+		   (this->general_visable_general->get_Choose_printer_BB() == false))
+	  {
+		this->general_visable_general->set_Save_N(false);
+	  }
 	};
+
+   this->run_enabled();
 }
 
 //---------------------------------------------------------------------------
@@ -484,14 +566,14 @@ void __fastcall TGeneral_F::Help_TOPClick(TObject *Sender)
 
 void TGeneral_F::Timer_back_Trun()
 {
-	if (get_remaining_time_bool())
+	if ((get_remaining_time_bool() == true)&& (this->_Robik_config->get_Automatics_run()))
 	{
 	 Timer_back_T->Enabled = true;
 	}
 	else
 	{
 	 Timer_back_T->Enabled = true;
-	}
+	};
 
 };
 void __fastcall TGeneral_F::Timer_back_TTimer(TObject *Sender)
@@ -567,3 +649,163 @@ void __fastcall TGeneral_F::Timer_back_TTimer(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TGeneral_F::Power_off_TOPClick(TObject *Sender)
+{
+  this->general_visable_general->Accept_default();
+  this->Timer_back->set(this->remaining_orginal.remaining_time);
+  this->run_enabled();
+  this->update(false);
+   this->StatusBar->Panels->Items[2]->Text = "Автоматическая работа остановлено...";
+   Timer_back_T->Enabled = false;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TGeneral_F::Open_TOPClick(TObject *Sender)
+{
+	if (Open_IniFile->Execute())
+	{
+	 MessageDlg("Текучая конфигурация заменится новым, который даны момент открывайте! ", mtInformation,TMsgDlgButtons()<<mbOK ,0 );;
+	 this->_Robik_config->Open_IniFile(Open_IniFile->FileName);
+	 this->update();
+	};
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGeneral_F::Open_NClick(TObject *Sender)
+{
+	if (Open_IniFile->Execute())
+	{
+	 MessageDlg("Текучая конфигурация заменится новым, который даны момент открывайте! ", mtInformation,TMsgDlgButtons()<<mbOK ,0 );;
+	 this->_Robik_config->Open_IniFile(Open_IniFile->FileName);
+	 this->update();
+	};
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGeneral_F::Power_on_NClick(TObject *Sender)
+{
+ this->general_visable_general->Accept_power_on();
+ this->run_enabled();
+ this->update(true);
+ this->Timer_back_Trun();
+ Timer_back_T->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGeneral_F::Power_off_NClick(TObject *Sender)
+{
+  this->general_visable_general->Accept_default();
+  this->Timer_back->set(this->remaining_orginal.remaining_time);
+  this->run_enabled();
+  this->update(false);
+   this->StatusBar->Panels->Items[2]->Text = "Автоматическая работа остановлено...";
+   Timer_back_T->Enabled = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGeneral_F::Fast_printing_NClick(TObject *Sender)
+{
+check_connect(Url_CB->Text,Site_status_O->Tag);
+if (Site_status_O->Caption != AnsiString("Есть!"))
+ {
+  MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
+			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
+  return;
+ }
+
+print_r();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGeneral_F::Save_as_NClick(TObject *Sender)
+{
+
+	if (Save_AS_IniFile->Execute())
+	{
+	 this->_Robik_config->Save_AS_IniFile(Save_AS_IniFile->FileName);
+	};
+}
+//---------------------------------------------------------------------------
+
+void TGeneral_F::show_good_print_inforamtion()
+{
+  this->StatusBar->Panels->Items[1]->Text = _Statusbar_Item_1+std::to_string(this->good_print_informatin).c_str();
+};
+
+
+void __fastcall TGeneral_F::Choose_printer_CBChange(TObject *Sender)
+{
+	if (_Robik_config->get_Choose_printer() != Choose_printer_CB->Text)
+	{
+	  this->general_visable_general->set_Choose_printer_BB(true);
+	  this->general_visable_general->set_Save_N(true);
+	}
+	else
+	{
+	  this->general_visable_general->set_Choose_printer_BB(false);
+
+	  if ((this->general_visable_general->get_Save_BB() == false ) &&
+		   (this->general_visable_general->get_Choose_printer_BB() == false))
+	  {
+		this->general_visable_general->set_Save_N(false);
+	  }
+	};
+
+   this->run_enabled();
+}
+//---------------------------------------------------------------------------
+
+AnsiString TGeneral_F::get_time()
+{
+time_t seconds = time(NULL);
+tm* timeinfo = localtime(&seconds);
+
+int day,month, year, sec,min, hour;
+day = timeinfo->tm_mday;
+month = timeinfo->tm_mon;
+month++;
+year = timeinfo->tm_year;
+year = year+1900;
+
+std::string sec_s,min_s,hour_s;
+
+sec = timeinfo->tm_sec;
+min = timeinfo->tm_min;
+hour = timeinfo->tm_hour;
+
+ if (sec<10)
+ {
+  sec_s = "0"+ std::string(std::to_string(sec));
+ }
+ else
+ {
+  sec_s = std::to_string(sec);
+ }
+
+ if (min<10)
+ {
+  min_s = "0"+std::string(std::to_string(min));
+ }
+ else
+ {
+  min_s = std::to_string(min);
+ }
+
+ if (hour<10)
+ {
+  hour_s ="0"+ std::string(std::to_string(hour));
+ }
+ else
+ {
+  hour_s = std::to_string(hour);
+ }
+
+
+
+std::string temp = std::to_string(day)+"."+std::to_string(month)+"."+std::to_string(year)+
+				   " | "+hour_s+":"+min_s+":"+sec_s;
+
+return AnsiString(temp.c_str());
+
+};
