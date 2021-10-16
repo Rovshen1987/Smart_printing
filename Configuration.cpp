@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "Configuration.h"
+#include "ShortCUT.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -486,4 +487,10 @@ General_F->_Robik_config->set_Starting_windows(this->Starting_windows_CH->Checke
 //---------------------------------------------------------------------------
 
 
+
+void __fastcall TConfiguration_F::Config_SHCutClick(TObject *Sender)
+{
+ShortCUT_F->ShowModal();
+}
+//---------------------------------------------------------------------------
 

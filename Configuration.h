@@ -40,6 +40,7 @@ __published:	// IDE-managed Components
 	TLabel *Starting_Windows_L;
 	TBevel *Bevel1;
 	TCheckBox *Automatics_run_CH;
+	TButton *Config_SHCut;
 	void __fastcall Regularity_of_printing_by_time_Config_MEExit(TObject *Sender);
 	void __fastcall Close_BClick(TObject *Sender);
 	void __fastcall Url_CB_ConfigChange(TObject *Sender);
@@ -54,6 +55,7 @@ __published:	// IDE-managed Components
 	void __fastcall Starting_windows_CHClick(TObject *Sender);
 	void __fastcall Save_BClick(TObject *Sender);
 	void __fastcall Automatics_run_CHClick(TObject *Sender);
+	void __fastcall Config_SHCutClick(TObject *Sender);
 
 
 

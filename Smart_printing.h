@@ -205,6 +205,7 @@ __published:	// IDE-managed Components
 	void __fastcall Save_as_NClick(TObject *Sender);
 	void __fastcall Choose_printer_CBChange(TObject *Sender);
 	void __fastcall Save_NClick(TObject *Sender);
+	void __fastcall About_NClick(TObject *Sender);
 
 private:	// User declarations
 	const AnsiString default_host = AnsiString("http://www.google.com");
@@ -277,6 +278,8 @@ public:		// User declarations
 
 	std::string get_remaining_time();
 	void set_remaining_time(const std::string& value);
+
+    void update_ShortCUT();
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGeneral_F *General_F;

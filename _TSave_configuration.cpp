@@ -3,10 +3,7 @@
 //--------------------CONSTRUCTOR-----------------------------------------------
 _TSave_configuration::_TSave_configuration()
 {
-  this->flag_source_save    = true;
-  this->flag_Registry       = false;
-  this->flag_program_files  = false;
-  this->flag_Inifile        = false;
+  this->initilisation();
 };
 
 //--------------------DESTRUCTOR------------------------------------------------
@@ -76,6 +73,63 @@ void _TSave_configuration::set_Starting_windows(const bool& value)
    this->Starting_windows = value;
 };
 
+//-------------Short_CUT-BEGIN()-SET--------------------------------------------
+void _TSave_configuration::set_Open_SHCut(const int& value)
+{
+	this->Open_SHCut = value;
+};
+
+//------------------------------------------------------------------------------
+void _TSave_configuration::set_Save_SHCut(const int& value)
+{
+	this->Save_SHCut = value;
+};
+
+//------------------------------------------------------------------------------
+void _TSave_configuration::set_Save_as_SHCut(const int& value)
+{
+	this->Save_as_SHCut = value;
+};
+
+//------------------------------------------------------------------------------
+void _TSave_configuration::set_Fast_printing_SHCut(const int& value)
+{
+	this->Fast_printing_SHCut = value;
+};
+
+//------------------------------------------------------------------------------
+void _TSave_configuration::set_Preview_SHCut(const int& value)
+{
+	this->Preview_SHCut = value;
+};
+
+//------------------------------------------------------------------------------
+void _TSave_configuration::set_Exit_SHCut(const int& value)
+{
+	this->Exit_SHCut = value;
+};
+
+//------------------------------------------------------------------------------
+void _TSave_configuration::set_Power_on_SHCut(const int& value)
+{
+	this->Power_on_SHCut = value;
+};
+
+//------------------------------------------------------------------------------
+void _TSave_configuration::set_Power_off_SHCut(const int& value)
+{
+	 this->Power_off_SHCut = value;
+};
+
+//------------------------------------------------------------------------------
+void _TSave_configuration::set_Config_SHCut(const int& value)
+{
+	 this->Config_SHCut = value;
+};
+
+//------------------------------------------------------------------------------
+//-------------Short_CUT-END()--SET----------------------------------------------
+
 //------------------------------------------------------------------------------
 //----------------------------PUBLIC_GET--------------------------------------------------
 AnsiString _TSave_configuration::get_Url()
@@ -137,8 +191,63 @@ bool _TSave_configuration::get_Starting_windows()
    return this->Starting_windows;
 };
 
-//------------------------------------------------------------------------------
+//-------------Short_CUT-BEGIN()------------------------------------------------
+int _TSave_configuration::get_Open_SHCut()
+{
+   return this->Open_SHCut;
+};
 
+//------------------------------------------------------------------------------
+int _TSave_configuration::get_Save_SHCut()
+{
+   return this->Save_SHCut;
+};
+
+//------------------------------------------------------------------------------
+int _TSave_configuration::get_Save_as_SHCut()
+{
+   return this->Save_as_SHCut;
+};
+
+//------------------------------------------------------------------------------
+int _TSave_configuration::get_Fast_printing_SHCut()
+{
+   return this->Fast_printing_SHCut;
+};
+
+//------------------------------------------------------------------------------
+int _TSave_configuration::get_Preview_SHCut()
+{
+   return this->Preview_SHCut;
+};
+
+//------------------------------------------------------------------------------
+int _TSave_configuration::get_Exit_SHCut()
+{
+   return this->Exit_SHCut;
+};
+
+//------------------------------------------------------------------------------
+int _TSave_configuration::get_Power_on_SHCut()
+{
+   return this->Power_on_SHCut;
+};
+
+//------------------------------------------------------------------------------
+int _TSave_configuration::get_Power_off_SHCut()
+{
+   return this->Power_off_SHCut;
+};
+
+//------------------------------------------------------------------------------
+int _TSave_configuration::get_Config_SHCut()
+{
+   return this->Config_SHCut;
+};
+
+//------------------------------------------------------------------------------
+//-------------Short_CUT-END()--------------------------------------------------
+//------------------------------------------------------------------------------
 bool _TSave_configuration::step_to_run_program()
 {
   bool result = false;
@@ -173,17 +282,26 @@ void _TSave_configuration::Open_IniFile(const AnsiString& FileName)
 {
 try
  {
-  TIniFile* I_nf                        = new TIniFile(FileName);
+  TIniFile* I_nf                         = new TIniFile(FileName);
   this->Url                              = I_nf->ReadString("General","Url","");
   this->Choose_printer                   = I_nf->ReadString("General","Choose_printer","");
-  this->Automatics_run                   = I_nf->ReadBool("General","Automatics_run","");
+  this->Automatics_run                   = I_nf->ReadBool("General","Automatics_run",false);
   this->Regularity_of_printing_by_time   = I_nf->ReadString("General","Regularity_of_printing_by_time","");
-  this->Program_run_time                 = I_nf->ReadBool("General","Program_run_time","");
-  this->Timer                            = I_nf->ReadBool("General","Timer","");
-  this->Registry                         = I_nf->ReadBool("General","Registry","");
-  this->Inifile                          = I_nf->ReadBool("General","Inifile","");
-  this->Starting_program                 = I_nf->ReadBool("General","Starting_program","");
-  this->Starting_windows                 = I_nf->ReadBool("General","Starting_windows","");
+  this->Program_run_time                 = I_nf->ReadBool("General","Program_run_time",false);
+  this->Timer                            = I_nf->ReadBool("General","Timer",false);
+  this->Registry                         = I_nf->ReadBool("General","Registry",false);
+  this->Inifile                          = I_nf->ReadBool("General","Inifile",false);
+  this->Starting_program                 = I_nf->ReadBool("General","Starting_program",false);
+  this->Starting_windows                 = I_nf->ReadBool("General","Starting_windows",false);
+  this->Open_SHCut                       = I_nf->ReadInteger("ShortCut","Open_SHCut",0);
+  this->Save_SHCut                       = I_nf->ReadInteger("ShortCut","Save_SHCut",0);
+  this->Save_as_SHCut                    = I_nf->ReadInteger("ShortCut","Save_as_SHCut",0);
+  this->Fast_printing_SHCut              = I_nf->ReadInteger("ShortCut","Fast_printing_SHCut",0);
+  this->Preview_SHCut                    = I_nf->ReadInteger("ShortCut","Preview_SHCut",0);
+  this->Exit_SHCut                       = I_nf->ReadInteger("ShortCut","Exit_SHCut",0);
+  this->Power_on_SHCut                   = I_nf->ReadInteger("ShortCut","Power_on_SHCut",0);
+  this->Power_off_SHCut                  = I_nf->ReadInteger("ShortCut","Power_off_SHCut",0);
+  this->Config_SHCut                     = I_nf->ReadInteger("ShortCut","Config_SHCut",0);
   I_nf->Free();
   this->Save_inifile();
  }
@@ -209,6 +327,15 @@ void _TSave_configuration::Save_AS_IniFile(const AnsiString& FileName)
  I_nf->WriteBool("General","Inifile",this->Inifile);
  I_nf->WriteBool("General","Starting_program",this->Starting_program);
  I_nf->WriteBool("General","Starting_windows",this->Starting_windows);
+ I_nf->WriteInteger("ShortCut","Open_SHCut",this->Open_SHCut);
+ I_nf->WriteInteger("ShortCut","Save_SHCut",this->Save_SHCut);
+ I_nf->WriteInteger("ShortCut","Save_as_SHCut",this->Save_as_SHCut);
+ I_nf->WriteInteger("ShortCut","Fast_printing_SHCut",this->Fast_printing_SHCut);
+ I_nf->WriteInteger("ShortCut","Preview_SHCut",this->Preview_SHCut);
+ I_nf->WriteInteger("ShortCut","Exit_SHCut",this->Exit_SHCut);
+ I_nf->WriteInteger("ShortCut","Power_on_SHCut",this->Power_on_SHCut);
+ I_nf->WriteInteger("ShortCut","Power_off_SHCut",this->Power_off_SHCut);
+ I_nf->WriteInteger("ShortCut","Config_SHCut",this->Config_SHCut);
  I_nf->Free();
 };
 
@@ -263,6 +390,15 @@ void _TSave_configuration::Read_resgistry()
   this->Inifile                        = reg->ReadBool("Inifile");
   this->Starting_program               = reg->ReadBool("Starting_program");
   this->Starting_windows               = reg->ReadBool("Starting_windows");
+  this->Open_SHCut                     = reg->ReadInteger("Open_SHCut");
+  this->Save_SHCut                     = reg->ReadInteger("Save_SHCut");
+  this->Save_as_SHCut                  = reg->ReadInteger("Save_as_SHCut");
+  this->Fast_printing_SHCut            = reg->ReadInteger("Fast_printing_SHCut");
+  this->Preview_SHCut                  = reg->ReadInteger("Preview_SHCut");
+  this->Exit_SHCut                     = reg->ReadInteger("Exit_SHCut");
+  this->Power_on_SHCut                 = reg->ReadInteger("Power_on_SHCut");
+  this->Power_off_SHCut                = reg->ReadInteger("Power_off_SHCut");
+  this->Config_SHCut                   = reg->ReadInteger("Config_SHCut");
 
   reg->CloseKey();
   delete reg;
@@ -289,6 +425,15 @@ void _TSave_configuration::Read_inifile()
   this->Inifile                          = I_nf->ReadBool("General","Inifile","");
   this->Starting_program                 = I_nf->ReadBool("General","Starting_program","");
   this->Starting_windows                 = I_nf->ReadBool("General","Starting_windows","");
+  this->Open_SHCut                       = I_nf->ReadInteger("ShortCut","Open_SHCut",0);
+  this->Save_SHCut                       = I_nf->ReadInteger("ShortCut","Save_SHCut",0);
+  this->Save_as_SHCut                    = I_nf->ReadInteger("ShortCut","Save_as_SHCut",0);
+  this->Fast_printing_SHCut              = I_nf->ReadInteger("ShortCut","Fast_printing_SHCut",0);
+  this->Preview_SHCut                    = I_nf->ReadInteger("ShortCut","Preview_SHCut",0);
+  this->Exit_SHCut                       = I_nf->ReadInteger("ShortCut","Exit_SHCut",0);
+  this->Power_on_SHCut                   = I_nf->ReadInteger("ShortCut","Power_on_SHCut",0);
+  this->Power_off_SHCut                  = I_nf->ReadInteger("ShortCut","Power_off_SHCut",0);
+  this->Config_SHCut                     = I_nf->ReadInteger("ShortCut","Config_SHCut",0);
 
    I_nf->Free();
    //delete I_nf;
@@ -339,6 +484,15 @@ void _TSave_configuration::Save_registry()
   reg->WriteBool("Inifile", this->Inifile);
   reg->WriteBool("Starting_program", this->Starting_program);
   reg->WriteBool("Starting_windows", this->Starting_windows);
+  reg->WriteInteger("Open_SHCut",this->Open_SHCut);
+  reg->WriteInteger("Save_SHCut",this->Save_SHCut);
+  reg->WriteInteger("Save_as_SHCut",this->Save_as_SHCut);
+  reg->WriteInteger("Fast_printing_SHCut",this->Fast_printing_SHCut);
+  reg->WriteInteger("Preview_SHCut",this->Preview_SHCut);
+  reg->WriteInteger("Exit_SHCut",this->Exit_SHCut);
+  reg->WriteInteger("Power_on_SHCut",this->Power_on_SHCut);
+  reg->WriteInteger("Power_off_SHCut",this->Power_off_SHCut);
+  reg->WriteInteger("Config_SHCut",this->Config_SHCut);
 
   reg->CloseKey();
   delete reg;
@@ -366,6 +520,15 @@ TIniFile* I_nf = new TIniFile(ExtractFilePath(Application->ExeName)+"date\\confi
  I_nf->WriteBool("General","Inifile",this->Inifile);
  I_nf->WriteBool("General","Starting_program",this->Starting_program);
  I_nf->WriteBool("General","Starting_windows",this->Starting_windows);
+ I_nf->WriteInteger("ShortCut","Open_SHCut",this->Open_SHCut);
+ I_nf->WriteInteger("ShortCut","Save_SHCut",this->Save_SHCut);
+ I_nf->WriteInteger("ShortCut","Save_as_SHCut",this->Save_as_SHCut);
+ I_nf->WriteInteger("ShortCut","Fast_printing_SHCut",this->Fast_printing_SHCut);
+ I_nf->WriteInteger("ShortCut","Preview_SHCut",this->Preview_SHCut);
+ I_nf->WriteInteger("ShortCut","Exit_SHCut",this->Exit_SHCut);
+ I_nf->WriteInteger("ShortCut","Power_on_SHCut",this->Power_on_SHCut);
+ I_nf->WriteInteger("ShortCut","Power_off_SHCut",this->Power_off_SHCut);
+ I_nf->WriteInteger("ShortCut","Config_SHCut",this->Config_SHCut);
  I_nf->Free();
 };
 
@@ -553,6 +716,7 @@ void _TSave_configuration::default_init()
 	this->Inifile                          = true;
 	this->Starting_program                 = true;
 	this->Starting_windows                 = true;
+	this->initilisation();
 };
 
 //------------------------------------------------------------------------------
@@ -580,6 +744,15 @@ void _TSave_configuration::Clear_dates()
 				reg->DeleteValue("Inifile");
 				reg->DeleteValue("Starting_program");
 				reg->DeleteValue("Starting_windows");
+				reg->DeleteValue("Open_SHCut");
+				reg->DeleteValue("Save_SHCut");
+				reg->DeleteValue("Save_as_SHCut");
+				reg->DeleteValue("Fast_printing_SHCut");
+				reg->DeleteValue("Preview_SHCut");
+				reg->DeleteValue("Exit_SHCut");
+				reg->DeleteValue("Power_on_SHCut");
+				reg->DeleteValue("Power_off_SHCut");
+				reg->DeleteValue("Config_SHCut");
 				reg->DeleteValue("(По умолчанию)");
 				reg->DeleteKey("\\Software\\Robik\\Smart_printing");
 				reg->CloseKey();
@@ -691,4 +864,23 @@ AnsiString& _TSave_configuration::Create_inifile_path(AnsiString& path)
    return path;
 };
 
+//------------------------------------------------------------------------------
+void _TSave_configuration::initilisation()
+{
+  this->flag_source_save      = true;
+  this->flag_Registry         = false;
+  this->flag_program_files    = false;
+  this->flag_Inifile          = false;
+
+  this->Open_SHCut            = 0;
+  this->Save_SHCut            = 0;
+  this->Save_as_SHCut         = 0;
+  this->Fast_printing_SHCut   = 0;
+  this->Preview_SHCut         = 0;
+  this->Exit_SHCut            = 0;
+  this->Power_on_SHCut        = 0;
+  this->Power_off_SHCut       = 0;
+  this->Config_SHCut          = 0;
+};
+//------------------------------------------------------------------------------
 //-------------------------------END-----------------------------------------------

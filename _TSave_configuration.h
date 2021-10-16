@@ -21,6 +21,17 @@ public:
 	   void set_Inifile(const bool& value);
 	   void set_Starting_program(const bool& value);
 	   void set_Starting_windows(const bool& value);
+//-------------Short_CUT-BEGIN()-SET---------------------------------------------
+	   void set_Open_SHCut(const int& value);
+	   void set_Save_SHCut(const int& value);
+	   void set_Save_as_SHCut(const int& value);
+	   void set_Fast_printing_SHCut(const int& value);
+	   void set_Preview_SHCut(const int& value);
+	   void set_Exit_SHCut(const int& value);
+	   void set_Power_on_SHCut(const int& value);
+	   void set_Power_off_SHCut(const int& value);
+	   void set_Config_SHCut(const int& value);
+//-------------Short_CUT-END()--SET----------------------------------------------
 
 	   bool step_to_run_program();
 
@@ -36,6 +47,17 @@ public:
 	   bool            get_Inifile();
 	   bool            get_Starting_program();
 	   bool            get_Starting_windows();
+//-------------Short_CUT-BEGIN()------------------------------------------------
+	   int             get_Open_SHCut();
+	   int             get_Save_SHCut();
+	   int             get_Save_as_SHCut();
+	   int             get_Fast_printing_SHCut();
+	   int             get_Preview_SHCut();
+	   int             get_Exit_SHCut();
+	   int             get_Power_on_SHCut();
+	   int             get_Power_off_SHCut();
+	   int             get_Config_SHCut();
+//-------------Short_CUT-END()--------------------------------------------------
 
 	   void            Save_shell(const bool& value);
 	   void            Save_shell();
@@ -57,6 +79,17 @@ private:
 	   bool            Inifile; //Tag 7
 	   bool            Starting_program; //Tag 8
 	   bool            Starting_windows; //Tag 9
+//-------------Short_CUT-BEGIN()--Varible---------------------------------------
+	   int             Open_SHCut;
+	   int             Save_SHCut;
+	   int             Save_as_SHCut;
+	   int             Fast_printing_SHCut;
+	   int             Preview_SHCut;
+	   int             Exit_SHCut;
+	   int             Power_on_SHCut;
+	   int             Power_off_SHCut;
+	   int             Config_SHCut;
+//-------------Short_CUT-END()--Varible---------------------------------------
 
 	   bool            flag_Registry;
 	   bool            flag_program_files;
@@ -84,5 +117,7 @@ private:
 
 	   bool            step_one(); //Find the source of the save
 	   AnsiString&     Create_inifile_path(AnsiString& path);
+
+	   void            initilisation();
 
 };

@@ -259,6 +259,16 @@
         TabOrder = 11
         OnClick = Automatics_run_CHClick
       end
+      object Config_SHCut: TButton
+        Left = 192
+        Top = 280
+        Width = 252
+        Height = 38
+        Cursor = crHandPoint
+        Caption = #1053#1072#1089#1090#1088#1086#1080#1090#1100' '#1075#1086#1088#1103#1095#1080#1077' '#1082#1083#1072#1074#1080#1096#1072
+        TabOrder = 12
+        OnClick = Config_SHCutClick
+      end
     end
   end
 end

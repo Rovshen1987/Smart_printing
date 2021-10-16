@@ -433,6 +433,7 @@ object General_F: TGeneral_F
       end
       object About_N: TMenuItem
         Caption = #1054' '#1087#1088#1075#1088#1072#1084#1084#1077
+        OnClick = About_NClick
       end
     end
   end

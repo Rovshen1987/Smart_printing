@@ -6,6 +6,7 @@
 
 #include "Smart_printing.h"
 #include "Preview.h"
+#include "About.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -75,6 +76,7 @@ void TGeneral_F::initialisation()
    this->good_print_informatin       = 0;
    this->error_print_information     = 0;
    this->Report_E->Text = "Нет данных.";
+   this->update_ShortCUT();
 };
 
 //------------------------------------------------------------------------------
@@ -97,6 +99,7 @@ void TGeneral_F::update()
   this->set_remaining_time(std::string((_Robik_config->get_Regularity_of_printing_by_time()).c_str()));
   this->Timer_back->set(this->remaining_orginal.remaining_time);
   this->Timer_back_Trun();
+  this->update_ShortCUT();
 };
 
 //------------------------------------------------------------------------------
@@ -135,12 +138,7 @@ this->destroy_();
 void __fastcall TGeneral_F::Run_program_timerTimer(TObject *Sender)
 {
 this->StatusBar->Panels->Items[0]->Text = this->_Statusbar_Item_0 + (this->run_program_Time->get_time()).c_str();
-
-//	if (this->get_remaining_time_bool() == false)
-//	{
-//	 return;
-//	};
-}
+};
 
 //---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Config_NClick(TObject *Sender)
@@ -253,29 +251,7 @@ void TGeneral_F::apple_general_program()
  _Robik_config->set_Starting_windows(Configuration_F->Starting_windows_CH->Checked);
 };
 
-////------------------------------------------------------------------------------
-//void TGeneral_F::initialisation_to_flag()
-//{
-//this->flag_Url_CB             = true;
-//this->flag_Choose_printer_CB  = true;
-//this->flag_Choose_printer_BB  = true;
-//this->flag_Save_BB            = true;
-//this->flag_Power_off_TOP      = true;
-//this->flag_Power_on_TOP       = true;
-//this->flag_Print_TOP          = true;
-//this->flag_Fast_printing_N    = true;
-//this->flag_Exit_N             = true;
-//this->flag_Power_on_N         = true;
-//this->flag_Power_off_N        = true;
-//
-//this->flag_Internet           = true;
-//this->flag_Host               = true;
-//this->flag_program_run        = true;
-//};
-//------------------------------------------------------------------------------
-
-
-
+//---------------------------------------------------------------------------
  void TGeneral_F::check_connect(const AnsiString& hostname, const int& Tag)
  {
 	  try
@@ -345,11 +321,7 @@ void TGeneral_F::apple_general_program()
 
  };
 
-
-
-
-
-
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Preview_TOPClick(TObject *Sender)
 {
 check_connect(Url_CB->Text,Site_status_O->Tag);
@@ -366,15 +338,13 @@ Web_browser_F->set_flag_preview(true);
 Web_browser_F->set_flag_print(false);
 Web_browser_F->screen_photo();
 
-}
-//---------------------------------------------------------------------------
+};
 
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::FormCreate(TObject *Sender)
 {
    this->initialisation();
 }
-//---------------------------------------------------------------------------
-
 
 //---------------------------------------------------------------------------
 void TGeneral_F::check_label(TLabel* object, const bool& value)
@@ -392,6 +362,7 @@ void TGeneral_F::check_label(TLabel* object, const bool& value)
 
 };
 
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Check_BClick(TObject *Sender)
 {
 
@@ -401,7 +372,8 @@ void __fastcall TGeneral_F::Check_BClick(TObject *Sender)
 
 
 
-}
+};
+
 //---------------------------------------------------------------------------
  void TGeneral_F::update_printer()
  {
@@ -492,15 +464,12 @@ print_r();
 }
 
 //---------------------------------------------------------------------------
-
 void __fastcall TGeneral_F::Url_CBExit(TObject *Sender)
 {
 check_connect(Url_CB->Text,Site_status_O->Tag);
-}
+};
+
 //---------------------------------------------------------------------------
-
-
-
 void TGeneral_F::run_enabled()
 {
 this->general_visable_general->run_e(Url_CB,this->general_visable_general->get_Url_CB());
@@ -527,6 +496,7 @@ this->general_visable_general->run_e(Power_off_N,this->general_visable_general->
 this->general_visable_general->run_e(Config_N,this->general_visable_general->get_Config_N());
 };
 
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Url_CBChange(TObject *Sender)
 {
 	if (_Robik_config->get_Url() != Url_CB->Text)
@@ -590,7 +560,6 @@ bool TGeneral_F::get_remaining_time_bool()
 };
 
 //------------------------------------------------------------------------------
-
 void TGeneral_F::Timer_back_Trun()
 {
 	if ((get_remaining_time_bool() == true)&& (this->_Robik_config->get_Automatics_run()))
@@ -603,6 +572,8 @@ void TGeneral_F::Timer_back_Trun()
 	};
 
 };
+
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Timer_back_TTimer(TObject *Sender)
 {
  if (this->remaining_orginal.pause_bool == true)
@@ -673,9 +644,9 @@ void __fastcall TGeneral_F::Timer_back_TTimer(TObject *Sender)
 
 
 
-}
-//---------------------------------------------------------------------------
+};
 
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Power_off_TOPClick(TObject *Sender)
 {
   this->general_visable_general->Accept_default();
@@ -684,10 +655,9 @@ void __fastcall TGeneral_F::Power_off_TOPClick(TObject *Sender)
   this->update(false);
    this->StatusBar->Panels->Items[2]->Text = "Автоматическая работа остановлено...";
    Timer_back_T->Enabled = false;
-}
+};
+
 //---------------------------------------------------------------------------
-
-
 void __fastcall TGeneral_F::Open_TOPClick(TObject *Sender)
 {
 	if (Open_IniFile->Execute())
@@ -696,9 +666,9 @@ void __fastcall TGeneral_F::Open_TOPClick(TObject *Sender)
 	 this->_Robik_config->Open_IniFile(Open_IniFile->FileName);
 	 this->update();
 	};
-}
-//---------------------------------------------------------------------------
+};
 
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Open_NClick(TObject *Sender)
 {
 	if (Open_IniFile->Execute())
@@ -707,9 +677,9 @@ void __fastcall TGeneral_F::Open_NClick(TObject *Sender)
 	 this->_Robik_config->Open_IniFile(Open_IniFile->FileName);
 	 this->update();
 	};
-}
-//---------------------------------------------------------------------------
+};
 
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Power_on_NClick(TObject *Sender)
 {
  this->general_visable_general->Accept_power_on();
@@ -717,9 +687,9 @@ void __fastcall TGeneral_F::Power_on_NClick(TObject *Sender)
  this->update(true);
  this->Timer_back_Trun();
  Timer_back_T->Enabled = true;
-}
-//---------------------------------------------------------------------------
+};
 
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Power_off_NClick(TObject *Sender)
 {
   this->general_visable_general->Accept_default();
@@ -728,9 +698,9 @@ void __fastcall TGeneral_F::Power_off_NClick(TObject *Sender)
   this->update(false);
    this->StatusBar->Panels->Items[2]->Text = "Автоматическая работа остановлено...";
    Timer_back_T->Enabled = false;
-}
-//---------------------------------------------------------------------------
+};
 
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Fast_printing_NClick(TObject *Sender)
 {
 check_connect(Url_CB->Text,Site_status_O->Tag);
@@ -743,8 +713,8 @@ if (Site_status_O->Caption != AnsiString("Есть!"))
 
 print_r();
 }
-//---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Save_as_NClick(TObject *Sender)
 {
 
@@ -760,7 +730,7 @@ void TGeneral_F::show_good_print_inforamtion()
   this->StatusBar->Panels->Items[1]->Text = _Statusbar_Item_1+std::to_string(this->good_print_informatin).c_str();
 };
 
-
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Choose_printer_CBChange(TObject *Sender)
 {
 	if (_Robik_config->get_Choose_printer() != Choose_printer_CB->Text)
@@ -781,8 +751,8 @@ void __fastcall TGeneral_F::Choose_printer_CBChange(TObject *Sender)
 
    this->run_enabled();
 }
-//---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
 AnsiString TGeneral_F::get_time()
 {
 time_t seconds = time(NULL);
@@ -836,6 +806,8 @@ std::string temp = std::to_string(day)+"."+std::to_string(month)+"."+std::to_str
 return AnsiString(temp.c_str());
 
 };
+
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Save_NClick(TObject *Sender)
 {
 	_Robik_config->set_Url(this->Url_CB->Text);
@@ -846,5 +818,25 @@ void __fastcall TGeneral_F::Save_NClick(TObject *Sender)
 	this->general_visable_general->set_Save_N(false);
     this->run_enabled();
 };
+
+//---------------------------------------------------------------------------
+void TGeneral_F::update_ShortCUT()
+{
+ this->Open_N->ShortCut                 = General_F->_Robik_config->get_Open_SHCut();
+ this->Save_N->ShortCut                 = General_F->_Robik_config->get_Save_SHCut();
+ this->Save_as_N->ShortCut              = General_F->_Robik_config->get_Save_as_SHCut();
+ this->Fast_printing_N->ShortCut        = General_F->_Robik_config->get_Fast_printing_SHCut();
+ this->Preview_N->ShortCut              = General_F->_Robik_config->get_Preview_SHCut();
+ this->Exit_N->ShortCut                 = General_F->_Robik_config->get_Exit_SHCut();
+ this->Power_on_N->ShortCut             = General_F->_Robik_config->get_Power_on_SHCut();
+ this->Power_off_N->ShortCut            = General_F->_Robik_config->get_Power_off_SHCut();
+ this->Config_N->ShortCut               = General_F->_Robik_config->get_Config_SHCut();
+};
+
+//---------------------------------------------------------------------------
+void __fastcall TGeneral_F::About_NClick(TObject *Sender)
+{
+About_F->ShowModal();
+}
 //---------------------------------------------------------------------------
 
