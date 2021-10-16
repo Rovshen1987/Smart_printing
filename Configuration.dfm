@@ -33,7 +33,6 @@
       Height = 673
       Caption = #1054#1089#1085#1086#1074#1085#1099#1077' '#1085#1072#1089#1090#1088#1086#1081#1082#1080
       TabOrder = 0
-      OnClick = General_setup_GBClick
       object Bevel1: TBevel
         Left = 16
         Top = 431
@@ -239,9 +238,9 @@
         OnClick = Starting_program_CHClick
       end
       object Starting_windows_CH: TCheckBox
-        Tag = 8
+        Tag = 9
         Left = 24
-        Top = 521
+        Top = 520
         Width = 428
         Height = 33
         Cursor = crHandPoint

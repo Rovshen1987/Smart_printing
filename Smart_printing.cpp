@@ -19,6 +19,15 @@ __fastcall TGeneral_F::TGeneral_F(TComponent* Owner)
 //---------------------------------------------------------------------------
 void TGeneral_F::initialisation()
 {
+//  ShowMessage(ExtractFilePath(Application->ExeName));
+
+  this->_Robik_config = std::make_unique<_TSave_configuration>();
+
+  if (this->_Robik_config->step_to_run_program() == true)
+  {
+  apple_general_config();
+  }
+
   ImageList_BB->GetBitmap(0,Save_BB->Glyph);
   ImageList_BB->GetBitmap(0,Choose_printer_BB->Glyph);
   update_printer();
@@ -28,12 +37,7 @@ void TGeneral_F::initialisation()
   this->Run_program_timer->Enabled = true;
 
 
-  this->_Robik_config = std::make_unique<_TSave_configuration>();
 
-  if (this->_Robik_config->step_to_run_program() == true)
-  {
-  apple_general_config();
-  }
 
    this->set_remaining_time(std::string((_Robik_config->get_Regularity_of_printing_by_time()).c_str()));
 
@@ -159,7 +163,24 @@ void __fastcall TGeneral_F::Choose_printer_BBClick(TObject *Sender)
 
  _Robik_config->set_Choose_printer(this->Choose_printer_CB->Text);
  _Robik_config->Save_shell();
+this->general_visable_general->set_Choose_printer_BB(false);
 
+	if (_Robik_config->get_Url() != Url_CB->Text)
+	{
+	  this->general_visable_general->set_Save_BB(true);
+	  this->general_visable_general->set_Save_N(true);
+	}
+	else
+	{
+	  this->general_visable_general->set_Save_BB(false);
+
+	  if ((this->general_visable_general->get_Save_BB() == false ) &&
+		   (this->general_visable_general->get_Choose_printer_BB() == false))
+	  {
+		this->general_visable_general->set_Save_N(false);
+	  }
+	};
+  this->run_enabled();
 }
 
 //---------------------------------------------------------------------------
@@ -174,6 +195,25 @@ void __fastcall TGeneral_F::Save_BBClick(TObject *Sender)
 {
  _Robik_config->set_Url(this->Url_CB->Text);
  _Robik_config->Save_shell();
+ this->general_visable_general->set_Save_BB(false);
+
+	if (_Robik_config->get_Choose_printer() != Choose_printer_CB->Text)
+	{
+	  this->general_visable_general->set_Choose_printer_BB(true);
+	  this->general_visable_general->set_Save_N(true);
+	}
+	else
+	{
+	  this->general_visable_general->set_Choose_printer_BB(false);
+
+	  if ((this->general_visable_general->get_Save_BB() == false ) &&
+		   (this->general_visable_general->get_Choose_printer_BB() == false))
+	  {
+		this->general_visable_general->set_Save_N(false);
+	  }
+	};
+
+   this->run_enabled();
 }
 
 //---------------------------------------------------------------------------
@@ -358,6 +398,7 @@ void __fastcall TGeneral_F::Check_BClick(TObject *Sender)
   check_connect(default_host, Internet_status_O->Tag);
 
   check_connect(Url_CB->Text,Site_status_O->Tag);
+
 
 
 }
@@ -549,20 +590,6 @@ bool TGeneral_F::get_remaining_time_bool()
 };
 
 //------------------------------------------------------------------------------
-void __fastcall TGeneral_F::Help_TOPClick(TObject *Sender)
-{
-//this->remaining_time = "00:00:00";
-//std::string r = "0:0:0";
-	if (get_remaining_time_bool())
-	{
-	 ShowMessage("true");
-	}
-	else
-	{
-	 ShowMessage("false");
-	}
-}
-//---------------------------------------------------------------------------
 
 void TGeneral_F::Timer_back_Trun()
 {
@@ -809,3 +836,15 @@ std::string temp = std::to_string(day)+"."+std::to_string(month)+"."+std::to_str
 return AnsiString(temp.c_str());
 
 };
+void __fastcall TGeneral_F::Save_NClick(TObject *Sender)
+{
+	_Robik_config->set_Url(this->Url_CB->Text);
+	_Robik_config->set_Choose_printer(this->Choose_printer_CB->Text);
+	_Robik_config->Save_shell();
+	this->general_visable_general->set_Save_BB(false);
+	this->general_visable_general->set_Choose_printer_BB(false);
+	this->general_visable_general->set_Save_N(false);
+    this->run_enabled();
+};
+//---------------------------------------------------------------------------
+

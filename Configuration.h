@@ -54,7 +54,6 @@ __published:	// IDE-managed Components
 	void __fastcall Starting_windows_CHClick(TObject *Sender);
 	void __fastcall Save_BClick(TObject *Sender);
 	void __fastcall Automatics_run_CHClick(TObject *Sender);
-	void __fastcall General_setup_GBClick(TObject *Sender);
 
 
 

@@ -351,7 +351,7 @@ void _TSave_configuration::Save_inifile()
 
 	if (r.check_file(r.get_path()+"date\\") == false)
 	{
-	std::string temp = "date\\";
+	 std::string temp = "date\\";
 	 r.create_folder_in_prog(temp,true);
 	}
 
@@ -505,8 +505,7 @@ bool _TSave_configuration::Check_Ini()
 bool _TSave_configuration::Check_Ini_file()
 {
 	bool result = false;
-	direct_r p;
-		 if (p.check_file(std::string("date\\config.ini")))
+		 if (FileExists(ExtractFilePath(Application->ExeName)+"date\\config.ini") == true)
 		 {
 		  result = true;
 		 }
@@ -526,7 +525,8 @@ bool result = false;
    std::string files = "date\\url.txt";
 
 
-		if (p.check_file(files) == true)
+//		if (p.check_file(files) == true)
+		if (FileExists(ExtractFilePath(Application->ExeName)+"date\\url.txt") == true)
 		{
 		 return result = true;
 		}
@@ -614,8 +614,7 @@ bool _TSave_configuration::step_one()// Find the source of the save
 {
  bool result = false;
 
- direct_r r;
- if (r.check_file(std::string("date\\config.ini")) == true)
+if (FileExists(ExtractFilePath(Application->ExeName)+AnsiString("date\\config.ini")) == true)
  {
 
 
@@ -623,7 +622,7 @@ bool _TSave_configuration::step_one()// Find the source of the save
    try
    {
 
-	 TIniFile* I_nf = new TIniFile(ExtractFilePath(Application->ExeName)+"date\\setup.ini");
+	 TIniFile* I_nf = new TIniFile(ExtractFilePath(Application->ExeName)+"date\\config.ini");
 	 tmp = I_nf->ReadBool("General","Inifile","");
 		if (tmp == true)
 		{
@@ -663,7 +662,7 @@ bool _TSave_configuration::step_one()// Find the source of the save
 		}
 		else
 		{
-		 if (r.check_file(std::string("date\\config.ini")) == true)
+		 if (FileExists(ExtractFilePath(Application->ExeName)+"date\\config.ini") == true)
 		 {
 		 this->Read_shell(false);
 		 reg->CloseKey();

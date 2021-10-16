@@ -417,6 +417,22 @@ void __fastcall TConfiguration_F::Starting_windows_CHClick(TObject *Sender)
   this->flag_Starting_windows = true;
   this->Button_enabled();
   };
+
+
+//	TRegistry *reg = new TRegistry();
+//	reg->RootKey=HKEY_CURRENT_USER;
+//	reg->OpenKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run",true);
+//	if (Starting_windows_CH->Checked == true)
+//	{
+//		reg->WriteString("Smart Printing v.1.0",Application->ExeName);
+//		reg->CloseKey();
+//	}
+//	else
+//	{
+//		reg->DeleteValue("Smart Printing v.1.0");
+//
+//	}
+//		reg->CloseKey();
 }
 //---------------------------------------------------------------------------
 
@@ -470,16 +486,4 @@ General_F->_Robik_config->set_Starting_windows(this->Starting_windows_CH->Checke
 //---------------------------------------------------------------------------
 
 
-void __fastcall TConfiguration_F::General_setup_GBClick(TObject *Sender)
-{
-if (General_F->_Robik_config->get_Automatics_run() == true)
- {
-  ShowMessage("true");
- }
- else
- {
-  ShowMessage("false");
- }
-}
-//---------------------------------------------------------------------------
 

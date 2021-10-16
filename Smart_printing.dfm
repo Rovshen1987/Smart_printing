@@ -324,7 +324,6 @@ object General_F: TGeneral_F
         Cursor = crHandPoint
         Caption = 'Help_TOP'
         ImageIndex = 9
-        OnClick = Help_TOPClick
       end
     end
     object Check_B: TButton
@@ -349,6 +348,7 @@ object General_F: TGeneral_F
         Caption = #1054#1090#1082#1088#1099#1090#1100' '#1085#1072#1089#1090#1088#1086#1081#1082#1091
         ImageIndex = 0
         ImageName = '0'
+        ShortCut = 16463
         OnClick = Open_NClick
       end
       object N3: TMenuItem
@@ -357,10 +357,13 @@ object General_F: TGeneral_F
       object Save_N: TMenuItem
         Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
         ImageIndex = 1
+        ShortCut = 16467
+        OnClick = Save_NClick
       end
       object Save_as_N: TMenuItem
         Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1082#1072#1082' ('#1085#1072#1089#1090#1088#1086#1081#1082#1091')'
         ImageIndex = 2
+        ShortCut = 49235
         OnClick = Save_as_NClick
       end
       object N17: TMenuItem
@@ -370,6 +373,7 @@ object General_F: TGeneral_F
         Tag = 8
         Caption = #1041#1099#1089#1090#1088#1072#1103' '#1087#1077#1095#1072#1090#1100
         ImageIndex = 3
+        ShortCut = 16464
         OnClick = Fast_printing_NClick
       end
       object Preview_N: TMenuItem
@@ -398,12 +402,14 @@ object General_F: TGeneral_F
         Tag = 10
         Caption = #1042#1082#1083#1102#1095#1080#1090#1100
         ImageIndex = 6
+        ShortCut = 16466
         OnClick = Power_on_NClick
       end
       object Power_off_N: TMenuItem
         Tag = 11
         Caption = #1054#1090#1082#1083#1102#1095#1080#1090#1100
         ImageIndex = 7
+        ShortCut = 16453
         OnClick = Power_off_NClick
       end
       object N10: TMenuItem
@@ -412,6 +418,7 @@ object General_F: TGeneral_F
       object Config_N: TMenuItem
         Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072
         ImageIndex = 8
+        ShortCut = 16462
         OnClick = Config_NClick
       end
     end
@@ -431,8 +438,8 @@ object General_F: TGeneral_F
   end
   object Run_program_timer: TTimer
     OnTimer = Run_program_timerTimer
-    Left = 368
-    Top = 256
+    Left = 96
+    Top = 240
   end
   object ImageList_g: TImageList
     Height = 25

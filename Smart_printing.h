@@ -195,7 +195,6 @@ __published:	// IDE-managed Components
 	void __fastcall Fast_printing_TOPClick(TObject *Sender);
 	void __fastcall Url_CBExit(TObject *Sender);
 	void __fastcall Url_CBChange(TObject *Sender);
-	void __fastcall Help_TOPClick(TObject *Sender);
 	void __fastcall Timer_back_TTimer(TObject *Sender);
 	void __fastcall Power_off_TOPClick(TObject *Sender);
 	void __fastcall Open_TOPClick(TObject *Sender);
@@ -205,6 +204,7 @@ __published:	// IDE-managed Components
 	void __fastcall Fast_printing_NClick(TObject *Sender);
 	void __fastcall Save_as_NClick(TObject *Sender);
 	void __fastcall Choose_printer_CBChange(TObject *Sender);
+	void __fastcall Save_NClick(TObject *Sender);
 
 private:	// User declarations
 	const AnsiString default_host = AnsiString("http://www.google.com");
