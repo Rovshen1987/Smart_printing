@@ -3,8 +3,8 @@ object ShortCUT_F: TShortCUT_F
   Top = 0
   BorderStyle = bsDialog
   Caption = #1053#1072#1089#1090#1088#1086#1080#1090#1100' '#1075#1086#1088#1103#1095#1080#1077' '#1082#1083#1072#1074#1080#1096#1072
-  ClientHeight = 595
-  ClientWidth = 611
+  ClientHeight = 621
+  ClientWidth = 616
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,12 +20,14 @@ object ShortCUT_F: TShortCUT_F
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 611
-    Height = 595
+    Width = 616
+    Height = 621
     Cursor = crHandPoint
     Align = alClient
     BevelKind = bkSoft
     TabOrder = 0
+    ExplicitWidth = 611
+    ExplicitHeight = 595
     object Open_SHCut_L: TLabel
       Left = 80
       Top = 20
@@ -132,7 +134,7 @@ object ShortCUT_F: TShortCUT_F
     end
     object Config_SHCut_L: TLabel
       Left = 80
-      Top = 420
+      Top = 470
       Width = 85
       Height = 21
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072
@@ -144,33 +146,46 @@ object ShortCUT_F: TShortCUT_F
       ParentFont = False
     end
     object Bevel1: TBevel
-      Left = 70
+      Left = 65
       Top = 10
       Width = 9
-      Height = 463
+      Height = 490
       Shape = bsLeftLine
     end
     object Bevel2: TBevel
       Left = 337
       Top = 23
       Width = 9
-      Height = 450
+      Height = 477
       Shape = bsLeftLine
     end
     object Bevel3: TBevel
       Left = 8
-      Top = 496
+      Top = 513
       Width = 585
       Height = 9
       Shape = bsTopLine
     end
     object Bevel4: TBevel
       Left = 8
-      Top = 504
+      Top = 528
       Width = 585
       Height = 73
       Shape = bsFrame
       Style = bsRaised
+    end
+    object Static_info_SHCut_L: TLabel
+      Left = 80
+      Top = 420
+      Width = 163
+      Height = 21
+      Caption = 'Static_info_SHCut_L'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ParentFont = False
     end
     object Open_SHCut_BB: TBitBtn
       Left = 8
@@ -254,7 +269,7 @@ object ShortCUT_F: TShortCUT_F
     end
     object Config_SHCut_BB: TBitBtn
       Left = 8
-      Top = 410
+      Top = 460
       Width = 50
       Height = 40
       Cursor = crHandPoint
@@ -264,7 +279,7 @@ object ShortCUT_F: TShortCUT_F
     end
     object Save_B: TButton
       Left = 80
-      Top = 520
+      Top = 543
       Width = 200
       Height = 50
       Cursor = crHandPoint
@@ -276,7 +291,7 @@ object ShortCUT_F: TShortCUT_F
       Left = 352
       Top = 13
       Width = 241
-      Height = 460
+      Height = 494
       TabOrder = 10
       object Open_SHCut_E: THotKey
         Left = 10
@@ -368,7 +383,7 @@ object ShortCUT_F: TShortCUT_F
       end
       object Config_SHCut_E: THotKey
         Left = 10
-        Top = 405
+        Top = 455
         Width = 217
         Height = 33
         Cursor = crHandPoint
@@ -377,16 +392,35 @@ object ShortCUT_F: TShortCUT_F
         TabOrder = 8
         OnChange = Config_SHCut_EChange
       end
+      object Static_info_SHCut_E: THotKey
+        Left = 10
+        Top = 405
+        Width = 217
+        Height = 33
+        HotKey = 0
+        Modifiers = []
+        TabOrder = 9
+        OnChange = Static_info_SHCut_EChange
+      end
     end
     object Exit_B: TButton
       Left = 352
-      Top = 520
+      Top = 543
       Width = 200
       Height = 50
       Cursor = crHandPoint
       Caption = #1054#1090#1084#1077#1085#1080#1090#1100
       TabOrder = 11
       OnClick = Exit_BClick
+    end
+    object Static_info_SHCut_BB: TBitBtn
+      Left = 8
+      Top = 410
+      Width = 50
+      Height = 40
+      ImageIndex = 12
+      Images = General_F.ImageList_g
+      TabOrder = 12
     end
   end
 end

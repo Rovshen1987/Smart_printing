@@ -180,6 +180,12 @@
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
+        <CppCompile Include="Static_I.cpp">
+            <Form>Static_I_F</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Static_I.h</DependentOn>
+            <BuildOrder>16</BuildOrder>
+        </CppCompile>
         <CppCompile Include="time_r.cpp">
             <BuildOrder>6</BuildOrder>
         </CppCompile>
@@ -198,12 +204,13 @@
         <None Include="_TSave_configuration.h">
             <BuildOrder>4</BuildOrder>
         </None>
+        <FormResources Include="Static_I.dfm"/>
         <FormResources Include="Web_browser_r.dfm"/>
         <FormResources Include="Smart_printing.dfm"/>
         <FormResources Include="Configuration.dfm"/>
+        <FormResources Include="About.dfm"/>
         <FormResources Include="ShortCUT.dfm"/>
         <FormResources Include="Preview.dfm"/>
-        <FormResources Include="About.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

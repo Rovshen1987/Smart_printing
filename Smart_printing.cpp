@@ -7,6 +7,7 @@
 #include "Smart_printing.h"
 #include "Preview.h"
 #include "About.h"
+#include "Static_I.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -73,10 +74,13 @@ void TGeneral_F::initialisation()
   };
 
    this->run_enabled();
-   this->good_print_informatin       = 0;
-   this->error_print_information     = 0;
-   this->Report_E->Text = "Нет данных.";
+   this->good_print_information       = 0;
+   this->error_print_information      = 0;
+   this->Report_E->Text               = "Нет данных.";
    this->update_ShortCUT();
+
+   this->Smart_time_t                 = new std::time_t;
+   std::time(Smart_time_t);
 };
 
 //------------------------------------------------------------------------------
@@ -125,19 +129,17 @@ void TGeneral_F::update(const bool& value)
 };
 
 //------------------------------------------------------------------------------
-void TGeneral_F::destroy_()
-{
-
-};
 void __fastcall TGeneral_F::FormDestroy(TObject *Sender)
 {
-this->destroy_();
+ this->destroy_g();
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Run_program_timerTimer(TObject *Sender)
 {
-this->StatusBar->Panels->Items[0]->Text = this->_Statusbar_Item_0 + (this->run_program_Time->get_time()).c_str();
+AnsiString temp = (this->run_program_Time->get_time()).c_str();
+this->StatusBar->Panels->Items[0]->Text = this->_Statusbar_Item_0 + temp;
+Static_I_F->Working_hours_L_g->Caption  = temp;
 };
 
 //---------------------------------------------------------------------------
@@ -451,7 +453,7 @@ Web_browser_F->Show();
 Web_browser_F->set_flag_preview(false);
 Web_browser_F->set_flag_print(true);
 Web_browser_F->screen_photo();
-this->good_print_informatin++;
+this->good_print_information++;
 show_good_print_inforamtion();
 this->Report_E->Text = this->get_time()+" Состояние печати Good.";
 };
@@ -643,6 +645,9 @@ void __fastcall TGeneral_F::Timer_back_TTimer(TObject *Sender)
 		}
 
 
+	Static_I_F->Successful_prints_L_g->Caption  = (std::to_string(this->good_print_information)).c_str();
+	Static_I_F->Erroneous_seals_L_g->Caption    = (std::to_string(this->error_print_information)).c_str();
+	Static_I_F->Result_L_g->Caption             = (std::to_string(this->error_print_information+this->good_print_information)).c_str();
 
 };
 
@@ -727,7 +732,7 @@ void __fastcall TGeneral_F::Save_as_NClick(TObject *Sender)
 
 void TGeneral_F::show_good_print_inforamtion()
 {
-  this->StatusBar->Panels->Items[1]->Text = _Statusbar_Item_1+std::to_string(this->good_print_informatin).c_str();
+  this->StatusBar->Panels->Items[1]->Text = _Statusbar_Item_1+std::to_string(this->good_print_information).c_str();
 };
 
 //---------------------------------------------------------------------------
@@ -831,6 +836,7 @@ void TGeneral_F::update_ShortCUT()
  this->Power_on_N->ShortCut             = General_F->_Robik_config->get_Power_on_SHCut();
  this->Power_off_N->ShortCut            = General_F->_Robik_config->get_Power_off_SHCut();
  this->Config_N->ShortCut               = General_F->_Robik_config->get_Config_SHCut();
+ this->Static_info_N->ShortCut          = General_F->_Robik_config->get_Static_info_SHCut();
 };
 
 //---------------------------------------------------------------------------
@@ -840,3 +846,13 @@ About_F->ShowModal();
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TGeneral_F::Static_info_NClick(TObject *Sender)
+{
+Static_I_F->ShowModal();
+}
+
+//---------------------------------------------------------------------------
+void TGeneral_F::destroy_g()
+{
+  delete this->Smart_time_t;
+};

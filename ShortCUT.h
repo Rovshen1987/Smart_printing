@@ -25,6 +25,7 @@ struct ShortCut_struct
 	int Power_on_SHCut;
 	int Power_off_SHCut;
 	int Config_SHCut;
+	int Static_info_SHCut;
 
 	 ShortCut_struct()
 	 {
@@ -37,6 +38,7 @@ struct ShortCut_struct
 	  this->Power_on_SHCut       = 0;
 	  this->Power_off_SHCut      = 0;
 	  this->Config_SHCut         = 0;
+      this->Static_info_SHCut    = 0;
 	 }
 };
 
@@ -78,6 +80,9 @@ __published:	// IDE-managed Components
 	THotKey *Config_SHCut_E;
 	TBevel *Bevel4;
 	TButton *Exit_B;
+	TBitBtn *Static_info_SHCut_BB;
+	TLabel *Static_info_SHCut_L;
+	THotKey *Static_info_SHCut_E;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Open_SHCut_EChange(TObject *Sender);
 	void __fastcall Save_SHCut_EChange(TObject *Sender);
@@ -90,6 +95,7 @@ __published:	// IDE-managed Components
 	void __fastcall Config_SHCut_EChange(TObject *Sender);
 	void __fastcall Save_BClick(TObject *Sender);
 	void __fastcall Exit_BClick(TObject *Sender);
+	void __fastcall Static_info_SHCut_EChange(TObject *Sender);
 
 
 private:	// User declarations

@@ -420,20 +420,20 @@ void __fastcall TConfiguration_F::Starting_windows_CHClick(TObject *Sender)
   };
 
 
-//	TRegistry *reg = new TRegistry();
-//	reg->RootKey=HKEY_CURRENT_USER;
-//	reg->OpenKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run",true);
-//	if (Starting_windows_CH->Checked == true)
-//	{
-//		reg->WriteString("Smart Printing v.1.0",Application->ExeName);
-//		reg->CloseKey();
-//	}
-//	else
-//	{
-//		reg->DeleteValue("Smart Printing v.1.0");
-//
-//	}
-//		reg->CloseKey();
+	TRegistry *reg = new TRegistry();
+	reg->RootKey=HKEY_CURRENT_USER;
+	reg->OpenKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run",true);
+	if (Starting_windows_CH->Checked == true)
+	{
+		reg->WriteString("Smart Printing v.1.0",Application->ExeName);
+		reg->CloseKey();
+	}
+	else
+	{
+		reg->DeleteValue("Smart Printing v.1.0");
+
+	}
+		reg->CloseKey();
 }
 //---------------------------------------------------------------------------
 

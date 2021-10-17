@@ -26,7 +26,7 @@ void TShortCUT_F::initilisation()
  General_F->ImageList_g->GetBitmap(6,Power_on_SHCut_BB->Glyph);
  General_F->ImageList_g->GetBitmap(7,Power_off_SHCut_BB->Glyph);
  General_F->ImageList_g->GetBitmap(8,Config_SHCut_BB->Glyph);
-
+ General_F->ImageList_g->GetBitmap(12,Static_info_SHCut_BB->Glyph);
  this->config_to_date();
  this->date_to_program();
  this->Save_B->Enabled = false;
@@ -47,6 +47,7 @@ void TShortCUT_F::config_to_date()
  this->base.Power_on_SHCut             = General_F->_Robik_config->get_Power_on_SHCut();
  this->base.Power_off_SHCut            = General_F->_Robik_config->get_Power_off_SHCut();
  this->base.Config_SHCut               = General_F->_Robik_config->get_Config_SHCut();
+ this->base.Static_info_SHCut          = General_F->_Robik_config->get_Static_info_SHCut();
 };
 
 //---------------------------------------------------------------------------
@@ -61,6 +62,7 @@ void TShortCUT_F::date_to_config()
  General_F->_Robik_config->set_Power_on_SHCut(this->base.Power_on_SHCut);
  General_F->_Robik_config->set_Power_off_SHCut(this->base.Power_off_SHCut);
  General_F->_Robik_config->set_Config_SHCut(this->base.Config_SHCut);
+ General_F->_Robik_config->set_Static_info_SHCut(this->base.Static_info_SHCut);
  General_F->_Robik_config->Save_shell();
  General_F->update_ShortCUT();
 };
@@ -77,6 +79,7 @@ void TShortCUT_F::program_to_date()
  this->base.Power_on_SHCut             = this->Power_on_SHCut_E->HotKey;
  this->base.Power_off_SHCut            = this->Power_off_SHCut_E->HotKey;
  this->base.Config_SHCut               = this->Config_SHCut_E->HotKey;
+ this->base.Static_info_SHCut          = this->Static_info_SHCut_E->HotKey;
 };
 
 //---------------------------------------------------------------------------
@@ -91,6 +94,7 @@ void TShortCUT_F::date_to_program()
  this->Power_on_SHCut_E->HotKey        = this->base.Power_on_SHCut;
  this->Power_off_SHCut_E->HotKey       = this->base.Power_off_SHCut;
  this->Config_SHCut_E->HotKey          = this->base.Config_SHCut;
+ this->Static_info_SHCut_E->HotKey     = this->base.Static_info_SHCut;
 };
 
 //---------------------------------------------------------------------------
@@ -124,6 +128,7 @@ bool TShortCUT_F::check_equality()
   vec.push_back(this->Power_on_SHCut_E->HotKey);
   vec.push_back(this->Power_off_SHCut_E->HotKey);
   vec.push_back(this->Config_SHCut_E->HotKey);
+  vec.push_back(this->Static_info_SHCut_E->HotKey);
 
   for (int i = 0; i < vec.size(); i++)
   {
@@ -210,6 +215,12 @@ void __fastcall TShortCUT_F::Save_BClick(TObject *Sender)
 void __fastcall TShortCUT_F::Exit_BClick(TObject *Sender)
 {
  this->Exit();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TShortCUT_F::Static_info_SHCut_EChange(TObject *Sender)
+{
+this->Save_B->Enabled = true;
 }
 //---------------------------------------------------------------------------
 

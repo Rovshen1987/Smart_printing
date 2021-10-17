@@ -39,6 +39,7 @@
 #include <fstream>
 #include <IdSSLOpenSSL.hpp>
 #include "Preview.h"
+#include <ctime>
 
 struct remaining
 {
@@ -180,6 +181,8 @@ __published:	// IDE-managed Components
 	TTimer *Timer_back_T;
 	TOpenDialog *Open_IniFile;
 	TSaveDialog *Save_AS_IniFile;
+	TMenuItem *Static_info_N;
+	TMenuItem *N2;
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall Run_program_timerTimer(TObject *Sender);
 	void __fastcall Config_NClick(TObject *Sender);
@@ -206,6 +209,7 @@ __published:	// IDE-managed Components
 	void __fastcall Choose_printer_CBChange(TObject *Sender);
 	void __fastcall Save_NClick(TObject *Sender);
 	void __fastcall About_NClick(TObject *Sender);
+	void __fastcall Static_info_NClick(TObject *Sender);
 
 private:	// User declarations
 	const AnsiString default_host = AnsiString("http://www.google.com");
@@ -213,7 +217,9 @@ private:	// User declarations
 	std::unique_ptr<time_r>  run_program_Time;
 	std::unique_ptr<time_r>  Timer_back;
 
-	int good_print_informatin;
+
+
+	int good_print_information;
 	int error_print_information;
 //	int loop_print_time;
 
@@ -261,10 +267,11 @@ const AnsiString _Statusbar_Item_2 = "До отправки в печать осталось ";
     AnsiString get_time();
 
 public:		// User declarations
+    std::time_t*    Smart_time_t;
 	bool get_remaining_time_bool();
 	std::unique_ptr<_TSave_configuration> _Robik_config;
 	void initialisation();
-    void destroy_();
+	void destroy_g();
 	__fastcall TGeneral_F(TComponent* Owner);
 
 	void update();

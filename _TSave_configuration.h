@@ -31,6 +31,7 @@ public:
 	   void set_Power_on_SHCut(const int& value);
 	   void set_Power_off_SHCut(const int& value);
 	   void set_Config_SHCut(const int& value);
+	   void set_Static_info_SHCut(const int& value);
 //-------------Short_CUT-END()--SET----------------------------------------------
 
 	   bool step_to_run_program();
@@ -57,6 +58,7 @@ public:
 	   int             get_Power_on_SHCut();
 	   int             get_Power_off_SHCut();
 	   int             get_Config_SHCut();
+	   int             get_Static_info_SHCut();
 //-------------Short_CUT-END()--------------------------------------------------
 
 	   void            Save_shell(const bool& value);
@@ -89,6 +91,7 @@ private:
 	   int             Power_on_SHCut;
 	   int             Power_off_SHCut;
 	   int             Config_SHCut;
+	   int             Static_info_SHCut;
 //-------------Short_CUT-END()--Varible---------------------------------------
 
 	   bool            flag_Registry;

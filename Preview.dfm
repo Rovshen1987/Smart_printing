@@ -23,7 +23,7 @@ object Preview_F: TPreview_F
     EachReportInTab = True
     OutlineVisible = False
     OutlineWidth = 120
-    ThumbnailVisible = True
+    ThumbnailVisible = False
     FindFmVisible = False
     UseReportHints = True
     OutlineTreeSortType = dtsUnsorted
@@ -41,7 +41,7 @@ object Preview_F: TPreview_F
     PrintOptions.PrintOnSheet = 0
     PrintOptions.ShowDialog = False
     ReportOptions.CreateDate = 44475.964805590300000000
-    ReportOptions.LastChange = 44476.775879351900000000
+    ReportOptions.LastChange = 44486.507022025460000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
@@ -69,9 +69,9 @@ object Preview_F: TPreview_F
       object Picture1: TfrxPictureView
         AllowVectorExport = True
         Left = 30.236240000000000000
-        Top = 64.252010000000000000
-        Width = 570.709030000000000000
-        Height = 1802.835810000000000000
+        Top = 30.236240000000000000
+        Width = 574.488560000000000000
+        Height = 2010.709960000000000000
         AutoSize = True
         Frame.Typ = []
         FileLink = '[ExtractFilePath(Application.Exename)]date\temp.bmp'

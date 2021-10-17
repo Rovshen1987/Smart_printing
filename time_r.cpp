@@ -58,7 +58,7 @@ void time_r::set_forward(bool&& forward_or_back)
 
  if ((this->visable_hour == true) && (this->visable_minut == true) && (this->visable_second == true)&&(this->Paralysis == false))
  {
- result = std::to_string(this->hour)+":"+create_null_text(this->minut)+
+ result = create_null_text(this->hour)+":"+create_null_text(this->minut)+
 		":"+create_null_text(this->second);
  return result;
  };

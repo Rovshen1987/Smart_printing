@@ -128,6 +128,12 @@ void _TSave_configuration::set_Config_SHCut(const int& value)
 };
 
 //------------------------------------------------------------------------------
+void _TSave_configuration::set_Static_info_SHCut(const int& value)
+{
+  this->Static_info_SHCut = value;
+};
+
+//------------------------------------------------------------------------------
 //-------------Short_CUT-END()--SET----------------------------------------------
 
 //------------------------------------------------------------------------------
@@ -246,6 +252,12 @@ int _TSave_configuration::get_Config_SHCut()
 };
 
 //------------------------------------------------------------------------------
+int _TSave_configuration::get_Static_info_SHCut()
+{
+   return this->Static_info_SHCut;
+};
+
+//------------------------------------------------------------------------------
 //-------------Short_CUT-END()--------------------------------------------------
 //------------------------------------------------------------------------------
 bool _TSave_configuration::step_to_run_program()
@@ -302,6 +314,7 @@ try
   this->Power_on_SHCut                   = I_nf->ReadInteger("ShortCut","Power_on_SHCut",0);
   this->Power_off_SHCut                  = I_nf->ReadInteger("ShortCut","Power_off_SHCut",0);
   this->Config_SHCut                     = I_nf->ReadInteger("ShortCut","Config_SHCut",0);
+  this->Static_info_SHCut                = I_nf->ReadInteger("ShortCut","Static_info_SHCut",0);
   I_nf->Free();
   this->Save_inifile();
  }
@@ -336,6 +349,7 @@ void _TSave_configuration::Save_AS_IniFile(const AnsiString& FileName)
  I_nf->WriteInteger("ShortCut","Power_on_SHCut",this->Power_on_SHCut);
  I_nf->WriteInteger("ShortCut","Power_off_SHCut",this->Power_off_SHCut);
  I_nf->WriteInteger("ShortCut","Config_SHCut",this->Config_SHCut);
+ I_nf->WriteInteger("ShortCut","Static_info_SHCut",this->Static_info_SHCut);
  I_nf->Free();
 };
 
@@ -399,6 +413,7 @@ void _TSave_configuration::Read_resgistry()
   this->Power_on_SHCut                 = reg->ReadInteger("Power_on_SHCut");
   this->Power_off_SHCut                = reg->ReadInteger("Power_off_SHCut");
   this->Config_SHCut                   = reg->ReadInteger("Config_SHCut");
+  this->Static_info_SHCut              = reg->ReadInteger("Static_info_SHCut");
 
   reg->CloseKey();
   delete reg;
@@ -434,6 +449,7 @@ void _TSave_configuration::Read_inifile()
   this->Power_on_SHCut                   = I_nf->ReadInteger("ShortCut","Power_on_SHCut",0);
   this->Power_off_SHCut                  = I_nf->ReadInteger("ShortCut","Power_off_SHCut",0);
   this->Config_SHCut                     = I_nf->ReadInteger("ShortCut","Config_SHCut",0);
+  this->Static_info_SHCut                = I_nf->ReadInteger("ShortCut","Static_info_SHCut",0);
 
    I_nf->Free();
    //delete I_nf;
@@ -493,7 +509,7 @@ void _TSave_configuration::Save_registry()
   reg->WriteInteger("Power_on_SHCut",this->Power_on_SHCut);
   reg->WriteInteger("Power_off_SHCut",this->Power_off_SHCut);
   reg->WriteInteger("Config_SHCut",this->Config_SHCut);
-
+  reg->WriteInteger("Static_info_SHCut",this->Static_info_SHCut);
   reg->CloseKey();
   delete reg;
 };
@@ -529,6 +545,7 @@ TIniFile* I_nf = new TIniFile(ExtractFilePath(Application->ExeName)+"date\\confi
  I_nf->WriteInteger("ShortCut","Power_on_SHCut",this->Power_on_SHCut);
  I_nf->WriteInteger("ShortCut","Power_off_SHCut",this->Power_off_SHCut);
  I_nf->WriteInteger("ShortCut","Config_SHCut",this->Config_SHCut);
+ I_nf->WriteInteger("ShortCut","Static_info_SHCut",this->Static_info_SHCut);
  I_nf->Free();
 };
 
@@ -753,6 +770,7 @@ void _TSave_configuration::Clear_dates()
 				reg->DeleteValue("Power_on_SHCut");
 				reg->DeleteValue("Power_off_SHCut");
 				reg->DeleteValue("Config_SHCut");
+				reg->DeleteValue("Static_info_SHCut");
 				reg->DeleteValue("(По умолчанию)");
 				reg->DeleteKey("\\Software\\Robik\\Smart_printing");
 				reg->CloseKey();
@@ -881,6 +899,7 @@ void _TSave_configuration::initilisation()
   this->Power_on_SHCut        = 0;
   this->Power_off_SHCut       = 0;
   this->Config_SHCut          = 0;
+  this->Static_info_SHCut     = 0;
 };
 //------------------------------------------------------------------------------
 //-------------------------------END-----------------------------------------------
