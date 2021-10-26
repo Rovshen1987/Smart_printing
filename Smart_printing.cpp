@@ -18,6 +18,7 @@ __fastcall TGeneral_F::TGeneral_F(TComponent* Owner)
 {
 }
 
+
 //---------------------------------------------------------------------------
 void TGeneral_F::initialisation()
 {
@@ -81,6 +82,8 @@ void TGeneral_F::initialisation()
 
    this->Smart_time_t                 = new std::time_t;
    std::time(Smart_time_t);
+
+   prohibit_launch();
 };
 
 //------------------------------------------------------------------------------
@@ -140,6 +143,28 @@ void __fastcall TGeneral_F::Run_program_timerTimer(TObject *Sender)
 AnsiString temp = (this->run_program_Time->get_time()).c_str();
 this->StatusBar->Panels->Items[0]->Text = this->_Statusbar_Item_0 + temp;
 Static_I_F->Working_hours_L_g->Caption  = temp;
+
+jobs_printer();
+
+	if (remaining_orginal.print_job_count > 0)
+	{
+	 this->StatusBar->Panels->Items[2]->Text = (this->remaining_orginal.get_time_text()).c_str();
+//	 Timer_back_T->Enabled = false;
+	}
+	else
+	{
+//		 if (this->_Robik_config->get_Automatics_run() == true)
+//		{
+//		 Timer_back_T->Enabled = true;
+//		}
+//		else
+//		{
+//		Timer_back_T->Enabled = false;
+//		}
+
+
+	};
+
 };
 
 //---------------------------------------------------------------------------
@@ -340,6 +365,47 @@ Web_browser_F->set_flag_preview(true);
 Web_browser_F->set_flag_print(false);
 Web_browser_F->screen_photo();
 
+//DeleteFile(ExtractFilePath(Application->ExeName)+"Log_.txt");
+//int height_r, width_r, left_r, top_r, var_height_r, var_width_r;
+//
+//height_r = 0;
+//width_r  = 0;
+//left_r   = 0;
+//top_r    = 0;
+//var_height_r = 0;
+//var_width_r  = 0;
+//
+//std::string height_s, width_s, left_s, top_s, var_height_s, var_width_s;
+//
+//height_r = Web_browser_F->Height;
+//width_r  = Web_browser_F->Width;
+//left_r   = Web_browser_F->Left;
+//top_r    = Web_browser_F->Top;
+//var_height_r = Web_browser_F->A4_height;
+//var_width_r  = Web_browser_F->A4_width;
+//
+//height_s = std::to_string(height_r);
+//width_s  = std::to_string(width_r);
+//left_s   = std::to_string(left_r);
+//top_s    = std::to_string(top_r);
+//var_height_s = std::to_string(var_height_r);
+//var_width_s  = std::to_string(width_r);
+//
+//height_s = "Height = " + height_s;
+//width_s  = "Width = " +width_s;
+//left_s   = "Left = "+left_s;
+//top_s    = "Top = "+ top_s;
+//var_height_s = "Varrible Height = "+var_height_s;
+//var_width_s  = "Varrible Width = "+width_s;
+//
+//Log->Lines->Add(height_s.c_str());
+//Log->Lines->Add(width_s.c_str());
+//Log->Lines->Add(left_s.c_str());
+//Log->Lines->Add(top_s.c_str());
+//Log->Lines->Add(var_height_s.c_str());
+//Log->Lines->Add(var_width_s.c_str());
+//
+//Log->Lines->SaveToFile(ExtractFilePath(Application->ExeName)+"Log.txt");
 };
 
 //---------------------------------------------------------------------------
@@ -364,17 +430,7 @@ void TGeneral_F::check_label(TLabel* object, const bool& value)
 
 };
 
-//---------------------------------------------------------------------------
-void __fastcall TGeneral_F::Check_BClick(TObject *Sender)
-{
-
-  check_connect(default_host, Internet_status_O->Tag);
-
-  check_connect(Url_CB->Text,Site_status_O->Tag);
-
-
-
-};
+//---------------------------------------------------------------------------;
 
 //---------------------------------------------------------------------------
  void TGeneral_F::update_printer()
@@ -394,6 +450,8 @@ void __fastcall TGeneral_F::Check_BClick(TObject *Sender)
  };
 void __fastcall TGeneral_F::Preview_NClick(TObject *Sender)
 {
+   Web_browser_F->Width  = 620;
+   Web_browser_F->Height = 877;
 check_connect(Url_CB->Text,Site_status_O->Tag);
 if (Site_status_O->Caption != AnsiString("Есть!"))
  {
@@ -406,6 +464,7 @@ Web_browser_F->Show();
 Web_browser_F->set_flag_preview(true);
 Web_browser_F->set_flag_print(false);
 Web_browser_F->screen_photo();
+
 }
 
 //---------------------------------------------------------------------------
@@ -423,6 +482,8 @@ Preview_F->frxReport->PrintOptions->Printer = Choose_printer_CB->Text;
 Preview_F->frxReport->PrintOptions->Copies  = 1;
 Preview_F->frxReport->PrepareReport();
 Preview_F->frxReport->Print();
+jobs_printer();
+this->remaining_orginal.print_job_count = 1;
 };
 
 //---------------------------------------------------------------------------
@@ -462,7 +523,14 @@ this->Report_E->Text = this->get_time()+" Состояние печати Good.";
 void __fastcall TGeneral_F::Fast_printing_TOPClick(TObject *Sender)
 {
 
-print_r();
+	if (remaining_orginal.print_job_count > 0)
+	{
+	 MessageDlg("Подождите пока напечатается которую вы отправили до этого, осталось напечатать " +IntToStr(remaining_orginal.print_job_count),
+			   mtInformation,TMsgDlgButtons()<<mbOK,0);
+	} else
+	{
+     print_r();
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -578,6 +646,13 @@ void TGeneral_F::Timer_back_Trun()
 //---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Timer_back_TTimer(TObject *Sender)
 {
+	if (remaining_orginal.print_job_count > 0)
+	{
+	//this->StatusBar->Panels->Items[2]->Text = "Печать ";
+	return;
+	};
+
+
  if (this->remaining_orginal.pause_bool == true)
  {
 	 if (this->remaining_orginal.printing == true)
@@ -855,4 +930,51 @@ Static_I_F->ShowModal();
 void TGeneral_F::destroy_g()
 {
   delete this->Smart_time_t;
+};
+void __fastcall TGeneral_F::Help_TOPClick(TObject *Sender)
+{
+bool b = Preview_F->frxReport->OnPrintReport;
+}
+
+//---------------------------------------------------------------------------
+void TGeneral_F::jobs_printer()
+{
+int job_count = -1;
+
+	PRINTER_INFO_2 *Pr;
+	DWORD byteNeed = 0,prCount=0;
+	EnumPrinters(PRINTER_ENUM_CONNECTIONS|PRINTER_ENUM_LOCAL,NULL,2,NULL,0,&byteNeed,&prCount);
+	Pr = new PRINTER_INFO_2 [byteNeed];
+	if(EnumPrinters(PRINTER_ENUM_CONNECTIONS|PRINTER_ENUM_LOCAL,NULL,2,(LPBYTE)Pr,byteNeed,&byteNeed,&prCount))
+	{
+		for(int i = 0; i < prCount; ++i)
+		{
+		if (AnsiString(Pr[i].pPrinterName)== Choose_printer_CB->Text)
+		{
+		 job_count = Pr[i].cJobs;
+		}
+	}
+	delete Pr;
+	}
+
+	this->remaining_orginal.print_job_count = job_count;
+
+};
+
+//---------------------------------------------------------------------------
+void TGeneral_F::prohibit_launch()//запретить запуск второй копии программы
+{
+//HANDLE Smart_printing_mu;
+////При открытии программы пытаемся создать мютекс.
+////Мютекс - такой объект, который можно увидеть из любого приложения системы
+//Smart_printing_mu = General_F->Handle;
+//DWORD result;
+//result = WaitForSingleObject(Smart_printing_mu,0);//А теперь пытаемся его захватить себе
+////Если его захватить не получается, значит мютекс уже захватил кто-то другой
+//if(result!=WAIT_OBJECT_0)
+//  {
+//  ShowMessage("У вас уже запущена одна копия приложения");
+//  Application->ShowMainForm=false;
+//  Application->Terminate();
+//  }
 };

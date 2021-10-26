@@ -22,12 +22,16 @@ __published:	// IDE-managed Components
 	TTimer *Timer;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall TimerTimer(TObject *Sender);
-	void __fastcall WebBrowserDownloadComplete(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
+	void __fastcall WebBrowserNavigateComplete2(TObject *ASender, IDispatch * const pDisp,
+          const OleVariant &URL);
+	void __fastcall WebBrowserNavigateError(TObject *ASender, IDispatch * const pDisp,
+          const OleVariant &URL, const OleVariant &Frame, const OleVariant &StatusCode,
+          WordBool &Cancel);
 private:	// User declarations
 
-	const int A4_width  = 620;
-	const int A4_height = 877;
+
+//    const int A4_height = 1000;
     int timer_count     = 0;
     AnsiString path_r;
 	void initilisation();
@@ -48,6 +52,8 @@ public:		// User declarations
 	bool get_flag_preview();
 	void set_flag_print(const bool& value);
 	bool get_flag_print();
+	const int A4_width  = 620;
+	const int A4_height = 877;
 
 };
 //---------------------------------------------------------------------------

@@ -6,9 +6,10 @@ object Web_browser_F: TWeb_browser_F
   AlphaBlend = True
   AlphaBlendValue = 0
   Caption = 'Web_browser_F'
-  ClientHeight = 440
+  ClientHeight = 838
   ClientWidth = 845
   Color = clBtnFace
+  Constraints.MinHeight = 877
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -23,7 +24,7 @@ object Web_browser_F: TWeb_browser_F
     Left = 0
     Top = 0
     Width = 845
-    Height = 440
+    Height = 838
     Align = alClient
     ExplicitLeft = 200
     ExplicitTop = 88
@@ -34,17 +35,18 @@ object Web_browser_F: TWeb_browser_F
     Left = 0
     Top = 0
     Width = 845
-    Height = 440
+    Height = 838
     Align = alClient
     TabOrder = 0
     SelectedEngine = EdgeIfAvailable
-    OnDownloadComplete = WebBrowserDownloadComplete
+    OnNavigateComplete2 = WebBrowserNavigateComplete2
+    OnNavigateError = WebBrowserNavigateError
     ExplicitLeft = 200
     ExplicitTop = 144
     ExplicitWidth = 300
     ExplicitHeight = 150
     ControlData = {
-      4C000000555700007A2D00000000000000000000000000000000000000000000
+      4C000000555700009C5600000000000000000000000000000000000000000000
       000000004C000000000000000000000001000000E0D057007335CF11AE690800
       2B2E12620E000000000000004C0000000114020000000000C000000000000046
       8000000000000000000000000000000000000000000000000000000000000000

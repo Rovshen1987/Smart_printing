@@ -68,8 +68,8 @@ object Preview_F: TPreview_F
       MirrorMode = []
       object Picture1: TfrxPictureView
         AllowVectorExport = True
-        Left = 30.236240000000000000
-        Top = 30.236240000000000000
+        Left = -37.795300000000000000
+        Top = -41.574830000000000000
         Width = 574.488560000000000000
         Height = 2010.709960000000000000
         AutoSize = True

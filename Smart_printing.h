@@ -40,12 +40,13 @@
 #include <IdSSLOpenSSL.hpp>
 #include "Preview.h"
 #include <ctime>
+#include <windows.h>
 
 struct remaining
 {
    std::string remaining_time;
    int  pause;
-   const int pause_int     = 15;
+   const int pause_int     = 1;
    const std::string print = "Печать";
    const int dot_begin     = -1;
    const int dot_end       = 6;
@@ -54,16 +55,18 @@ struct remaining
    bool printing;
    bool active;
    bool first;
+   int  print_job_count;
 
    remaining()
    {
-	this->remaining_time = "";
-	this->pause          = 0;
-	this->dot_run        = 0;
-	this->pause_bool     = false;
-	this->printing       = false;
-	this->active         = false;
-    this->first          = true;
+	this->remaining_time      = "";
+	this->pause               = 1;
+	this->dot_run             = 0;
+	this->pause_bool          = false;
+	this->printing            = false;
+	this->active              = false;
+	this->first               = true;
+	this->print_job_count     = 0;
    };
 
    void run()
@@ -88,17 +91,21 @@ struct remaining
 	 }
 	 else
 	 {
+	  if (this->print_job_count == 0)
+	  {
 	  this->pause_bool = false;
 	  this->pause      = this->pause_int;
 	  this->dot_run    = this->dot_begin;
-      this->active     = false;
+	  this->active     = false;
+	  }
+
 	 };
    }
 
    std::string get_time_text()
    {
 	  this->run();
-	  if (this->pause_bool == false)
+	  if ((this->pause_bool == false)and (this->print_job_count == 0))
 	  {
 	   return std::string("Печать завершена...");
 	  }
@@ -183,6 +190,7 @@ __published:	// IDE-managed Components
 	TSaveDialog *Save_AS_IniFile;
 	TMenuItem *Static_info_N;
 	TMenuItem *N2;
+	TPrintDialog *PrintDialog1;
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall Run_program_timerTimer(TObject *Sender);
 	void __fastcall Config_NClick(TObject *Sender);
@@ -192,7 +200,6 @@ __published:	// IDE-managed Components
 	void __fastcall Save_BBClick(TObject *Sender);
 	void __fastcall Preview_TOPClick(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
-	void __fastcall Check_BClick(TObject *Sender);
 	void __fastcall Preview_NClick(TObject *Sender);
 	void __fastcall Power_on_TOPClick(TObject *Sender);
 	void __fastcall Fast_printing_TOPClick(TObject *Sender);
@@ -210,6 +217,7 @@ __published:	// IDE-managed Components
 	void __fastcall Save_NClick(TObject *Sender);
 	void __fastcall About_NClick(TObject *Sender);
 	void __fastcall Static_info_NClick(TObject *Sender);
+	void __fastcall Help_TOPClick(TObject *Sender);
 
 private:	// User declarations
 	const AnsiString default_host = AnsiString("http://www.google.com");
@@ -241,7 +249,6 @@ private:	// User declarations
 
 	bool falg_automatics_printing; //этот флаг для автоматически печатать нужен, когда сдесь true печать начнет автоматический
 
-
 	std::unique_ptr<general_visable> general_visable_general;
 
 const AnsiString _Statusbar_Item_0 = "Время работы программы ";
@@ -264,7 +271,11 @@ const AnsiString _Statusbar_Item_2 = "До отправки в печать осталось ";
 
 	void Timer_back_Trun();
 
-    AnsiString get_time();
+	AnsiString get_time();
+
+	void jobs_printer();
+
+    void prohibit_launch();;//запретить запуск второй копии программы
 
 public:		// User declarations
     std::time_t*    Smart_time_t;

@@ -22,7 +22,7 @@ void __fastcall TWeb_browser_F::FormCreate(TObject *Sender)
 // WebBrowser->Navigate(L"https://moda.captain.business/p.php?api=123456789");
 //  CppWebBrowser1->Navigate(L"http://gtol");
 
-initilisation();
+this->initilisation();
 }
 //---------------------------------------------------------------------------
 void TWeb_browser_F::initilisation()
@@ -30,6 +30,10 @@ void TWeb_browser_F::initilisation()
 direct_r temp;
 Web_browser_F->Width  = A4_width;
 Web_browser_F->Height = A4_height;
+//Web_browser_F->Width  = 620;
+//Web_browser_F->Height = 877;
+Web_browser_F->Left   = 0;
+Web_browser_F->Top    = 0;
 path_r = (temp.get_path()).c_str();
 
 flag_print   = false;
@@ -38,8 +42,9 @@ flag_preview = false;
 
 void TWeb_browser_F::refresh_site()
 {
-WebBrowser->Refresh();
-flag_refresh = false;
+//WebBrowser->Refresh();
+WebBrowser->Navigate(General_F->_Robik_config->get_Url());
+//flag_refresh = true;
 };
 
 
@@ -94,12 +99,14 @@ void __fastcall TWeb_browser_F::TimerTimer(TObject *Sender)
 	 General_F->preview_void();
 
 	 flag_preview = false;
+	 DeleteFile(ExtractFilePath(Application->ExeName)+"date\\temp.bmp");
 	}
 
 	 if (flag_print == true)
 	{
 	 General_F->print_void();
-     flag_print = false;
+	 flag_print = false;
+     DeleteFile(ExtractFilePath(Application->ExeName)+"date\\temp.bmp");
 	}
 	Web_browser_F->Close();
   }
@@ -132,11 +139,6 @@ bool TWeb_browser_F::get_flag_print()
 
 
 
-void __fastcall TWeb_browser_F::WebBrowserDownloadComplete(TObject *Sender)
-{
-flag_refresh = true;
-}
-//---------------------------------------------------------------------------
 
 
 
@@ -144,6 +146,25 @@ void __fastcall TWeb_browser_F::FormShow(TObject *Sender)
 {
 Web_browser_F->Left = 0;
 Web_browser_F->Top  = 0;
+}
+//---------------------------------------------------------------------------
+
+
+
+
+
+void __fastcall TWeb_browser_F::WebBrowserNavigateComplete2(TObject *ASender, IDispatch * const pDisp,
+          const OleVariant &URL)
+{
+ flag_refresh = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TWeb_browser_F::WebBrowserNavigateError(TObject *ASender, IDispatch * const pDisp,
+          const OleVariant &URL, const OleVariant &Frame, const OleVariant &StatusCode,
+          WordBool &Cancel)
+{
+ShowMessage("Error 1");
 }
 //---------------------------------------------------------------------------
 

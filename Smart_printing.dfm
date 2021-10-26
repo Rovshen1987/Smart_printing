@@ -324,6 +324,7 @@ object General_F: TGeneral_F
         Cursor = crHandPoint
         Caption = 'Help_TOP'
         ImageIndex = 9
+        OnClick = Help_TOPClick
       end
     end
     object Check_B: TButton
@@ -334,7 +335,6 @@ object General_F: TGeneral_F
       Cursor = crHandPoint
       Caption = #1055#1088#1086#1074#1077#1088#1080#1090#1100
       TabOrder = 7
-      OnClick = Check_BClick
     end
   end
   object Menu: TMainMenu
@@ -447,8 +447,8 @@ object General_F: TGeneral_F
   end
   object Run_program_timer: TTimer
     OnTimer = Run_program_timerTimer
-    Left = 96
-    Top = 240
+    Left = 56
+    Top = 128
   end
   object ImageList_g: TImageList
     Height = 25
@@ -3855,8 +3855,8 @@ object General_F: TGeneral_F
   object Timer_back_T: TTimer
     Enabled = False
     OnTimer = Timer_back_TTimer
-    Left = 544
-    Top = 360
+    Left = 176
+    Top = 120
   end
   object Open_IniFile: TOpenDialog
     DefaultExt = '*.Ini'
@@ -3872,5 +3872,9 @@ object General_F: TGeneral_F
     Title = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1092#1072#1081#1083' '#1082#1086#1085#1092#1080#1075#1091#1088#1072#1094#1080#1080' '#1076#1083#1103' '#8220#1041#1099#1089#1090#1088#1086#1081' '#1087#1077#1095#1072#1090#1080#8221
     Left = 384
     Top = 232
+  end
+  object PrintDialog1: TPrintDialog
+    Left = 368
+    Top = 56
   end
 end
