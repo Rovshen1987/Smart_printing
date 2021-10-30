@@ -168,8 +168,9 @@ object General_F: TGeneral_F
     object Report_E: TEdit
       Left = 40
       Top = 332
-      Width = 497
+      Width = 570
       Height = 29
+      ReadOnly = True
       TabOrder = 2
       Text = 'Report_E'
     end

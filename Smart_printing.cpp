@@ -84,6 +84,7 @@ void TGeneral_F::initialisation()
    std::time(Smart_time_t);
 
    prohibit_launch();
+   this->flag_print_Web_browser       = false;
 };
 
 //------------------------------------------------------------------------------
@@ -284,78 +285,57 @@ void TGeneral_F::apple_general_program()
 	  try
 	 {
 	  IdHTTP1->Get(hostname);
-	  if (Tag == 1)
-	  {
-
-	   check_label(Internet_status_O, true);
-	  };
-
-	   if (Tag == 2)
-	   {
-
-		check_label(Site_status_O, true);
-	   }
-
+	  this->all_error_connect(true, Tag);
 	 }
-	  catch(EIdHTTPProtocolException &se)
+	  catch(EIdHTTPProtocolException &es)
 	 {
-		switch(se.ErrorCode){
-		 case 200:
-		   break;
-		 case 303:
-		   break;
-		 case 404:
-		   break;
-		 default: {
-					  if (Tag == 1)
-					{
-
-					  check_label(Internet_status_O, false);
-					};
-
-					if (Tag == 2)
-					{
-
-					  check_label(Site_status_O, false);
-
-					}
+		switch(es.ErrorCode){
+		 case 200:{
+				   this->all_error_connect(false,Tag);
 				   break;
+				  }
+
+		 case 303:{
+				   this->all_error_connect(false,Tag);
+				   break;
+				  }
+
+		 case 404:{
+
+				   this->all_error_connect(false,Tag);
+
+
+
+
+
+				   break;
+				  }
+
+		 default: {
+
+				   this->all_error_connect(false,Tag);
+
 				  }
 		}
 	 }
 	  catch(EIdSocketError &se)
 	  {
-	  if(se.LastError == 11001)
-	   {
-			  if (Tag == 1)
+			if(se.LastError == 11001)
 			{
-
-				check_label(Internet_status_O, false);
-			};
-
-			if (Tag == 2)
-			{
-
-				check_label(Site_status_O, false);
-
+			this->all_error_connect(false,Tag);
 			}
-
-	   }
-
-
 	  };
-
-
  };
 
 //---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Preview_TOPClick(TObject *Sender)
 {
+check_connect(default_host, Internet_status_O->Tag);
 check_connect(Url_CB->Text,Site_status_O->Tag);
 if (Site_status_O->Caption != AnsiString("Есть!"))
  {
-  MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
-			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
+//  MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
+//			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
   return;
  }
 
@@ -452,11 +432,12 @@ void __fastcall TGeneral_F::Preview_NClick(TObject *Sender)
 {
    Web_browser_F->Width  = 620;
    Web_browser_F->Height = 877;
+check_connect(default_host, Internet_status_O->Tag);
 check_connect(Url_CB->Text,Site_status_O->Tag);
 if (Site_status_O->Caption != AnsiString("Есть!"))
  {
-  MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
-			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
+//  MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
+//			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
   return;
  }
 
@@ -499,16 +480,40 @@ void __fastcall TGeneral_F::Power_on_TOPClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void TGeneral_F::print_r()
 {
-check_connect(Url_CB->Text,Site_status_O->Tag);
-if (Site_status_O->Caption != AnsiString("Есть!"))
- {
-  this->error_print_information++;
+		check_connect(default_host, Internet_status_O->Tag);
+		check_connect(Url_CB->Text,Site_status_O->Tag);
+		if ((Site_status_O->Caption != AnsiString("Есть!"))&&(Internet_status_O->Caption == AnsiString("Есть!")))
+		{
 
-  this->Report_E->Text = this->get_time()+" Состояние печати связи нету подключение сайту.";
-  MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
-			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
-  return;
- }
+		//		MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
+		//			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
+
+		  this->Report_E_print_error();
+		  this->error_print_information = error_print_information+1;
+
+		return;
+		}
+
+		if ((Site_status_O->Caption != AnsiString("Есть!"))&&(Internet_status_O->Caption != AnsiString("Есть!")))
+		{
+		  this->Report_E_internet_error();
+		  this->error_print_information = error_print_information+1;
+
+		return;
+		}
+
+		AnsiString temp = Url_CB->Text;
+		std::string s = temp.c_str();
+		int temp_i = s.size();
+
+		if (temp_i == 0)
+		{
+		  this->Report_E_sitename_error();
+		  this->error_print_information = error_print_information+1;
+
+		return;
+		}
+
 
 Web_browser_F->Show();
 Web_browser_F->set_flag_preview(false);
@@ -658,13 +663,42 @@ void __fastcall TGeneral_F::Timer_back_TTimer(TObject *Sender)
 	 if (this->remaining_orginal.printing == true)
 	 {
 		this->remaining_orginal.printing = false;
+
+		check_connect(default_host, Internet_status_O->Tag);
 		check_connect(Url_CB->Text,Site_status_O->Tag);
-		if (Site_status_O->Caption != AnsiString("Есть!"))
+		if ((Site_status_O->Caption != AnsiString("Есть!"))&&(Internet_status_O->Caption == AnsiString("Есть!")))
 		{
-		MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
-			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
+
+		//		MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
+		//			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
+
+		  this->Report_E_print_error();
+		  this->error_print_information = error_print_information+1;
+
 		return;
 		}
+
+		if ((Site_status_O->Caption != AnsiString("Есть!"))&&(Internet_status_O->Caption != AnsiString("Есть!")))
+		{
+		  this->Report_E_internet_error();
+		  this->error_print_information = error_print_information+1;
+
+		return;
+		}
+
+		AnsiString temp = Url_CB->Text;
+		std::string s = temp.c_str();
+		int temp_i = s.size();
+
+		if (temp_i == 0)
+		{
+		  this->Report_E_sitename_error();
+		  this->error_print_information = error_print_information+1;
+
+		return;
+		}
+
+
 
 		print_r();
 	 };
@@ -783,11 +817,12 @@ void __fastcall TGeneral_F::Power_off_NClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Fast_printing_NClick(TObject *Sender)
 {
+check_connect(default_host, Internet_status_O->Tag);
 check_connect(Url_CB->Text,Site_status_O->Tag);
 if (Site_status_O->Caption != AnsiString("Есть!"))
  {
-  MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
-			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
+//  MessageDlg("Сайт по адресу \""+Url_CB->Text+"\" не доступен, исправьте пожалуйста!",
+//			 mtInformation,TMsgDlgButtons()<<mbOK ,0 );
   return;
  }
 
@@ -977,4 +1012,51 @@ void TGeneral_F::prohibit_launch()//запретить запуск второй копии программы
 //  Application->ShowMainForm=false;
 //  Application->Terminate();
 //  }
+};
+
+//---------------------------------------------------------------------------
+void TGeneral_F::all_error_connect(const bool& parametr, const int& Tag)
+{
+  if (parametr == true)
+  {
+  	  if (Tag == 1)
+	  {
+
+	   check_label(Internet_status_O, true);
+	  };
+
+	  if (Tag == 2)
+	   {
+
+		check_label(Site_status_O, true);
+	   }
+  }
+  else
+  {
+			if (Tag == 1)
+			{
+			check_label(Internet_status_O, false);
+			};
+
+			if (Tag == 2)
+			{
+			check_label(Site_status_O, false);
+			}
+  };
+};
+
+//---------------------------------------------------------------------------
+void TGeneral_F::Report_E_print_error()
+{
+  this->Report_E->Text = this->get_time()+ _Statusbar_Item_error1_1;
+};
+
+void TGeneral_F::Report_E_internet_error()
+{
+  this->Report_E->Text = this->get_time()+ _Statusbar_Item_error1_internet;
+};
+
+void TGeneral_F::Report_E_sitename_error()
+{
+   this->Report_E->Text = this->get_time()+ _Statusbar_Item_error1_sitename;
 };

@@ -35,13 +35,13 @@ object Preview_F: TPreview_F
     IniFile = '\Software\Fast Reports'
     Preview = frxPreview
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick, pbCopy, pbSelection]
-    PreviewOptions.Zoom = 1.000000000000000000
+    PreviewOptions.Zoom = 2.000000000000000000
     PrintOptions.PageNumbers = '1'
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
     PrintOptions.ShowDialog = False
     ReportOptions.CreateDate = 44475.964805590300000000
-    ReportOptions.LastChange = 44486.507022025460000000
+    ReportOptions.LastChange = 44499.519876284720000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
@@ -69,10 +69,9 @@ object Preview_F: TPreview_F
       object Picture1: TfrxPictureView
         AllowVectorExport = True
         Left = -37.795300000000000000
-        Top = -41.574830000000000000
-        Width = 574.488560000000000000
-        Height = 2010.709960000000000000
-        AutoSize = True
+        Top = -41.574803150000000000
+        Width = 402.141732283464600000
+        Height = 2010.708661417323000000
         Frame.Typ = []
         FileLink = '[ExtractFilePath(Application.Exename)]date\temp.bmp'
         HightQuality = False

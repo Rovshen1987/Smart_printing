@@ -50,6 +50,8 @@ WebBrowser->Navigate(General_F->_Robik_config->get_Url());
 
 void TWeb_browser_F::screen_photo()
 {
+General_F->check_connect(General_F->Url_CB->Text,General_F->Site_status_O->Tag);
+
  refresh_site();
 // flag_refresh   = true;
  Timer->Enabled = true;
@@ -59,6 +61,8 @@ void TWeb_browser_F::screen_photo()
 
 void __fastcall TWeb_browser_F::TimerTimer(TObject *Sender)
 {
+
+
   if ((flag_refresh == true) and (timer_count >= 1))
   {
 	Image->Picture->Bitmap->SetSize(Image->ClientRect.Width()-17,
@@ -164,7 +168,11 @@ void __fastcall TWeb_browser_F::WebBrowserNavigateError(TObject *ASender, IDispa
           const OleVariant &URL, const OleVariant &Frame, const OleVariant &StatusCode,
           WordBool &Cancel)
 {
+//this->flag_print   = false;
+//this->flag_preview = false;;
 ShowMessage("Error 1");
+
 }
+
 //---------------------------------------------------------------------------
 

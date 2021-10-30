@@ -37,6 +37,7 @@ private:	// User declarations
 	void initilisation();
 
 
+
 	bool  flag_refresh;
 
 	bool  flag_print;

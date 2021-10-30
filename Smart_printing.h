@@ -246,25 +246,29 @@ private:	// User declarations
 	bool flag_Internet;
 	bool flag_Host;
 	bool flag_program_run;
+	bool flag_print_Web_browser;
 
 	bool falg_automatics_printing; //этот флаг для автоматически печатать нужен, когда сдесь true печать начнет автоматический
 
 	std::unique_ptr<general_visable> general_visable_general;
+	remaining remaining_orginal;
 
 const AnsiString _Statusbar_Item_0 = "Время работы программы ";
 const AnsiString _Statusbar_Item_1 = "Напечатано   ";
 const AnsiString _Statusbar_Item_2 = "До отправки в печать осталось ";
-
-	remaining remaining_orginal;
+const AnsiString _Statusbar_Item_error1_1 = " Ошибка печати, указанный сайт не доступен!";
+const AnsiString _Statusbar_Item_error1_internet = " Ошибка печати, нету подключение с Интернетом!";
+const AnsiString _Statusbar_Item_error1_sitename = " Ошибка печати, аддресс сайта не указан!";
 
 //	void initialisation_to_flag();
-	void check_connect(const AnsiString& hostname, const int& Tag);
+
 
 	void check_label(TLabel* object, const bool& value);
 	void update_printer();
 
 	void print_r();
 	void run_enabled();
+
 
 	void show_good_print_inforamtion();
 
@@ -275,10 +279,12 @@ const AnsiString _Statusbar_Item_2 = "До отправки в печать осталось ";
 
 	void jobs_printer();
 
-    void prohibit_launch();;//запретить запуск второй копии программы
 
+	void prohibit_launch();;//запретить запуск второй копии программы
+	void all_error_connect(const bool& parametr, const int& Tag);
 public:		// User declarations
-    std::time_t*    Smart_time_t;
+
+	std::time_t*    Smart_time_t;
 	bool get_remaining_time_bool();
 	std::unique_ptr<_TSave_configuration> _Robik_config;
 	void initialisation();
@@ -297,7 +303,13 @@ public:		// User declarations
 	std::string get_remaining_time();
 	void set_remaining_time(const std::string& value);
 
-    void update_ShortCUT();
+	void update_ShortCUT();
+	void check_connect(const AnsiString& hostname, const int& Tag);
+
+	void Report_E_print_error();
+	void Report_E_internet_error();
+	void Report_E_sitename_error();
+
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGeneral_F *General_F;
