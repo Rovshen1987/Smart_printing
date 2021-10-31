@@ -40,6 +40,7 @@ object Web_browser_F: TWeb_browser_F
     TabOrder = 0
     SelectedEngine = EdgeIfAvailable
     OnNavigateComplete2 = WebBrowserNavigateComplete2
+    OnDocumentComplete = WebBrowserDocumentComplete
     OnNavigateError = WebBrowserNavigateError
     ExplicitLeft = 200
     ExplicitTop = 144

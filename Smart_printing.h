@@ -57,6 +57,8 @@ struct remaining
    bool first;
    int  print_job_count;
 
+   bool empty_print;
+
    remaining()
    {
 	this->remaining_time      = "";
@@ -67,6 +69,7 @@ struct remaining
 	this->active              = false;
 	this->first               = true;
 	this->print_job_count     = 0;
+	this->empty_print         = false;
    };
 
    void run()
@@ -191,6 +194,8 @@ __published:	// IDE-managed Components
 	TMenuItem *Static_info_N;
 	TMenuItem *N2;
 	TPrintDialog *PrintDialog1;
+	TMemo *Empty_site;
+	TTimer *Timer_empty;
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall Run_program_timerTimer(TObject *Sender);
 	void __fastcall Config_NClick(TObject *Sender);
@@ -218,6 +223,8 @@ __published:	// IDE-managed Components
 	void __fastcall About_NClick(TObject *Sender);
 	void __fastcall Static_info_NClick(TObject *Sender);
 	void __fastcall Help_TOPClick(TObject *Sender);
+	void __fastcall Check_BClick(TObject *Sender);
+	void __fastcall Timer_emptyTimer(TObject *Sender);
 
 private:	// User declarations
 	const AnsiString default_host = AnsiString("http://www.google.com");
@@ -248,10 +255,14 @@ private:	// User declarations
 	bool flag_program_run;
 	bool flag_print_Web_browser;
 
+
 	bool falg_automatics_printing; //этот флаг для автоматически печатать нужен, когда сдесь true печать начнет автоматический
 
 	std::unique_ptr<general_visable> general_visable_general;
 	remaining remaining_orginal;
+
+	bool flag_emtysite_r;
+
 
 const AnsiString _Statusbar_Item_0 = "Время работы программы ";
 const AnsiString _Statusbar_Item_1 = "Напечатано   ";
@@ -259,7 +270,7 @@ const AnsiString _Statusbar_Item_2 = "До отправки в печать осталось ";
 const AnsiString _Statusbar_Item_error1_1 = " Ошибка печати, указанный сайт не доступен!";
 const AnsiString _Statusbar_Item_error1_internet = " Ошибка печати, нету подключение с Интернетом!";
 const AnsiString _Statusbar_Item_error1_sitename = " Ошибка печати, аддресс сайта не указан!";
-
+const AnsiString _Statusbar_Item_error1_emptysite = " Ошибка печати, пустая страница!";
 //	void initialisation_to_flag();
 
 
@@ -278,6 +289,9 @@ const AnsiString _Statusbar_Item_error1_sitename = " Ошибка печати, аддресс сайт
 	AnsiString get_time();
 
 	void jobs_printer();
+//	void Url_CB_Load();
+//	void Url_CB_delete_dub();
+//	void Url_CB_Save();
 
 
 	void prohibit_launch();;//запретить запуск второй копии программы
@@ -309,6 +323,7 @@ public:		// User declarations
 	void Report_E_print_error();
 	void Report_E_internet_error();
 	void Report_E_sitename_error();
+	void Report_E_emptysite_error();
 
 };
 //---------------------------------------------------------------------------

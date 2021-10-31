@@ -28,6 +28,8 @@ __published:	// IDE-managed Components
 	void __fastcall WebBrowserNavigateError(TObject *ASender, IDispatch * const pDisp,
           const OleVariant &URL, const OleVariant &Frame, const OleVariant &StatusCode,
           WordBool &Cancel);
+	void __fastcall WebBrowserDocumentComplete(TObject *ASender, IDispatch * const pDisp,
+          const OleVariant &URL);
 private:	// User declarations
 
 

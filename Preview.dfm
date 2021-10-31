@@ -35,6 +35,7 @@ object Preview_F: TPreview_F
     IniFile = '\Software\Fast Reports'
     Preview = frxPreview
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick, pbCopy, pbSelection]
+    PreviewOptions.PagesInCache = 100
     PreviewOptions.Zoom = 2.000000000000000000
     PrintOptions.PageNumbers = '1'
     PrintOptions.Printer = 'Default'

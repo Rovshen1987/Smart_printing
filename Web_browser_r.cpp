@@ -176,3 +176,14 @@ ShowMessage("Error 1");
 
 //---------------------------------------------------------------------------
 
+void __fastcall TWeb_browser_F::WebBrowserDocumentComplete(TObject *ASender, IDispatch * const pDisp,
+          const OleVariant &URL)
+{
+   Variant document = WebBrowser->Document;
+    Variant body = document.OlePropertyGet("body");
+    Variant parentElement = body.OlePropertyGet("parentElement");
+    AnsiString html = parentElement.OlePropertyGet("outerHTML");
+	General_F->Empty_site->Text = html;
+}
+//---------------------------------------------------------------------------
+

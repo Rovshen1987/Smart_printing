@@ -336,6 +336,18 @@ object General_F: TGeneral_F
       Cursor = crHandPoint
       Caption = #1055#1088#1086#1074#1077#1088#1080#1090#1100
       TabOrder = 7
+      OnClick = Check_BClick
+    end
+    object Empty_site: TMemo
+      Left = 592
+      Top = 1000
+      Width = 201
+      Height = 193
+      Lines.Strings = (
+        'Empty_site')
+      ScrollBars = ssBoth
+      TabOrder = 8
+      Visible = False
     end
   end
   object Menu: TMainMenu
@@ -3877,5 +3889,11 @@ object General_F: TGeneral_F
   object PrintDialog1: TPrintDialog
     Left = 368
     Top = 56
+  end
+  object Timer_empty: TTimer
+    Enabled = False
+    OnTimer = Timer_emptyTimer
+    Left = 384
+    Top = 144
   end
 end

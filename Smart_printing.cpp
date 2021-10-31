@@ -22,6 +22,8 @@ __fastcall TGeneral_F::TGeneral_F(TComponent* Owner)
 //---------------------------------------------------------------------------
 void TGeneral_F::initialisation()
 {
+//	this->Url_CB_Load();
+//	this->Url_CB_delete_dub();
 //  ShowMessage(ExtractFilePath(Application->ExeName));
 
   this->_Robik_config = std::make_unique<_TSave_configuration>();
@@ -85,6 +87,7 @@ void TGeneral_F::initialisation()
 
    prohibit_launch();
    this->flag_print_Web_browser       = false;
+   this->flag_emtysite_r              = false;
 };
 
 //------------------------------------------------------------------------------
@@ -219,6 +222,8 @@ Configuration_F->ShowModal();
 //---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Save_BBClick(TObject *Sender)
 {
+//		Url_CB->Items->Add(Url_CB->Text);
+//		this->Url_CB_delete_dub();
  _Robik_config->set_Url(this->Url_CB->Text);
  _Robik_config->Save_shell();
  this->general_visable_general->set_Save_BB(false);
@@ -480,8 +485,10 @@ void __fastcall TGeneral_F::Power_on_TOPClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void TGeneral_F::print_r()
 {
+
 		check_connect(default_host, Internet_status_O->Tag);
 		check_connect(Url_CB->Text,Site_status_O->Tag);
+
 		if ((Site_status_O->Caption != AnsiString("Есть!"))&&(Internet_status_O->Caption == AnsiString("Есть!")))
 		{
 
@@ -514,14 +521,13 @@ void TGeneral_F::print_r()
 		return;
 		}
 
+		Web_browser_F->WebBrowser->Navigate(this->_Robik_config->get_Url());
+		Web_browser_F->Show();
 
-Web_browser_F->Show();
-Web_browser_F->set_flag_preview(false);
-Web_browser_F->set_flag_print(true);
-Web_browser_F->screen_photo();
-this->good_print_information++;
-show_good_print_inforamtion();
-this->Report_E->Text = this->get_time()+" Состояние печати Good.";
+		this->remaining_orginal.empty_print = true;
+		this->Timer_empty->Enabled          = true;
+
+
 };
 
 //---------------------------------------------------------------------------
@@ -698,9 +704,13 @@ void __fastcall TGeneral_F::Timer_back_TTimer(TObject *Sender)
 		return;
 		}
 
+		Web_browser_F->WebBrowser->Navigate(this->_Robik_config->get_Url());
+		Web_browser_F->Show();
 
+		this->remaining_orginal.empty_print = true;
+		this->Timer_empty->Enabled          = true;
 
-		print_r();
+//		print_r();
 	 };
 
 
@@ -925,6 +935,8 @@ return AnsiString(temp.c_str());
 //---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Save_NClick(TObject *Sender)
 {
+//		Url_CB->Items->Add(Url_CB->Text);
+//		this->Url_CB_delete_dub();
 	_Robik_config->set_Url(this->Url_CB->Text);
 	_Robik_config->set_Choose_printer(this->Choose_printer_CB->Text);
 	_Robik_config->Save_shell();
@@ -964,8 +976,11 @@ Static_I_F->ShowModal();
 //---------------------------------------------------------------------------
 void TGeneral_F::destroy_g()
 {
+//  this->Url_CB_Save();
   delete this->Smart_time_t;
 };
+
+//---------------------------------------------------------------------------
 void __fastcall TGeneral_F::Help_TOPClick(TObject *Sender)
 {
 bool b = Preview_F->frxReport->OnPrintReport;
@@ -1060,3 +1075,69 @@ void TGeneral_F::Report_E_sitename_error()
 {
    this->Report_E->Text = this->get_time()+ _Statusbar_Item_error1_sitename;
 };
+void __fastcall TGeneral_F::Check_BClick(TObject *Sender)
+{
+//  check_connect(default_host, Internet_status_O->Tag);
+//  check_connect(Url_CB->Text,Site_status_O->Tag);
+//   AnsiString s = Web_browser_F->WebBrowser->Document->Release();
+//  ShowMessage(s);
+
+}
+//---------------------------------------------------------------------------
+
+void TGeneral_F::Report_E_emptysite_error()
+{
+   this->Report_E->Text = this->get_time()+ _Statusbar_Item_error1_emptysite;
+};
+
+void __fastcall TGeneral_F::Timer_emptyTimer(TObject *Sender)
+{
+		if (Empty_site->Lines->Count<4)
+		{
+		  this->Report_E_emptysite_error();
+		  this->error_print_information = error_print_information+1;
+		  this->flag_emtysite_r = true;
+		return;
+		}
+
+
+
+Web_browser_F->Show();
+Web_browser_F->set_flag_preview(false);
+Web_browser_F->set_flag_print(true);
+Web_browser_F->screen_photo();
+this->good_print_information++;
+show_good_print_inforamtion();
+this->Report_E->Text = this->get_time()+" Состояние печати Good.";
+		this->remaining_orginal.empty_print = false;
+		this->Timer_empty->Enabled          = false;
+}
+//---------------------------------------------------------------------------
+
+//void TGeneral_F::Url_CB_Load()
+//{
+// Url_CB->Items->Clear();
+// AnsiString path = ExtractFilePath(Application->ExeName)+"date\\Url.txt";
+// Url_CB->Items->LoadFromFile(path);
+//};
+//
+//void TGeneral_F::Url_CB_delete_dub()
+//{
+//// AnsiString first, last;
+//
+//  for (int i = 0; i < Url_CB->Items->Count; i++)
+//  {
+//  // first = Url_CB->Items[i].GetText() ;
+//
+//   if (Url_CB->Items[i].GetText() == Url_CB->Items[i+1].GetText())
+//   {
+//	 Url_CB->Items->Delete(i);
+//   };
+//  };
+//};
+//
+//void TGeneral_F::Url_CB_Save()
+//{
+// AnsiString path = ExtractFilePath(Application->ExeName)+"date\\Url.txt";
+// Url_CB->Items->SaveToFile(path);
+//};
