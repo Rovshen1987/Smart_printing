@@ -4,8 +4,8 @@ object General_F: TGeneral_F
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1041#1099#1089#1090#1088#1072#1103' '#1087#1077#1095#1072#1090#1100
-  ClientHeight = 497
-  ClientWidth = 636
+  ClientHeight = 419
+  ClientWidth = 634
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,15 +22,15 @@ object General_F: TGeneral_F
   object Work_place: TPanel
     Left = 0
     Top = 0
-    Width = 636
-    Height = 497
+    Width = 634
+    Height = 419
     Align = alClient
     TabOrder = 0
     object Bevel_General: TBevel
       Left = 24
       Top = 55
       Width = 601
-      Height = 402
+      Height = 322
       Shape = bsFrame
     end
     object Url_L: TLabel
@@ -100,60 +100,6 @@ object General_F: TGeneral_F
       Font.Style = [fsBold, fsItalic]
       ParentFont = False
     end
-    object Internet_status_L: TLabel
-      Left = 40
-      Top = 392
-      Width = 210
-      Height = 21
-      Caption = #1057#1086#1077#1076#1080#1085#1077#1085#1080#1077' '#1089' '#1080#1085#1090#1077#1088#1085#1077#1090#1086#1084
-    end
-    object Site_status_L: TLabel
-      Left = 372
-      Top = 392
-      Width = 118
-      Height = 21
-      Caption = #1057#1072#1081#1090' '#1076#1086#1089#1090#1091#1087#1077#1085
-    end
-    object Internet_status_O: TLabel
-      Tag = 1
-      Left = 256
-      Top = 392
-      Width = 32
-      Height = 22
-      Caption = #1053#1077#1090
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBackground
-      Font.Height = -19
-      Font.Name = 'Times New Roman'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object Site_status_O: TLabel
-      Tag = 2
-      Left = 496
-      Top = 392
-      Width = 32
-      Height = 22
-      Caption = #1053#1077#1090
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -19
-      Font.Name = 'Times New Roman'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object Url_CB: TComboBox
-      Tag = 1
-      Left = 40
-      Top = 99
-      Width = 497
-      Height = 29
-      Sorted = True
-      TabOrder = 0
-      Text = 'Url_CB'
-      OnChange = Url_CBChange
-      OnExit = Url_CBExit
-    end
     object Choose_printer_CB: TComboBox
       Tag = 3
       Left = 40
@@ -161,7 +107,7 @@ object General_F: TGeneral_F
       Width = 497
       Height = 29
       Sorted = True
-      TabOrder = 1
+      TabOrder = 0
       Text = 'Choose_printer_CB'
       OnChange = Choose_printer_CBChange
     end
@@ -171,7 +117,7 @@ object General_F: TGeneral_F
       Width = 570
       Height = 29
       ReadOnly = True
-      TabOrder = 2
+      TabOrder = 1
       Text = 'Report_E'
     end
     object Save_BB: TBitBtn
@@ -185,7 +131,7 @@ object General_F: TGeneral_F
       ImageIndex = 1
       Images = ImageList_g
       NumGlyphs = 2
-      TabOrder = 3
+      TabOrder = 2
       OnClick = Save_BBClick
     end
     object Choose_printer_BB: TBitBtn
@@ -201,13 +147,13 @@ object General_F: TGeneral_F
       NumGlyphs = 2
       PressedImageIndex = 1
       SelectedImageIndex = 1
-      TabOrder = 4
+      TabOrder = 3
       OnClick = Choose_printer_BBClick
     end
     object StatusBar: TStatusBar
       Left = 1
-      Top = 470
-      Width = 634
+      Top = 392
+      Width = 632
       Height = 26
       Panels = <
         item
@@ -226,7 +172,7 @@ object General_F: TGeneral_F
     object ToolBar: TToolBar
       Left = 1
       Top = 1
-      Width = 634
+      Width = 632
       Height = 48
       ButtonHeight = 33
       ButtonWidth = 35
@@ -234,7 +180,7 @@ object General_F: TGeneral_F
       DisabledImages = ImageList_TOP
       HotImages = ImageList_g
       Images = ImageList_g
-      TabOrder = 6
+      TabOrder = 5
       object Open_TOP: TToolButton
         Left = 0
         Top = 0
@@ -328,26 +274,26 @@ object General_F: TGeneral_F
         OnClick = Help_TOPClick
       end
     end
-    object Check_B: TButton
-      Left = 256
-      Top = 419
-      Width = 145
-      Height = 33
-      Cursor = crHandPoint
-      Caption = #1055#1088#1086#1074#1077#1088#1080#1090#1100
-      TabOrder = 7
-      OnClick = Check_BClick
-    end
     object Empty_site: TMemo
-      Left = 592
+      Left = 584
       Top = 1000
       Width = 201
       Height = 193
       Lines.Strings = (
         'Empty_site')
       ScrollBars = ssBoth
-      TabOrder = 8
+      TabOrder = 6
       Visible = False
+      OnChange = Empty_siteChange
+    end
+    object Url_E: TEdit
+      Left = 40
+      Top = 95
+      Width = 497
+      Height = 29
+      TabOrder = 7
+      Text = 'Url_E'
+      OnChange = Url_EChange
     end
   end
   object Menu: TMainMenu
@@ -390,9 +336,8 @@ object General_F: TGeneral_F
         OnClick = Fast_printing_NClick
       end
       object Preview_N: TMenuItem
-        Caption = #1055#1088#1077#1076#1074#1072#1088#1080#1090#1077#1083#1100#1085#1099#1081' '#1087#1088#1086#1089#1084#1086#1090#1088
+        Caption = #1055#1088#1086#1089#1084#1086#1090#1088' '#1087#1086#1089#1083#1077#1076#1085#1077#1075#1086' '#1085#1072#1087#1077#1095#1072#1090#1072#1085#1085#1086#1075#1086' '#1095#1077#1082#1072
         ImageIndex = 5
-        OnClick = Preview_NClick
       end
       object Configuring_printer_N: TMenuItem
         Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1087#1088#1080#1085#1090#1077#1088#1072
@@ -460,14 +405,14 @@ object General_F: TGeneral_F
   end
   object Run_program_timer: TTimer
     OnTimer = Run_program_timerTimer
-    Left = 56
-    Top = 128
+    Left = 16
+    Top = 80
   end
   object ImageList_g: TImageList
     Height = 25
     Width = 25
-    Left = 96
-    Top = 376
+    Left = 552
+    Top = 400
     Bitmap = {
       494C01010D001800040019001900FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000064000000640000000100200000000000409C
@@ -3868,8 +3813,8 @@ object General_F: TGeneral_F
   object Timer_back_T: TTimer
     Enabled = False
     OnTimer = Timer_back_TTimer
-    Left = 176
-    Top = 120
+    Left = 152
+    Top = 160
   end
   object Open_IniFile: TOpenDialog
     DefaultExt = '*.Ini'
@@ -3887,13 +3832,13 @@ object General_F: TGeneral_F
     Top = 232
   end
   object PrintDialog1: TPrintDialog
-    Left = 368
-    Top = 56
+    Left = 416
+    Top = 160
   end
   object Timer_empty: TTimer
     Enabled = False
     OnTimer = Timer_emptyTimer
-    Left = 384
-    Top = 144
+    Left = 376
+    Top = 128
   end
 end

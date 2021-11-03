@@ -31,32 +31,35 @@ __published:	// IDE-managed Components
 	void __fastcall WebBrowserDocumentComplete(TObject *ASender, IDispatch * const pDisp,
           const OleVariant &URL);
 private:	// User declarations
+	const int A4_width  = 620;
+	const int A4_height = 877;
+	int timer_count     = 0;
 
+	AnsiString path_r;
 
-//    const int A4_height = 1000;
-    int timer_count     = 0;
-    AnsiString path_r;
+	bool       flag_print;
+	bool       flag_refresh;
+	bool       flag_error_connect;
+
 	void initilisation();
 
 
 
-	bool  flag_refresh;
 
-	bool  flag_print;
-	bool  flag_preview;
 
-	void refresh_site();
 
 public:		// User declarations
 	__fastcall TWeb_browser_F(TComponent* Owner);
+
 	void screen_photo();
 
-	void set_flag_preview(const bool& value);
-	bool get_flag_preview();
 	void set_flag_print(const bool& value);
 	bool get_flag_print();
-	const int A4_width  = 620;
-	const int A4_height = 877;
+	void set_flag_refresh(const bool& value);
+	bool get_flag_refresh();
+	void set_flag_error_connect(const bool& value);
+	bool get_flag_error_connect();
+
 
 };
 //---------------------------------------------------------------------------

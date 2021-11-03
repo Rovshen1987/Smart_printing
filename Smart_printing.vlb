@@ -1,9 +1,6 @@
 ﻿[N3]
 Coordinates=356,306,40,36
 
-[Url_CB]
-Coordinates=10,10,101,124
-
 [N17]
 Coordinates=258,306,40,36
 
@@ -93,7 +90,7 @@ Coordinates=10,212,84,36
 Coordinates=806,441,88,36
 
 []
-Coordinates=522,144,59,58
+Coordinates=10,10,101,124
 
 [ToolBar]
 Coordinates=331,258,67,36

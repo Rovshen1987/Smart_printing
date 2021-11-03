@@ -125,9 +125,9 @@ void general_visable::set_Choose_printer_BB(const bool& value)
 
 
 //------------------------------------------------------------------------------
-void general_visable::set_Url_CB(const bool& value)
+void general_visable::set_Url_E(const bool& value)
 {
-   this->Url_CB = value;
+   this->Url_E = value;
 };
 
 //------------------------------------------------------------------------------
@@ -174,6 +174,14 @@ void general_visable::run_e(TMenuItem* object,const bool& value)
 void general_visable::run_e(TComboBox* object,const bool& value)
 {
   if (object->Enabled != value)
+  {
+   object->Enabled = value;
+  };
+};
+
+void general_visable::run_e(TEdit* object,const bool& value)
+{
+   if (object->Enabled != value)
   {
    object->Enabled = value;
   };
@@ -289,9 +297,9 @@ bool general_visable::get_Choose_printer_BB()
 };
 
 //------------------------------------------------------------------------------
-bool general_visable::get_Url_CB()
+bool general_visable::get_Url_E()
 {
-   return this->Url_CB;
+   return this->Url_E;
 };
 
 //------------------------------------------------------------------------------
@@ -322,7 +330,7 @@ void general_visable::Accept_power_on()
 	this->Power_off_N            = true;
 	this->Config_N               = false;
 
-	this->Url_CB                 = false;
+	this->Url_E                  = false;
 	this->Choose_printer_CB      = false;
 	this->Save_BB                = false;
 	this->Choose_printer_BB      = false;
@@ -348,7 +356,7 @@ void general_visable::Accept_default()
 	this->Power_off_N            = false;
 	this->Config_N               = true;
 
-	this->Url_CB                 = true;
+	this->Url_E                 = true;
 	this->Choose_printer_CB      = true;
 	this->Save_BB                = false;
 	this->Choose_printer_BB      = false;

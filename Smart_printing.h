@@ -41,25 +41,29 @@
 #include "Preview.h"
 #include <ctime>
 #include <windows.h>
+#include <string>
 
 struct remaining
 {
+//---------------------BEGIN STRUCT---------------------------------------------
+//--------------VARRIBLE--------------------------------------------------------
    std::string remaining_time;
-   int  pause;
-   const int pause_int     = 1;
-   const std::string print = "Печать";
-   const int dot_begin     = -1;
-   const int dot_end       = 6;
-   int dot_run;
-   bool pause_bool;
-   bool printing;
-   bool active;
+   int  pause; //counter to puase
+   const int pause_int     = 1;//max counter to puase
+   const std::string print = "Печать";//the static text varrible
+   const int dot_begin     = -1;//counter to first dot.
+   const int dot_end       = 6;//counter to last dot.
+   int dot_run; //counter to dot.
+   bool pause_bool;//pause state
+   bool printing; //print state
+   bool active; //active state
    bool first;
-   int  print_job_count;
+   int  print_job_count; //number of print queues
 
-   bool empty_print;
+   bool empty_print; //check printing for emty site
 
-   remaining()
+//------------------------------------------------------------------------------
+   remaining()//constructor
    {
 	this->remaining_time      = "";
 	this->pause               = 1;
@@ -72,6 +76,7 @@ struct remaining
 	this->empty_print         = false;
    };
 
+//------------------------------------------------------------------------------
    void run()
    {
 
@@ -105,6 +110,7 @@ struct remaining
 	 };
    }
 
+//------------------------------------------------------------------------------
    std::string get_time_text()
    {
 	  this->run();
@@ -124,7 +130,7 @@ struct remaining
      return temp;
    }
 };
-
+//---------------------END STRUCT-----------------------------------------------
 
 //---------------------------------------------------------------------------
 class TGeneral_F : public TForm
@@ -149,7 +155,6 @@ __published:	// IDE-managed Components
 	TPanel *Work_place;
 	TLabel *Url_L;
 	TBevel *Bevel_General;
-	TComboBox *Url_CB;
 	TBevel *Bevel_Printer;
 	TComboBox *Choose_printer_CB;
 	TLabel *Choose_printer_L;
@@ -177,14 +182,9 @@ __published:	// IDE-managed Components
 	TImageList *ImageList_g;
 	TMenuItem *Fast_printing_N;
 	TIdHTTP *IdHTTP1;
-	TLabel *Internet_status_L;
-	TLabel *Site_status_L;
 	TIdSSLIOHandlerSocketOpenSSL *IdSSLIOHandlerSocketOpenSSL1;
 	TMenuItem *Preview_N;
 	TToolButton *Preview_TOP;
-	TLabel *Internet_status_O;
-	TLabel *Site_status_O;
-	TButton *Check_B;
 	TMenuItem *Save_N;
 	TImageList *ImageList_TOP;
 	TImageList *ImageList_BB;
@@ -196,6 +196,7 @@ __published:	// IDE-managed Components
 	TPrintDialog *PrintDialog1;
 	TMemo *Empty_site;
 	TTimer *Timer_empty;
+	TEdit *Url_E;
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall Run_program_timerTimer(TObject *Sender);
 	void __fastcall Config_NClick(TObject *Sender);
@@ -203,13 +204,9 @@ __published:	// IDE-managed Components
 	void __fastcall Choose_printer_BBClick(TObject *Sender);
 	void __fastcall Config_TOPClick(TObject *Sender);
 	void __fastcall Save_BBClick(TObject *Sender);
-	void __fastcall Preview_TOPClick(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
-	void __fastcall Preview_NClick(TObject *Sender);
 	void __fastcall Power_on_TOPClick(TObject *Sender);
 	void __fastcall Fast_printing_TOPClick(TObject *Sender);
-	void __fastcall Url_CBExit(TObject *Sender);
-	void __fastcall Url_CBChange(TObject *Sender);
 	void __fastcall Timer_back_TTimer(TObject *Sender);
 	void __fastcall Power_off_TOPClick(TObject *Sender);
 	void __fastcall Open_TOPClick(TObject *Sender);
@@ -223,107 +220,78 @@ __published:	// IDE-managed Components
 	void __fastcall About_NClick(TObject *Sender);
 	void __fastcall Static_info_NClick(TObject *Sender);
 	void __fastcall Help_TOPClick(TObject *Sender);
-	void __fastcall Check_BClick(TObject *Sender);
 	void __fastcall Timer_emptyTimer(TObject *Sender);
+	void __fastcall Url_EChange(TObject *Sender);
+	void __fastcall Preview_TOPClick(TObject *Sender);
+	void __fastcall Empty_siteChange(TObject *Sender);
 
 private:	// User declarations
 	const AnsiString default_host = AnsiString("http://www.google.com");
+	const AnsiString _Statusbar_Item_0 = "Время работы программы ";
+	const AnsiString _Statusbar_Item_1 = "Напечатано   ";
+	const AnsiString _Statusbar_Item_2 = "До отправки в печать осталось ";
+	const AnsiString _Statusbar_Item_error1_emptysite  = " Ошибка печати, пустая страница!";
+	const AnsiString _Statusbar_Item_error1_connection = " Ошибка печати, сайт не доступен!";
 
-	std::unique_ptr<time_r>  run_program_Time;
-	std::unique_ptr<time_r>  Timer_back;
-
-
-
-	int good_print_information;
-	int error_print_information;
-//	int loop_print_time;
-
-	bool flag_Url_CB;
-	bool flag_Choose_printer_CB;
-	bool flag_Choose_printer_BB;
-	bool flag_Save_BB;
-	bool flag_Power_off_TOP;
-	bool flag_Power_on_TOP;
-	bool flag_Print_TOP;
-	bool flag_Fast_printing_N;
-	bool flag_Exit_N;
-	bool flag_Power_on_N;
-	bool flag_Power_off_N;
-
-	bool flag_Internet;
-	bool flag_Host;
-	bool flag_program_run;
-	bool flag_print_Web_browser;
-
-
-	bool falg_automatics_printing; //этот флаг для автоматически печатать нужен, когда сдесь true печать начнет автоматический
-
+	std::unique_ptr<time_r>          run_program_Time;
+	std::unique_ptr<time_r>          Timer_back;
 	std::unique_ptr<general_visable> general_visable_general;
-	remaining remaining_orginal;
-
-	bool flag_emtysite_r;
-
-
-const AnsiString _Statusbar_Item_0 = "Время работы программы ";
-const AnsiString _Statusbar_Item_1 = "Напечатано   ";
-const AnsiString _Statusbar_Item_2 = "До отправки в печать осталось ";
-const AnsiString _Statusbar_Item_error1_1 = " Ошибка печати, указанный сайт не доступен!";
-const AnsiString _Statusbar_Item_error1_internet = " Ошибка печати, нету подключение с Интернетом!";
-const AnsiString _Statusbar_Item_error1_sitename = " Ошибка печати, аддресс сайта не указан!";
-const AnsiString _Statusbar_Item_error1_emptysite = " Ошибка печати, пустая страница!";
-//	void initialisation_to_flag();
-
+	remaining                        remaining_orginal;
+	int                              good_print_information;
+	int                              error_print_information;
+	bool                             flag_Url_CB;
+	bool                             flag_Choose_printer_CB;
+	bool                             flag_Choose_printer_BB;
+	bool                             flag_Save_BB;
+	bool                             flag_Power_off_TOP;
+	bool                             flag_Power_on_TOP;
+	bool                             flag_Print_TOP;
+	bool                             flag_Fast_printing_N;
+	bool                             flag_Exit_N;
+	bool                             flag_Power_on_N;
+	bool                             flag_Power_off_N;
+	bool                             flag_Internet;
+	bool                             flag_Host;
+	bool                             flag_program_run;
+	bool                             flag_print_Web_browser;
+	bool                             falg_automatics_printing; //этот флаг для автоматически печатать нужен, когда сдесь true печать начнет автоматический
+	bool                             flag_emtysite_r;
+    bool                             flag_error_past;
 
 	void check_label(TLabel* object, const bool& value);
 	void update_printer();
 
-	void print_r();
-	void run_enabled();
-
-
-	void show_good_print_inforamtion();
-
-
-	void Timer_back_Trun();
-
+	void       print_r();
+	void       run_enabled();
+	void       show_good_print_inforamtion();
+	void       Timer_back_Trun();
 	AnsiString get_time();
+	void       jobs_printer();
+	void       prohibit_launch();;//запретить запуск второй копии программы
+	void       past_static(const AnsiString& value);
+	void       Save_n_void();
 
-	void jobs_printer();
-//	void Url_CB_Load();
-//	void Url_CB_delete_dub();
-//	void Url_CB_Save();
 
-
-	void prohibit_launch();;//запретить запуск второй копии программы
-	void all_error_connect(const bool& parametr, const int& Tag);
 public:		// User declarations
-
-	std::time_t*    Smart_time_t;
-	bool get_remaining_time_bool();
-	std::unique_ptr<_TSave_configuration> _Robik_config;
-	void initialisation();
-	void destroy_g();
 	__fastcall TGeneral_F(TComponent* Owner);
+	std::time_t*                           Smart_time_t;
+	std::unique_ptr<_TSave_configuration>  _Robik_config;
 
-	void update();
-	void update(const bool& value);
-
-	void apple_general_config();
-	void apple_general_program();
-
-	void preview_void();
-	void print_void();
-
+	bool        get_remaining_time_bool();
+	void        initialisation();
+	void        destroy_g();
+	void        update();
+	void        update(const bool& value);
+	void        apple_general_config();
+	void        apple_general_program();
+	void        preview_void();
+	void        print_void();
 	std::string get_remaining_time();
-	void set_remaining_time(const std::string& value);
-
-	void update_ShortCUT();
-	void check_connect(const AnsiString& hostname, const int& Tag);
-
-	void Report_E_print_error();
-	void Report_E_internet_error();
-	void Report_E_sitename_error();
-	void Report_E_emptysite_error();
+	void        set_remaining_time(const std::string& value);
+	void        update_ShortCUT();
+	void        Report_E_emptysite_error();
+	void        Report_E_connect_error();
+    bool       check_error_connect(AnsiString date);
 
 };
 //---------------------------------------------------------------------------

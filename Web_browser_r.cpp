@@ -19,9 +19,6 @@ __fastcall TWeb_browser_F::TWeb_browser_F(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TWeb_browser_F::FormCreate(TObject *Sender)
 {
-// WebBrowser->Navigate(L"https://moda.captain.business/p.php?api=123456789");
-//  CppWebBrowser1->Navigate(L"http://gtol");
-
 this->initilisation();
 }
 //---------------------------------------------------------------------------
@@ -36,24 +33,16 @@ Web_browser_F->Left   = 0;
 Web_browser_F->Top    = 0;
 path_r = (temp.get_path()).c_str();
 
-flag_print   = false;
-flag_preview = false;
+this->flag_print          = false;
+this->flag_error_connect  = false;
 };
 
-void TWeb_browser_F::refresh_site()
-{
-//WebBrowser->Refresh();
-WebBrowser->Navigate(General_F->_Robik_config->get_Url());
-//flag_refresh = true;
-};
+
 
 
 void TWeb_browser_F::screen_photo()
 {
-General_F->check_connect(General_F->Url_CB->Text,General_F->Site_status_O->Tag);
 
- refresh_site();
-// flag_refresh   = true;
  Timer->Enabled = true;
  timer_count    = 0;
 };
@@ -62,8 +51,9 @@ General_F->check_connect(General_F->Url_CB->Text,General_F->Site_status_O->Tag);
 void __fastcall TWeb_browser_F::TimerTimer(TObject *Sender)
 {
 
-
-  if ((flag_refresh == true) and (timer_count >= 1))
+	bool b = flag_refresh;
+//  if ((flag_refresh == true) and (timer_count >= 1))
+  if (flag_refresh == true)
   {
 	Image->Picture->Bitmap->SetSize(Image->ClientRect.Width()-17,
 									 Image->ClientRect.Height());
@@ -96,38 +86,15 @@ void __fastcall TWeb_browser_F::TimerTimer(TObject *Sender)
 	timer_count    = 0;
 	Timer->Enabled = false;
 
-
-	if (flag_preview == true)
-	{
-
-	 General_F->preview_void();
-
-	 flag_preview = false;
-	 DeleteFile(ExtractFilePath(Application->ExeName)+"date\\temp.bmp");
-	}
-
 	 if (flag_print == true)
 	{
 	 General_F->print_void();
 	 flag_print = false;
-     DeleteFile(ExtractFilePath(Application->ExeName)+"date\\temp.bmp");
 	}
 	Web_browser_F->Close();
   }
   timer_count++;
 }
-
-//---------------------------------------------------------------------------
-void TWeb_browser_F::set_flag_preview(const bool& value)
-{
-  this->flag_preview = value;
-};
-
-//---------------------------------------------------------------------------
-bool TWeb_browser_F::get_flag_preview()
-{
-   return this->flag_preview;
-};
 
 //---------------------------------------------------------------------------
 void TWeb_browser_F::set_flag_print(const bool& value)
@@ -161,6 +128,7 @@ void __fastcall TWeb_browser_F::WebBrowserNavigateComplete2(TObject *ASender, ID
           const OleVariant &URL)
 {
  flag_refresh = true;
+
 }
 //---------------------------------------------------------------------------
 
@@ -170,20 +138,47 @@ void __fastcall TWeb_browser_F::WebBrowserNavigateError(TObject *ASender, IDispa
 {
 //this->flag_print   = false;
 //this->flag_preview = false;;
-ShowMessage("Error 1");
+//ShowMessage("Error 1");
+this->flag_error_connect = true;
+//this->flag_error_connect = false;
 
 }
 
 //---------------------------------------------------------------------------
-
 void __fastcall TWeb_browser_F::WebBrowserDocumentComplete(TObject *ASender, IDispatch * const pDisp,
           const OleVariant &URL)
 {
    Variant document = WebBrowser->Document;
-    Variant body = document.OlePropertyGet("body");
-    Variant parentElement = body.OlePropertyGet("parentElement");
-    AnsiString html = parentElement.OlePropertyGet("outerHTML");
+	Variant body = document.OlePropertyGet("body");
+	Variant parentElement = body.OlePropertyGet("parentElement");
+	AnsiString html = parentElement.OlePropertyGet("outerHTML");
 	General_F->Empty_site->Text = html;
+
 }
-//---------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+ void TWeb_browser_F::set_flag_refresh(const bool& value)
+ {
+	this->flag_refresh = value;
+ };
+
+//------------------------------------------------------------------------------
+bool TWeb_browser_F::get_flag_refresh()
+{
+ return  this->flag_refresh;
+};
+
+//------------------------------------------------------------------------------
+void TWeb_browser_F::set_flag_error_connect(const bool& value)
+{
+   this->flag_error_connect = value;
+};
+
+//------------------------------------------------------------------------------
+bool TWeb_browser_F::get_flag_error_connect()
+{
+   return  this->flag_error_connect;
+};
+
+//------------------------------------------------------------------------------
 
