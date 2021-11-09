@@ -1032,3 +1032,20 @@ void TGeneral_F::Save_n_void()
 	this->general_visable_general->set_Save_N(false);
 	this->run_enabled();
 };
+
+void __fastcall TGeneral_F::ApplicationEventsMinimize(TObject *Sender)
+{
+ General_F->Hide();
+ Tray->Visible = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TGeneral_F::TrayClick(TObject *Sender)
+{
+ General_F->Show();
+ General_F->WindowState = wsNormal;
+ Tray->Visible = false;
+
+}
+//---------------------------------------------------------------------------
+

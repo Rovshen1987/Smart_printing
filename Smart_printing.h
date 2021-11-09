@@ -21,20 +21,21 @@
 #include "direct_r.h"
 #include "Web_browser_r.h"
 #include "general_visable.h"
-#include <IdBaseComponent.hpp>
-#include <IdComponent.hpp>
-#include <IdHTTP.hpp>
-#include <IdTCPClient.hpp>
-#include <IdTCPConnection.hpp>
-#include <IdServerIOHandler.hpp>
-#include <IdSSL.hpp>
-#include <IdSSLOpenSSL.hpp>
-#include <IdIOHandler.hpp>
-#include <IdIOHandlerSocket.hpp>
-#include <IdIOHandlerStack.hpp>
+//#include <IdBaseComponent.hpp>
+//#include <IdComponent.hpp>
+//#include <IdHTTP.hpp>
+//#include <IdTCPClient.hpp>
+//#include <IdTCPConnection.hpp>
+//#include <IdServerIOHandler.hpp>
+//#include <IdSSL.hpp>
+//#include <IdSSLOpenSSL.hpp>
+//#include <IdIOHandler.hpp>
+//#include <IdIOHandlerSocket.hpp>
+//#include <IdIOHandlerStack.hpp>
 #include <Vcl.Dialogs.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.Graphics.hpp>
+#include <Vcl.AppEvnts.hpp>
 #include <memory>
 #include <fstream>
 #include <IdSSLOpenSSL.hpp>
@@ -181,8 +182,6 @@ __published:	// IDE-managed Components
 	TTimer *Run_program_timer;
 	TImageList *ImageList_g;
 	TMenuItem *Fast_printing_N;
-	TIdHTTP *IdHTTP1;
-	TIdSSLIOHandlerSocketOpenSSL *IdSSLIOHandlerSocketOpenSSL1;
 	TMenuItem *Preview_N;
 	TToolButton *Preview_TOP;
 	TMenuItem *Save_N;
@@ -193,10 +192,11 @@ __published:	// IDE-managed Components
 	TSaveDialog *Save_AS_IniFile;
 	TMenuItem *Static_info_N;
 	TMenuItem *N2;
-	TPrintDialog *PrintDialog1;
 	TMemo *Empty_site;
 	TTimer *Timer_empty;
 	TEdit *Url_E;
+	TTrayIcon *Tray;
+	TApplicationEvents *ApplicationEvents;
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall Run_program_timerTimer(TObject *Sender);
 	void __fastcall Config_NClick(TObject *Sender);
@@ -224,6 +224,8 @@ __published:	// IDE-managed Components
 	void __fastcall Url_EChange(TObject *Sender);
 	void __fastcall Preview_TOPClick(TObject *Sender);
 	void __fastcall Empty_siteChange(TObject *Sender);
+	void __fastcall ApplicationEventsMinimize(TObject *Sender);
+	void __fastcall TrayClick(TObject *Sender);
 
 private:	// User declarations
 	const AnsiString default_host = AnsiString("http://www.google.com");
